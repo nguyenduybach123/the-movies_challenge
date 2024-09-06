@@ -21,12 +21,10 @@ export const Button = ({
     }
 
     const buttonClasses = cx(
-        "btn-lg",
+        "btn",
         "btn-default",
         "rounded-full",
-        "px-4",
-        "py-1",
-        { "bg-transparent border-white border-2": ghost, "btn-primary": type === 'primary' },
+        { "lg px-5 py-2": size === 'lg', "md px-4 py-1": size === 'md', "sm px-3 py-1": size === 'sm', "bg-transparent border-white border-2": ghost, "btn-primary": type === 'primary' },
         className // Thêm className được truyền vào từ props
     );
 

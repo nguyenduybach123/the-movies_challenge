@@ -1,4 +1,45 @@
 .nav-item {
-    font-size: 1.5rem;
-    line-height: 2rem;
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    position: relative;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    --tw-text-opacity: 1;
+    color: rgb(255 255 255 / var(--tw-text-opacity))
+}
+
+.nav-item:after {
+    transition-property: all;
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    position: absolute;
+    left: 50%;
+    bottom: -.25rem;
+    height: .125rem;
+    width: 0px;
+    --tw-translate-x: -50%;
+    transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 0 0 / var(--tw-bg-opacity));
+    --tw-content: "";
+    content: var(--tw-content)
+}
+
+.nav-item:hover {
+    --tw-text-opacity: 1;
+    color: rgb(255 0 0 / var(--tw-text-opacity))
+}
+
+.nav-item:hover:after {
+    content: var(--tw-content);
+    width: 100%
+}
+
+@media (min-width: 768px) {
+    .nav-item {
+        font-size:1.5rem;
+        line-height: 2rem
+    }
 }
