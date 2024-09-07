@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 export const TrailerModel = () => {
 
-    const [isOpen, setIsOpen] = React.useState(true);
+    const [isOpen, setIsOpen] = React.useState(false);
 
     return (
     <div className={cx("fixed","top-0 bottom-0 left-0 right-0 bg-black/40 py-16 md:py-64 lg:py-16 z-[60]",{"hidden": !isOpen})}>

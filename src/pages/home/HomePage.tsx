@@ -1,7 +1,6 @@
 import React from 'react'
-
-import { Slider } from '../../components/Slider/Slider'
-import { Header } from '../../components/Header/Header'
+import { BannerSlider } from '../../components/Slider/BannerSlider'
+import { Header } from '../../components/Header'
 import { TrailerModel } from '../../components/Modal/TrailerModel'
 
 export const HomePage = () => {
@@ -9,7 +8,7 @@ export const HomePage = () => {
     <div className='relative'>
       <Header />
       <TrailerModel />
-      <Slider />
+      <BannerSlider />
     </div>
   )
 }

@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         'red-main': '#FF0000',
+        'black-main': '#0f0f0f'
       },
     },
   },
