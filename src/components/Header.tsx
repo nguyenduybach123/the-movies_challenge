@@ -30,7 +30,7 @@ export const Header = () => {
 
   return (
     <div id='header' className="px-8 flex justify-center fixed top-0 w-full z-50 transition-all duration-200 ease-in-out py-0 md:py-8 bg-transparent">
-        <div className="max-w-screen-2xl flex justify-between items-center w-full">
+        <div className="max-w-screen-2xl flex justify-between items-center w-full bg">
           <a className="hidden md:flex items-center hover:cursor-pointer group" href="/">
             <img src={image} alt="Logo" className="mr-4 w-8 md:w-12" />
             <h1 className="text-white font-semibold text-2xl md:text-4xl group-hover:text-red-main group-hover:transition-custom">theMovies</h1>
