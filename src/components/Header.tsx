@@ -14,9 +14,11 @@ export const Header = () => {
       }
 
       if (window.scrollY > 100) {
-        header.classList.add('bg-black');
+        header.classList.remove('bg-transparent');
+        header.classList.add('bg-black-main');
       } else {
-        header.classList.remove('bg-black');
+        header.classList.remove('bg-black-main');
+        header.classList.add('bg-transparent');
       }
     }
 

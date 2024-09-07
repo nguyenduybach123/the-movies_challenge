@@ -8,6 +8,7 @@ export const Button = ({
     text, 
     size = 'md' , 
     type = 'default',
+    icon,
     ghost = false, 
     to,
     className
@@ -19,6 +20,9 @@ export const Button = ({
     }
 
     return (
-        <Comp className={cn("rounded-full",{ "lg px-5 py-2": size === 'lg', "md px-4 py-1": size === 'md', "sm px-3 py-1": size === 'sm', "bg-transparent border-white border-2": ghost, "btn-primary": type === 'primary' }, className)}>{text}</Comp>
+        <Comp className={cn("flex justify-center items-center","rounded-full",{ "lg px-5 py-2": size === 'lg', "md px-4 py-1": size === 'md', "sm px-3 py-1": size === 'sm', "bg-transparent border-white border-2": ghost, "btn-primary": type === 'primary' }, className)}>
+            {icon}
+            {text}
+        </Comp>
     );
 }

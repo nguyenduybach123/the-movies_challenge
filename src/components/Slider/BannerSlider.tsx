@@ -1,37 +1,53 @@
 import React from 'react'
 import { Banner } from '../Banner'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import cn from 'classnames'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css';
+import { httpRequest } from '../../utils/httpRequest';
+import { BannerType, MovieResponseType } from '../../utils/constants';
 
-const banners = [
-  {
-    id:1
-  },
-  {
-    id:2
-  },
-  {
-    id:3
-  }
-]
+
+const MAXIMUM_BANNER = 5;
 
 export const BannerSlider = () => {
-  const [current, setCurrent] = React.useState(0);
+  const [banners, setBanners] = React.useState<BannerType[]>([])
+
+  React.useEffect(() => {
+    // HTTP GET BANNER
+    const getBannerMovies = async () => {
+      const response = await httpRequest.get('movie/popular');
+      const movies:Array<MovieResponseType> = response.data?.results ;
+
+      if(!movies)
+        return;
+
+      const bannerPopularMovies = movies.slice(0, MAXIMUM_BANNER).map(
+        (movie) => ({
+          name: movie.title,
+          overview: movie.overview,
+          poster: movie.poster_path,
+          backdrop: movie.backdrop_path
+        })
+      )
+
+      setBanners(bannerPopularMovies);
+    }
+
+    getBannerMovies();
+  },[])
 
   return (
     <Swiper
-      spaceBetween={50}
-      slidesPerView={3}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={() => console.log('')}
+      spaceBetween={0}
+      slidesPerView={1}
     >
-      <SwiperSlide><Banner /></SwiperSlide>
-      <SwiperSlide><Banner /></SwiperSlide>
-      <SwiperSlide><Banner /></SwiperSlide>
-      <SwiperSlide><Banner /></SwiperSlide>
-      ...
+    {
+      banners.map((banner) => (
+        <SwiperSlide key={banner.name}>
+          <Banner name={banner.name} overview={banner.overview} poster={banner.poster} backdrop={banner.backdrop} />
+        </SwiperSlide>
+      ))
+    }
     </Swiper>
   );
 }
