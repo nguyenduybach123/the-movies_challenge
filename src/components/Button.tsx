@@ -11,6 +11,8 @@ export const Button = ({
     icon,
     ghost = false, 
     to,
+    disabled,
+    onClick,
     className
 }: ButtonType) => {
     let Comp: React.ElementType = 'button';
@@ -20,7 +22,16 @@ export const Button = ({
     }
 
     return (
-        <Comp className={cn("flex justify-center items-center","rounded-full",{ "lg px-5 py-2": size === 'lg', "md px-4 py-1": size === 'md', "sm px-3 py-1": size === 'sm', "bg-transparent border-white border-2": ghost, "btn-primary": type === 'primary' }, className)}>
+        <Comp className={cn("flex justify-center items-center","rounded-full","transition-all duration-300","ease-in-out",{ 
+                            "lg px-5 py-2": size === 'lg', 
+                            "md px-4 py-1": size === 'md', 
+                            "sm px-3 py-1": size === 'sm', 
+                            "btn-ghost": ghost, 
+                            "btn-primary": type === 'primary'}, 
+                            className)} 
+              onClick={onClick}
+              disabled={disabled}
+        >
             {icon}
             {text}
         </Comp>

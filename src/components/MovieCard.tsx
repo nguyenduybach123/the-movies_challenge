@@ -3,6 +3,7 @@ import { Button } from './Button'
 import { PlayIcon } from './Icon'
 import { MovieCardType } from '../utils/constants'
 
+
 export const MovieCard = ({ title, poster }: MovieCardType) => {
   return (
     <a href='/'>

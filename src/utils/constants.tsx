@@ -48,5 +48,7 @@ export type ButtonType = {
     ghost?: boolean,
     to?: string,
     type?: 'primary' | 'dashed' | 'link' | 'text' | 'default',
+    disabled?: boolean,
+    onClick?: React.MouseEventHandler<HTMLButtonElement>,
     className?: string
 }

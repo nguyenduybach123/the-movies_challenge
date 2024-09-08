@@ -1,7 +1,7 @@
 import React from 'react'
-import { SearchBar } from '../../components/SearchBar'
 import { MovieList } from '../../components/MovieList'
 import { Header } from '../../components/Header'
+import { SearchBar } from '../../components/SearchBar'
 
 export const MoviesPage = () => {
   return (
