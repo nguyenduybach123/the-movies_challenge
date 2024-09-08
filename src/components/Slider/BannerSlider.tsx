@@ -15,7 +15,7 @@ export const BannerSlider = () => {
   React.useEffect(() => {
     // HTTP GET BANNER
     const getBannerMovies = async () => {
-      const response = await httpRequest.get('movie/popular');
+      const response = await httpRequest.get('movie/popular?api_key=ae722869d6f14e76aebfb0d1fd961dd7');
       const movies:Array<MovieResponseType> = response.data?.results ;
 
       if(!movies)
