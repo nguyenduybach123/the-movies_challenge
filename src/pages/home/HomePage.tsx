@@ -13,9 +13,9 @@ export const HomePage = () => {
       <TrailerModel />
       <BannerSlider />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
-        <MovieCardSlider title="Trending Movies" displayType={DisplayEnum.Trending} mode="movie" />
+        <MovieCardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />
         <MovieCardSlider title="Top Rated Movies" displayType={DisplayEnum.TopRated} mode="movie" />
-        <MovieCardSlider title="Trending TV" displayType={DisplayEnum.Trending} mode="tv" />
+        <MovieCardSlider title="Trending TV" displayType={DisplayEnum.Popular} mode="tv" />
         <MovieCardSlider title="Top Rated TV" displayType={DisplayEnum.TopRated} mode="tv" />
       </div>
       <Footer />

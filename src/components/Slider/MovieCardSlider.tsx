@@ -16,8 +16,8 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
     const getCards = async () => {
         let requestURL = "";
 
-        if(displayType === DisplayEnum.Trending) {
-            requestURL = `${displayType}/${mode}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+        if(displayType === DisplayEnum.Popular) {
+            requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
         }
         else if (displayType === DisplayEnum.TopRated) {
             requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
@@ -26,7 +26,10 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
             if(!similarId)
                 return;
             requestURL = `${mode}/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
-        } 
+        }
+        else {
+            return [];
+        }
 
         const response = await httpRequest.get(requestURL);
         const movies:Array<MovieResponseType> = response.data?.results ;
@@ -47,7 +50,7 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
     }
 
     const { data: cards, isPending, isError, error } = useQuery({
-        queryKey: ['cards'],
+        queryKey: ['cards',mode,displayType],
         queryFn: getCards
     })
 
@@ -63,7 +66,7 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
         <div className="mt-8 md:mt-16">
             <div className="flex justify-between items-center mb-3">
                 <span className="text-white font-medium text-lg md:text-2xl">{title}</span>
-                { !(displayType === DisplayEnum.Similar) && <Button text='View more' ghost />}
+                { !(displayType === DisplayEnum.Similar) && <Button text='View more' ghost to={`${mode}?type=${displayType}`} />}
             </div>
             <Swiper
               slidesPerView={1}

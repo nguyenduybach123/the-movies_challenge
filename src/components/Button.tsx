@@ -13,13 +13,19 @@ export const Button = ({
     to,
     disabled,
     onClick,
-    className
+    className,
+    ...passProps
 }: ButtonType) => {
     let Comp: React.ElementType = 'button';
 
+    const props: any = {
+        ...passProps
+    }
     if (to) {
         Comp = Link;
+        props.to = to 
     }
+
 
     return (
         <Comp className={cn("flex justify-center items-center","rounded-full","transition-all duration-300","ease-in-out",{ 
@@ -31,6 +37,7 @@ export const Button = ({
                             className)} 
               onClick={onClick}
               disabled={disabled}
+              {...props}
         >
             {icon}
             {text}

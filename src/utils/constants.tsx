@@ -101,9 +101,7 @@ export type BannerType = {
 
 export enum DisplayEnum {
     TopRated = "top_rated",
-    Trending = "trending",
     Popular = "popular",
-    Upcoming = "upcoming",
     Similar = "similar"
 }
 
