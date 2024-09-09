@@ -5,12 +5,12 @@ import { MovieCardType } from '../utils/constants'
 import defaultPosterImage from '../assets/default-movie.jpg'
 
 
-export const MovieCard = ({ title, poster }: MovieCardType) => {
+export const MovieCard = ({ id, mode, title, poster }: MovieCardType) => {
 
   const posterURL = poster ? `https://image.tmdb.org/t/p/w500/${poster}` : defaultPosterImage;
 
   return (
-    <a href='/'>
+    <a href={`/${mode}/${id}`}>
         <div className="relative w-full h-72 2xl:h-80 rounded-3xl bg-center bg-no-repeat bg-cover group/poster after:content-[''] after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:rounded-3xl hover:after:bg-black/60 after:transition after:ease-in-out after:duration-300"
              style={{backgroundImage: `url(${ posterURL }`}}
         >

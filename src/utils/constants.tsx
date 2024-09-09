@@ -12,7 +12,68 @@ export type MovieResponseType = {
     video: false,
     vote_average: number,
     vote_count: number
-} 
+}
+
+type GenreType = {
+    id: number,
+    name: string
+}
+
+export type MovieDetailType = {
+    id: number,
+    title: string,
+    overview: string,
+    genres: Array<GenreType>,
+    poster: string,
+    backdrop: string,
+    vote_average: number,
+    vote_count: number
+}
+
+export type CastResponseType = {
+    id: string,
+    name: string,
+    profile_path: string
+}
+
+export type CastType = {
+    id: string,
+    name: string,
+    profile: string
+}
+
+export type VideoIntroduceResponseType = {
+    name: string,
+    key: string,
+    site?: string,
+    size?: number,
+    type?: string,
+    official: boolean,
+    published_at: string
+}
+
+export type VideoIntroduceType = {
+    name: string,
+    key: string,
+    site?: string,
+    size?: number,
+    type?: string,
+    official: boolean,
+    publishedAt: string
+}
+
+export type TVSerieResponseType = {
+    id: number,
+    overview: string,
+    popularity: number,
+    poster_path: string,
+    backdrop_path: string,
+    release_date: string,
+    name: string,
+    video: false,
+    vote_average: number,
+    vote_count: number
+}
 
 export type BannerType = {
     name: string,
@@ -30,8 +91,10 @@ export enum MovieDisplayEnum {
 }
 
 export type MovieCardType = {
+    id: number,
     title: string,
-    poster: string
+    poster: string,
+    mode: 'movie' | 'tv'
 }
 
 export type IconType = {

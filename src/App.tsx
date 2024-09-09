@@ -6,6 +6,7 @@ import { MovieDetailPage } from './pages/movie/MovieDetailPage'
 import { TVSeriesPage } from './pages/tvseries/TVSeriesPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { TVSeriesDetailPage } from './pages/tvseries/TVSeriesDetailPage'
 
 
 const queryClient = new QueryClient();
@@ -21,7 +22,10 @@ function App() {
             <Route path="" element={<MoviesPage />} />
             <Route path=":id" element={<MovieDetailPage />} />
           </Route>
-          <Route path='/tv' element={<TVSeriesPage />} />
+          <Route path="/tv">
+            <Route path="" element={<TVSeriesPage />} />
+            <Route path=":id" element={<TVSeriesDetailPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={true}/>

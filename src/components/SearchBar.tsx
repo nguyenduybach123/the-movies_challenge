@@ -3,7 +3,7 @@ import { Button } from './Button'
 import { useSearchParams } from 'react-router-dom';
 
 export const SearchBar = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [_searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = React.useState("");
 
   const handleSearchMovie = () => {

@@ -1,54 +1,53 @@
-import { MovieCardType, MovieResponseType } from '../utils/constants'
-import { httpRequest } from '../utils/httpRequest'
+import React from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { MovieCardType, TVSerieResponseType } from '../utils/constants';
+import { httpRequest } from '../utils/httpRequest';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MovieCard } from './MovieCard';
 import { Button } from './Button';
-import { useSearchParams } from 'react-router-dom';
 
+export const TVSeriesList = () => {
+    const [searchParams, _setSearchParams] = useSearchParams();
 
-export const MovieList = () => {
-  //const lastPosRef = React.useRef(null);
-  const [searchParams, _setSearchParams] = useSearchParams();
+  const getTVSeries = async (page: number) => {
+      const response = await httpRequest.get(`tv/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
+      const tvSeries:Array<TVSerieResponseType> = response.data?.results ;
 
-  const getMovies = async (page: number) => {
-      const response = await httpRequest.get(`movie/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-      const movies:Array<MovieResponseType> = response.data?.results ;
-
-      if(!movies)
+      if(!tvSeries)
         return;
       
-      const cardMovies:Array<MovieCardType> = movies.map(
-        (movie) => ({
-            id: movie.id,
-            title: movie.title,
-            poster: movie.poster_path,
-            mode: "movie"
+      const cardTVSeries:Array<MovieCardType> = tvSeries.map(
+        (tv) => ({
+            id: tv.id,
+            title: tv.name,
+            poster: tv.poster_path,
+            mode: "tv"
         })
     )
 
-      return cardMovies;
+      return cardTVSeries;
   }
 
-  const getMoviesByName = async (page: number) => {
-    const response = await httpRequest.get(`search/movie?query=${searchParams.get('keyword')}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-    const movies:Array<MovieResponseType> = response.data?.results ;
+  const getTvSeriesByName = async (page: number) => {
+    const response = await httpRequest.get(`search/tv?query=${searchParams.get('keyword')}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
+    const tvSeries:Array<TVSerieResponseType> = response.data?.results ;
 
-      if(!movies)
+      if(!tvSeries)
         return;
       
-      const cardMovies:Array<MovieCardType> = movies.map(
-        (movie) => ({
-            id: movie.id,
-            title: movie.title,
-            poster: movie.poster_path,
-            mode: "movie"
+      const cardTVSeries:Array<MovieCardType> = tvSeries.map(
+        (tv) => ({
+            id: tv.id,
+            title: tv.name,
+            poster: tv.poster_path,
+            mode: "tv"
         }));
 
-      return cardMovies;
+      return cardTVSeries;
   }
   
   // HTTP GET MOVIES
-  const { data: movieData,
+  const { data: tvSeriesData,
           error,
           isError,
           isPending,
@@ -58,7 +57,7 @@ export const MovieList = () => {
   } = useInfiniteQuery({
     queryKey:['movies'],
     queryFn: async ({ pageParam = 1 }) => {
-      const response = await getMovies(pageParam);
+      const response = await getTVSeries(pageParam);
       return response;
     },
     getNextPageParam: (_,pages) => pages.length + 1,
@@ -79,7 +78,7 @@ export const MovieList = () => {
   } = useInfiniteQuery({
     queryKey: ['search', searchParams.get('keyword')],
     queryFn: async ({ pageParam }) => {
-      const response = await getMoviesByName(pageParam);
+      const response = await getTvSeriesByName(pageParam);
       return response;
     },
     getNextPageParam: (_,pages) => pages.length +1,
@@ -111,7 +110,7 @@ export const MovieList = () => {
   // },[lastPosRef])
 
   if(searchParams.get('keyword')){
-    const movies = searchMovieData?.pages.flatMap((page) => page);
+    const tvSeriess = searchMovieData?.pages.flatMap((page) => page);
 
     if (isSearchPending) {
       return <span>Loading...</span>
@@ -125,11 +124,11 @@ export const MovieList = () => {
       <>
         <div className="grid grid-cols-6 gap-4 -mx-2 mt-16">
         {
-          movies &&
-          movies.map((movie) => {
-            if(movie) {
+          tvSeriess &&
+          tvSeriess.map((tvSeries) => {
+            if(tvSeries) {
               return (
-                <MovieCard key={movie.poster} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
+                <MovieCard key={tvSeries.poster} mode={tvSeries.mode} id={tvSeries.id} title={tvSeries.title} poster={tvSeries.poster} />
               )
             }
           })
@@ -147,7 +146,7 @@ export const MovieList = () => {
     )
   }
 
-  const movies = movieData?.pages.flatMap((page) => page);
+  const tvSeriess = tvSeriesData?.pages.flatMap((page) => page);
 
   if (isPending) {
     return <span>Loading...</span>
@@ -159,26 +158,27 @@ export const MovieList = () => {
 
   return (
     <>
-      <div className="grid grid-cols-6 gap-4 -mx-2 mt-16">
-        {
-          movies &&
-          movies.map((movie) => {
-            if(movie) {
-              return (
-                <MovieCard key={movie.poster} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
-              )
+        <div className="grid grid-cols-6 gap-4 -mx-2 mt-16">
+            {
+            tvSeriess &&
+            tvSeriess.map((tvSeries) => {
+                if(tvSeries) {
+                return (
+                    <MovieCard key={tvSeries.poster} mode={tvSeries.mode} id={tvSeries.id} title={tvSeries.title} poster={tvSeries.poster} />
+                )
+                }
+            })
             }
-          })
-        }
-      </div>
-      <div className="flex items-center justify-center mt-8">
-        {
-          hasNextPage ? 
-            <Button text="Watch more" ghost onClick={() => {fetchNextPage();}} disabled={isFetchingNextPage}/> 
-          :
-            <p>Last page</p>
-        }
-      </div>
+        </div>
+        <div className="flex items-center justify-center mt-8">
+            {
+            hasNextPage ? 
+                <Button text="Watch more" ghost onClick={() => {fetchNextPage();}} disabled={isFetchingNextPage}/> 
+            :
+                <p>Last page</p>
+            }
+        </div>
     </>
   )
+    
 }
