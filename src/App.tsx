@@ -20,7 +20,6 @@ function App() {
           <Route path="/movie">
             <Route path="" element={<MoviesPage />} />
             <Route path=":id" element={<MovieDetailPage />} />
-            <Route path="?keyword=K" element={<MovieDetailPage />} />
           </Route>
           <Route path='/tv' element={<TVSeriesPage />} />
         </Routes>
