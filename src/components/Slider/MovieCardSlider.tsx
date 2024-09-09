@@ -54,7 +54,7 @@ export const MovieCardSlider = ({ title, displayType, mode="movie" }:{ title: st
                 <Button text='View more' ghost />
             </div>
             <Swiper
-              spaceBetween={10}
+              spaceBetween={15}
               slidesPerView={MAXIMUM_CARD_VIEW}
             >
             {

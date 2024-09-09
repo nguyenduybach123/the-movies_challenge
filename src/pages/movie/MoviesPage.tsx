@@ -2,6 +2,7 @@ import React from 'react'
 import { MovieList } from '../../components/MovieList'
 import { Header } from '../../components/Header'
 import { SearchBar } from '../../components/SearchBar'
+import { Footer } from '../../components/Footer'
 
 export const MoviesPage = () => {
   return (
@@ -14,6 +15,7 @@ export const MoviesPage = () => {
         <SearchBar />
         <MovieList />
       </div>
+      <Footer />
     </div>
   )
 }

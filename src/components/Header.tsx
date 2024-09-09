@@ -1,9 +1,31 @@
 import React from 'react'
 import cn from 'classnames'
 import image from '../assets/tmovie-55621206.png'
+import { Link } from 'react-router-dom';
+
+const menus = [
+  {
+    id: 0,
+    title: "Home",
+    href: "/",
+    isActive: false
+  },
+  {
+    id: 1,
+    title: "Movie",
+    href: "/movie",
+    isActive: false
+  },
+  {
+    id: 2,
+    title: "TV Series",
+    href: "/tv",
+    isActive: false
+  },
+];
 
 export const Header = () => {
-
+  const [menuItems, setMenuItems] = React.useState(menus);
   
   React.useEffect(() => {
     function handleScroll() {
@@ -29,6 +51,7 @@ export const Header = () => {
     };
   }, []);
 
+  console.log(menuItems);
 
   return (
     <div id='header' className="px-8 flex justify-center fixed top-0 w-full z-50 transition-all duration-200 ease-in-out py-0 md:py-8 bg-transparent">
@@ -38,15 +61,19 @@ export const Header = () => {
             <h1 className="text-white font-semibold text-2xl md:text-4xl group-hover:text-red-main group-hover:transition-custom">theMovies</h1>
           </a>
           <div className="fixed md:relative left-0 md:left-auto right-0 md:right-auto bottom-0 md:bottom-auto flex items-center justify-evenly bg-black-main md:bg-transparent py-2 md:py-4 -mx-4">
-            <div className="px-4">
-              <a className={cn("nav-item")} href="/">Home</a>
-            </div>
-            <div className="px-4">
-              <a className={cn("nav-item")} href="/movie">Movies</a>
-            </div>
-            <div className="px-4">
-              <a className={cn("nav-item")} href="/tv">TV Series</a>
-            </div>
+            {
+              menuItems.map((menuItem, idx) => (
+                <div className="px-4">
+                  <Link className={cn("nav-item",{"after:w-full": menuItem.isActive})} to={menuItem.href} 
+                     onClick={() => setMenuItems(prevButtons => (
+                        prevButtons.map((button) => button.id === idx ? { ...button, isActive: true } : { ...button, isActive: false })
+                     ))} 
+                  >
+                    {menuItem.title}
+                  </Link>
+                </div>
+              ))
+            }
           </div>
         </div>
     </div>
