@@ -2,31 +2,11 @@ import React from 'react'
 import cn from 'classnames'
 import image from '../assets/tmovie-55621206.png'
 import { Link } from 'react-router-dom';
-
-const menus = [
-  {
-    id: 0,
-    title: "Home",
-    href: "/",
-    isActive: false
-  },
-  {
-    id: 1,
-    title: "Movie",
-    href: "/movie",
-    isActive: false
-  },
-  {
-    id: 2,
-    title: "TV Series",
-    href: "/tv",
-    isActive: false
-  },
-];
+import { useGlobalContext } from '../context/GlobalContext';
 
 export const Header = () => {
-  const [menuItems, setMenuItems] = React.useState(menus);
-  
+  const { menuItems, setMenuItems } = useGlobalContext();
+
   React.useEffect(() => {
     function handleScroll() {
       const header = document.getElementById('header');
@@ -57,7 +37,7 @@ export const Header = () => {
     <div id='header' className="px-8 flex justify-center fixed top-0 w-full z-50 transition-all duration-200 ease-in-out py-0 md:py-8 bg-transparent">
         <div className="max-w-screen-2xl flex justify-between items-center w-full bg">
           <a className="hidden md:flex items-center hover:cursor-pointer group" href="/">
-            <img src={image} alt="Logo" className="mr-4 w-8 md:w-12" />
+            <img src={image} alt="Logo" className="mr-4 w-8 md:w-12 animate-bounce" />
             <h1 className="text-white font-semibold text-2xl md:text-4xl group-hover:text-red-main group-hover:transition-custom">theMovies</h1>
           </a>
           <div className="fixed md:relative left-0 md:left-auto right-0 md:right-auto bottom-0 md:bottom-auto flex items-center justify-evenly bg-black-main md:bg-transparent py-2 md:py-4 -mx-4">

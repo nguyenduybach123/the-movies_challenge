@@ -1,5 +1,11 @@
 import React from "react"
 
+export type QueryParamType = {
+    key: Array<string>,
+    fn: (page: number) => Promise<MovieCardType[] | undefined>,
+    enable: boolean | null
+}
+
 export type MovieResponseType = {
     id: number,
     overview: string,
@@ -14,12 +20,36 @@ export type MovieResponseType = {
     vote_count: number
 }
 
+export type TVSeriesResponseType = {
+    id: number,
+    overview: string,
+    popularity: number,
+    poster_path: string,
+    backdrop_path: string,
+    release_date: string,
+    name: string,
+    video: false,
+    vote_average: number,
+    vote_count: number
+}
+
 type GenreType = {
     id: number,
     name: string
 }
 
 export type MovieDetailType = {
+    id: number,
+    title: string,
+    overview: string,
+    genres: Array<GenreType>,
+    poster: string,
+    backdrop: string,
+    vote_average: number,
+    vote_count: number
+}
+
+export type TVSeriesDetailType = {
     id: number,
     title: string,
     overview: string,
@@ -62,19 +92,6 @@ export type VideoIntroduceType = {
     publishedAt: string
 }
 
-export type TVSerieResponseType = {
-    id: number,
-    overview: string,
-    popularity: number,
-    poster_path: string,
-    backdrop_path: string,
-    release_date: string,
-    name: string,
-    video: false,
-    vote_average: number,
-    vote_count: number
-}
-
 export type BannerType = {
     name: string,
     overview: string,
@@ -82,7 +99,7 @@ export type BannerType = {
     backdrop: string
 }
 
-export enum MovieDisplayEnum {
+export enum DisplayEnum {
     TopRated = "top_rated",
     Trending = "trending",
     Popular = "popular",

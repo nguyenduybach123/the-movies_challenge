@@ -5,7 +5,7 @@ import { BannerType } from '../utils/constants'
 
 export const Banner = ({name, overview, poster, backdrop }: BannerType) => {
   return (
-    <div className="relative h-100 md:h-[36rem] lg:h-[52rem] px-4 md:px-12 py-12 md:py-32 flex justify-center bg-center bg-no-repeat bg-cover before:content-[&quot;&quot;] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:bg-black/60 after:content-[&quot;&quot;] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-28 after:bg-gradient-to-t after:from-black-main after:to-transparent" 
+    <div className="relative h-100 md:h-[36rem] lg:h-[52rem] px-4 md:px-12 py-12 md:py-32 flex justify-center bg-center bg-no-repeat bg-cover before:content-[&quot;&quot;] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:bg-black/60 after:content-[&quot;&quot;] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-28 after:bg-gradient-to-t after:from-black-main after:to-transparent cursor-grab" 
          style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${ backdrop })`}}
     >
         <div className="max-w-screen-2xl z-10 h-fit flex items-center justify-between">

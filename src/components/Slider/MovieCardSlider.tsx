@@ -2,26 +2,27 @@ import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { MovieCard } from '../MovieCard';
 import { Button } from '../Button';
-import { MovieCardType, MovieDisplayEnum, MovieResponseType } from '../../utils/constants';
+import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/constants';
 import { httpRequest } from '../../utils/httpRequest';
 import { useQuery } from '@tanstack/react-query';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 const MAXIMUM_CARD = 12;
 const MAXIMUM_CARD_VIEW = 6;
 
-export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: MovieDisplayEnum, mode: 'movie' | 'tv', similarId?: number }) => {
+export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: DisplayEnum, mode: 'movie' | 'tv', similarId?: string }) => {
 
     // HTTP GET MOVIE CARD
     const getCards = async () => {
         let requestURL = "";
 
-        if(displayType === MovieDisplayEnum.Trending) {
-            requestURL = `${displayType}/${mode}/day?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+        if(displayType === DisplayEnum.Trending) {
+            requestURL = `${displayType}/${mode}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
         }
-        else if (displayType === MovieDisplayEnum.TopRated) {
+        else if (displayType === DisplayEnum.TopRated) {
             requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
         }
-        else if (displayType === MovieDisplayEnum.Similar) {
+        else if (displayType === DisplayEnum.Similar) {
             if(!similarId)
                 return;
             requestURL = `${mode}/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
@@ -62,11 +63,35 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
         <div className="mt-8 md:mt-16">
             <div className="flex justify-between items-center mb-3">
                 <span className="text-white font-medium text-lg md:text-2xl">{title}</span>
-                <Button text='View more' ghost />
+                { !(displayType === DisplayEnum.Similar) && <Button text='View more' ghost />}
             </div>
             <Swiper
-              spaceBetween={15}
-              slidesPerView={MAXIMUM_CARD_VIEW}
+              slidesPerView={1}
+              spaceBetween={MAXIMUM_CARD_VIEW}
+              pagination={{
+                clickable: true,
+              }}
+
+              breakpoints={{
+                '@0.00': {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                768: {
+                  slidesPerView: 4,
+                  spaceBetween: 20,
+                },
+                1024: {
+                  slidesPerView: 6,
+                  spaceBetween: 30,
+                },
+              }}
+
+              autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
+              modules={[Autoplay,Pagination,Navigation]}
             >
             {
                 cards &&

@@ -1,7 +1,7 @@
 import React from 'react'
 import { httpRequest } from '../../utils/httpRequest'
 import { useParams } from 'react-router-dom'
-import { MovieDisplayEnum, VideoIntroduceResponseType, VideoIntroduceType } from '../../utils/constants';
+import { DisplayEnum, VideoIntroduceResponseType, VideoIntroduceType } from '../../utils/constants';
 import { useQuery } from '@tanstack/react-query';
 import { MovieCardSlider } from '../Slider/MovieCardSlider';
 
@@ -57,7 +57,7 @@ export const MovieIntroduce = () => {
           ))
         }
       </div>
-      <MovieCardSlider title="Similar" displayType={MovieDisplayEnum.Similar} similarId={id} mode="movie" />
+      <MovieCardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="movie" />
     </>
   )
 }

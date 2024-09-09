@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css';
 import { httpRequest } from '../../utils/httpRequest';
 import { BannerType, MovieResponseType } from '../../utils/constants';
+import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 
 const MAXIMUM_BANNER = 5;
@@ -39,7 +40,19 @@ export const BannerSlider = () => {
   return (
     <Swiper
       spaceBetween={0}
-      slidesPerView={1}
+      slidesPerView={'auto'}
+      effect={'coverflow'}
+      grabCursor={true}
+      centeredSlides={true}
+      coverflowEffect={{
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      }}
+      pagination={true}
+      modules={[EffectCoverflow, Pagination]}
     >
     {
       banners.map((banner) => (
