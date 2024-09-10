@@ -47,7 +47,7 @@ export const MovieList = () => {
   }
 
   const getMoviesByType = async (page: number) => {
-    const response = await httpRequest.get(`${searchParams.get('type')}/movie?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
+    const response = await httpRequest.get(`movie/${searchParams.get('type')}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
     const moviesByTypeData:Array<MovieResponseType> = response.data?.results;
 
     if(!response)
@@ -137,7 +137,7 @@ export const MovieList = () => {
 
   return (
     <>
-      <div className="grid grid-cols-6 gap-4 -mx-2 mt-16">
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
         {
           movies &&
           movies.map((movie) => {

@@ -93,6 +93,7 @@ export type VideoIntroduceType = {
 }
 
 export type BannerType = {
+    id: number,
     name: string,
     overview: string,
     poster: string,
@@ -115,6 +116,7 @@ export type MovieCardType = {
 export type IconType = {
     width?: string | number,
     height?: string | number,
+    colorHover?: string,
     className?: string,
     onClick?:  React.MouseEventHandler<SVGSVGElement> | undefined
 }

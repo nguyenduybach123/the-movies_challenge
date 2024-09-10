@@ -6,36 +6,46 @@ import 'swiper/css';
 import { httpRequest } from '../../utils/httpRequest';
 import { BannerType, MovieResponseType } from '../../utils/constants';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { useQuery } from '@tanstack/react-query';
 
 
 const MAXIMUM_BANNER = 5;
 
 export const BannerSlider = () => {
-  const [banners, setBanners] = React.useState<BannerType[]>([])
+  
 
-  React.useEffect(() => {
-    // HTTP GET BANNER
-    const getBannerMovies = async () => {
-      const response = await httpRequest.get('movie/popular?api_key=ae722869d6f14e76aebfb0d1fd961dd7');
-      const movies:Array<MovieResponseType> = response.data?.results ;
+  const getBannerMovies = async () => {
+    const response = await httpRequest.get('movie/popular?api_key=ae722869d6f14e76aebfb0d1fd961dd7');
+    const movies:Array<MovieResponseType> = response.data?.results ;
 
-      if(!movies)
-        return;
+    if(!movies)
+      return;
 
-      const bannerPopularMovies = movies.slice(0, MAXIMUM_BANNER).map(
-        (movie) => ({
-          name: movie.title,
-          overview: movie.overview,
-          poster: movie.poster_path,
-          backdrop: movie.backdrop_path
-        })
-      )
+    const bannerPopularMovies:Array<BannerType> = movies.slice(0, MAXIMUM_BANNER).map(
+      (movie) => ({
+        id: movie.id,
+        name: movie.title,
+        overview: movie.overview,
+        poster: movie.poster_path,
+        backdrop: movie.backdrop_path
+      })
+    )
 
-      setBanners(bannerPopularMovies);
-    }
+    return bannerPopularMovies;
+  }
 
-    getBannerMovies();
-  },[])
+  const {data: banners , isPending, isError, error} = useQuery({
+    queryKey: ['banner'],
+    queryFn: getBannerMovies,
+  })
+
+  if (isPending) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
 
   return (
     <Swiper
@@ -55,9 +65,10 @@ export const BannerSlider = () => {
       modules={[EffectCoverflow, Pagination]}
     >
     {
+      banners &&
       banners.map((banner) => (
-        <SwiperSlide key={banner.name}>
-          <Banner name={banner.name} overview={banner.overview} poster={banner.poster} backdrop={banner.backdrop} />
+        <SwiperSlide key={banner.id}>
+          <Banner id={banner.id} name={banner.name} overview={banner.overview} poster={banner.poster} backdrop={banner.backdrop} />
         </SwiperSlide>
       ))
     }

@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 
 const menus = [
     {
@@ -36,7 +36,11 @@ type GlobalContextType = {
         title: string;
         href: string;
         isActive: boolean;
-    }[]>>
+    }[]>>,
+    isOpenDialogTrailer: boolean,
+    setIsOpenDialogTrailer: React.Dispatch<React.SetStateAction<boolean>>,
+    idBannerSelected: number, 
+    setIdBannerSelected: React.Dispatch<React.SetStateAction<number>>
 }
 
 
@@ -53,10 +57,14 @@ export const useGlobalContext = () => {
 
 export const GlobalProvider = ({children}: {children: React.ReactNode}) => {
     const [menuItems, setMenuItems] = React.useState<MenuItemType[]>(menus);
+    const [isOpenDialogTrailer, setIsOpenDialogTrailer] = useState(false);
+    const [idBannerSelected, setIdBannerSelected] = useState(NaN);
 
     return (
         <GlobalContext.Provider value={{
-                                    menuItems, setMenuItems
+                                    menuItems, setMenuItems,
+                                    isOpenDialogTrailer, setIsOpenDialogTrailer,
+                                    idBannerSelected, setIdBannerSelected
                                 }}
         >
             {children}
