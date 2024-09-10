@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconType } from '../utils/constants'
 import cn from 'classnames'
 

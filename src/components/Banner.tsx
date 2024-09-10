@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from './Button'
 import { BannerType } from '../utils/constants'
 import { useNavigate } from 'react-router-dom'

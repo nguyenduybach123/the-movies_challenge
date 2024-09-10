@@ -1,4 +1,3 @@
-import React from 'react'
 import { MovieInfo } from '../../components/Detail/MovieInfo'
 import { MovieIntroduce } from '../../components/Detail/MovieIntroduce'
 import { Footer } from '../../components/Footer'

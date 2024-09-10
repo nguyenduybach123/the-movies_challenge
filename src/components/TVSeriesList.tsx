@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { MovieCardType, QueryParamType, TVSeriesResponseType,  } from '../utils/constants';
 import { httpRequest } from '../utils/httpRequest';

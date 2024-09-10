@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from './Button'
 import { PlayIcon } from './Icon'
 import { MovieCardType } from '../utils/constants'
