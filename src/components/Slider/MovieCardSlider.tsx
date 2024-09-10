@@ -14,19 +14,14 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
     // HTTP GET MOVIE CARD
     const getCards = async () => {
         let requestURL = "";
-
-        if(displayType === DisplayEnum.Popular) {
-            requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
-        }
-        else if (displayType === DisplayEnum.TopRated) {
-            requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
-        }
-        else if (displayType === DisplayEnum.Similar) {
+        requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  
+        if (displayType === DisplayEnum.Similar) {
             if(!similarId)
                 return;
             requestURL = `${mode}/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
         }
-        else {
+        else if(displayType !== DisplayEnum.Popular && displayType !== DisplayEnum.TopRated){
             return [];
         }
 
