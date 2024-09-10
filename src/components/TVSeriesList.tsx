@@ -7,6 +7,7 @@ import { Button } from './Button';
 
 export const TVSeriesList = () => {
     const [searchParams, _setSearchParams] = useSearchParams();
+    console.log(_setSearchParams);
 
   const getTVSeries = async (page: number) => {
       const response = await httpRequest.get(`tv/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
@@ -68,16 +69,18 @@ export const TVSeriesList = () => {
     enable: true
   }
 
-  if(searchParams.get('keyword') !== "" && searchParams.get('keyword') !== null) {
+  const keywordParam = searchParams.get('keyword');
+  const typeParam = searchParams.get('type');
+  if(keywordParam !== "" && keywordParam !== null) {
     queryParams = {
-      key: ["tvsearch", searchParams.get('keyword')],
+      key: ["tvsearch", keywordParam],
       fn: getTvSeriesByName,
       enable: true
     }
   }
-  else if (searchParams.get('type') !== "" && searchParams.get('type') !== null) {
+  else if (typeParam !== "" && typeParam !== null) {
     queryParams = {
-      key: ["tvtype", searchParams.get('type')],
+      key: ["tvtype", typeParam],
       fn: getTVSeriesByType,
       enable: true
     }

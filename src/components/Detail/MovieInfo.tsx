@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react'
 import { useParams } from 'react-router-dom';
 import { httpRequest } from '../../utils/httpRequest';
 import { CastResponseType, CastType, MovieDetailType } from '../../utils/constants';

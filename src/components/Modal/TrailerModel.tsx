@@ -1,4 +1,3 @@
-import React from 'react'
 import { CloseIcon } from '../Icon'
 import cx from 'classnames';
 import { useGlobalContext } from '../../context/GlobalContext';
@@ -26,7 +25,7 @@ export const TrailerModel = () => {
         return video;
     }
 
-    const { data: trailer, isPending, isError, error } = useQuery({
+    const { data: trailer, isError, error } = useQuery({
         queryKey: ['trailer'],
         queryFn: getMovieVideoById,
         enabled: isOpenDialogTrailer

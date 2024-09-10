@@ -1,4 +1,3 @@
-import React from 'react'
 import { useParams } from 'react-router-dom';
 import { httpRequest } from '../../utils/httpRequest';
 import { CastResponseType, CastType, TVSeriesDetailType } from '../../utils/constants';

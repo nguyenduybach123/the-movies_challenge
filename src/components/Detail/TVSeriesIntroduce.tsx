@@ -1,4 +1,3 @@
-import React from 'react'
 import { useParams } from 'react-router-dom';
 import { httpRequest } from '../../utils/httpRequest';
 import { DisplayEnum, VideoIntroduceResponseType, VideoIntroduceType } from '../../utils/constants';

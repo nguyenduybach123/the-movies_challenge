@@ -1,6 +1,5 @@
 import { Banner } from '../Banner'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
 import 'swiper/css';
 import { httpRequest } from '../../utils/httpRequest';
 import { BannerType, MovieResponseType } from '../../utils/constants';

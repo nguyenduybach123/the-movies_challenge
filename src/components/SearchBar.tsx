@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 export const SearchBar = () => {
   const [_searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = React.useState("");
+  console.log(_searchParams);
 
   const handleSearchMovie = () => {
     if(searchValue === "")

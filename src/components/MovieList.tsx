@@ -8,6 +8,7 @@ import { useSearchParams } from 'react-router-dom';
 export const MovieList = () => {
   //const lastPosRef = React.useRef(null);
   const [searchParams, _setSearchParams] = useSearchParams();
+  console.log(_setSearchParams);
 
   const getMovies = async (page: number) => {
       const response = await httpRequest.get(`movie/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
@@ -69,16 +70,18 @@ export const MovieList = () => {
     enable: true
   }
 
-  if(searchParams.get('keyword') !== "" && searchParams.get('keyword') !== null) {
+  const keywordParam = searchParams.get('keyword');
+  const typeParam = searchParams.get('type');
+  if(keywordParam !== "" && keywordParam !== null) {
     queryParams = {
-      key: ["search", searchParams.get('keyword')],
+      key: ["search", keywordParam],
       fn: getMoviesByName,
       enable: true
     }
   }
-  else if (searchParams.get('type') !== "" && searchParams.get('type') !== null) {
+  else if (typeParam !== "" && typeParam !== null) {
     queryParams = {
-      key: ["type", searchParams.get('type')],
+      key: ["type", typeParam],
       fn: getMoviesByType,
       enable: true
     }
