@@ -126,6 +126,8 @@ export const MovieList = () => {
   // },[lastPosRef])
 
   const movies = movieData?.pages.flatMap((page) => page);
+  console.log(movieData)
+  console.log(movies)
 
   if (isPending) {
     return <span>Loading...</span>
