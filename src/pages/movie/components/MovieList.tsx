@@ -1,68 +1,15 @@
-import { MovieCardType, MovieResponseType, QueryParamType } from '../utils/constants'
-import { httpRequest } from '../utils/httpRequest'
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { MovieCard } from './MovieCard';
-import { Button } from './Button';
 import { useSearchParams } from 'react-router-dom';
+
+import { Button } from '../../../components/Button';
+import { Card } from '../../../components/Card';
+import { QueryParamType } from '../../../utils/types';
+import { getMovies, getMoviesByName, getMoviesByType } from '../../../service/movie';
 
 export const MovieList = () => {
   //const lastPosRef = React.useRef(null);
   const [searchParams, _setSearchParams] = useSearchParams();
   console.log(_setSearchParams);
-
-  const getMovies = async (page: number) => {
-      const response = await httpRequest.get(`movie/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-      const movies:Array<MovieResponseType> = response.data?.results ;
-
-      if(!movies)
-        return;
-      
-      const cardMovies:Array<MovieCardType> = movies.map(
-        (movie) => ({
-            id: movie.id,
-            title: movie.title,
-            poster: movie.poster_path,
-            mode: "movie"
-        })
-    )
-
-      return cardMovies;
-  }
-
-  const getMoviesByName = async (page: number) => {
-    const response = await httpRequest.get(`search/movie?query=${searchParams.get('keyword')}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-    const movies:Array<MovieResponseType> = response.data?.results ;
-
-      if(!movies)
-        return;
-      
-      const cardMovies:Array<MovieCardType> = movies.map(
-        (movie) => ({
-            id: movie.id,
-            title: movie.title,
-            poster: movie.poster_path,
-            mode: "movie"
-        }));
-
-      return cardMovies;
-  }
-
-  const getMoviesByType = async (page: number) => {
-    const response = await httpRequest.get(`movie/${searchParams.get('type')}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-    const moviesByTypeData:Array<MovieResponseType> = response.data?.results;
-
-    if(!response)
-      return;
-
-    const moviesByType:Array<MovieCardType> = moviesByTypeData.map(movie => ({
-      id: movie.id,
-      title: movie.title,
-      poster: movie.poster_path,
-      mode: "movie"
-    }))
-
-    return moviesByType;
-  }
 
   let queryParams: QueryParamType = {
     key: ["movies"],
@@ -75,14 +22,14 @@ export const MovieList = () => {
   if(keywordParam !== "" && keywordParam !== null) {
     queryParams = {
       key: ["search", keywordParam],
-      fn: getMoviesByName,
+      fn: (page) => getMoviesByName(page, keywordParam),
       enable: true
     }
   }
   else if (typeParam !== "" && typeParam !== null) {
     queryParams = {
       key: ["type", typeParam],
-      fn: getMoviesByType,
+      fn: (page) => getMoviesByType(page, typeParam),
       enable: true
     }
   }
@@ -129,8 +76,6 @@ export const MovieList = () => {
   // },[lastPosRef])
 
   const movies = movieData?.pages.flatMap((page) => page);
-  console.log(movieData)
-  console.log(movies)
 
   if (isPending) {
     return <span>Loading...</span>
@@ -140,6 +85,7 @@ export const MovieList = () => {
     return <span>Error: {error.message}</span>
   }
 
+  
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
@@ -148,7 +94,7 @@ export const MovieList = () => {
           movies.map((movie) => {
             if(movie) {
               return (
-                <MovieCard key={movie.poster} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
+                <Card key={movie.poster} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
               )
             }
           })

@@ -1,15 +1,16 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { MovieCard } from '../MovieCard';
-import { Button } from '../Button';
-import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/constants';
-import { httpRequest } from '../../utils/httpRequest';
 import { useQuery } from '@tanstack/react-query';
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+
+import { httpRequest } from '../../utils/httpRequest';
+import { Button } from '../Button';
+import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/types';
+import { Card } from '../Card';
 
 const MAXIMUM_CARD = 12;
 const MAXIMUM_CARD_VIEW = 6;
 
-export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: DisplayEnum, mode: 'movie' | 'tv', similarId?: string }) => {
+export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: DisplayEnum, mode: 'movie' | 'tv', similarId?: string }) => {
 
     // HTTP GET MOVIE CARD
     const getCards = async () => {
@@ -93,8 +94,8 @@ export const MovieCardSlider = ({ title, displayType, mode="movie", similarId }:
             {
                 cards &&
                 cards.map((card) => (
-                    <SwiperSlide key={card.title}>
-                        <MovieCard mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
+                    <SwiperSlide key={card.id}>
+                        <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
                     </SwiperSlide>
                 ))
             }

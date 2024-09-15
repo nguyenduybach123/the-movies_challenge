@@ -1,4 +1,4 @@
-import { IconType } from '../utils/constants'
+import { IconType } from '../utils/types'
 import cn from 'classnames'
 
 export const CloseIcon = ({width, height, colorHover, onClick, className}: IconType) => {

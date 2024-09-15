@@ -1,37 +1,12 @@
-import { Banner } from '../Banner'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css';
-import { httpRequest } from '../../utils/httpRequest';
-import { BannerType, MovieResponseType } from '../../utils/constants';
-import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { useQuery } from '@tanstack/react-query';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { EffectCoverflow, Pagination } from 'swiper/modules';
 
-
-const MAXIMUM_BANNER = 5;
+import { getBannerMovies } from '../../../../service/banner';
+import { Banner } from '../Banner';
 
 export const BannerSlider = () => {
-  
-
-  const getBannerMovies = async () => {
-    const response = await httpRequest.get('movie/popular?api_key=ae722869d6f14e76aebfb0d1fd961dd7');
-    const movies:Array<MovieResponseType> = response.data?.results ;
-
-    if(!movies)
-      return;
-
-    const bannerPopularMovies:Array<BannerType> = movies.slice(0, MAXIMUM_BANNER).map(
-      (movie) => ({
-        id: movie.id,
-        name: movie.title,
-        overview: movie.overview,
-        poster: movie.poster_path,
-        backdrop: movie.backdrop_path
-      })
-    )
-
-    return bannerPopularMovies;
-  }
-
   const {data: banners , isPending, isError, error} = useQuery({
     queryKey: ['banner'],
     queryFn: getBannerMovies,

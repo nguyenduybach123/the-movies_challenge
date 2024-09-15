@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ButtonType } from '../utils/constants'
-import cn from 'classnames';
 
+import { ButtonType } from '../utils/types'
+import cn from 'classnames';
 
 export const Button = ({ 
     text, 

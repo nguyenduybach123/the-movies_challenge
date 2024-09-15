@@ -1,67 +1,13 @@
 import { useSearchParams } from 'react-router-dom'
-import { MovieCardType, QueryParamType, TVSeriesResponseType,  } from '../utils/constants';
-import { httpRequest } from '../utils/httpRequest';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { MovieCard } from './MovieCard';
-import { Button } from './Button';
+import { getTVSeries, getTvSeriesByName, getTVSeriesByType } from '../../../service/tvSeries';
+import { QueryParamType } from '../../../utils/types';
+import { Button } from '../../../components/Button';
+import { Card } from '../../../components/Card';
 
 export const TVSeriesList = () => {
     const [searchParams, _setSearchParams] = useSearchParams();
     console.log(_setSearchParams);
-
-  const getTVSeries = async (page: number) => {
-      const response = await httpRequest.get(`tv/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-      const tvSeries:Array<TVSeriesResponseType> = response.data?.results ;
-
-      if(!tvSeries)
-        return;
-      
-      const cardTVSeries:Array<MovieCardType> = tvSeries.map(
-        (tv) => ({
-            id: tv.id,
-            title: tv.name,
-            poster: tv.poster_path,
-            mode: "tv"
-        })
-    )
-
-      return cardTVSeries;
-  }
-
-  const getTvSeriesByName = async (page: number) => {
-    const response = await httpRequest.get(`search/tv?query=${searchParams.get('keyword')}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-    const tvSeries:Array<TVSeriesResponseType> = response.data?.results ;
-
-      if(!tvSeries)
-        return;
-      
-      const cardTVSeries:Array<MovieCardType> = tvSeries.map(
-        (tv) => ({
-            id: tv.id,
-            title: tv.name,
-            poster: tv.poster_path,
-            mode: "tv"
-        }));
-
-      return cardTVSeries;
-  }
-
-  const getTVSeriesByType = async (page: number) => {
-    const response = await httpRequest.get(`tv/${searchParams.get('type')}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-    const moviesByTypeData:Array<TVSeriesResponseType> = response.data?.results;
-
-    if(!response)
-      return;
-
-    const moviesByType:Array<MovieCardType> = moviesByTypeData.map(movie => ({
-      id: movie.id,
-      title: movie.name,
-      poster: movie.poster_path,
-      mode: "movie"
-    }))
-
-    return moviesByType;
-  }
 
   let queryParams: QueryParamType = {
     key: ["tvseries"],
@@ -74,14 +20,14 @@ export const TVSeriesList = () => {
   if(keywordParam !== "" && keywordParam !== null) {
     queryParams = {
       key: ["tvsearch", keywordParam],
-      fn: getTvSeriesByName,
+      fn: (page: number) => getTvSeriesByName(page,keywordParam),
       enable: true
     }
   }
   else if (typeParam !== "" && typeParam !== null) {
     queryParams = {
       key: ["tvtype", typeParam],
-      fn: getTVSeriesByType,
+      fn: (page: number) => getTVSeriesByType(page, typeParam),
       enable: true
     }
   }
@@ -145,7 +91,7 @@ export const TVSeriesList = () => {
             tvSeriess.map((tvSeries) => {
                 if(tvSeries) {
                 return (
-                    <MovieCard key={tvSeries.poster} mode={tvSeries.mode} id={tvSeries.id} title={tvSeries.title} poster={tvSeries.poster} />
+                    <Card key={tvSeries.poster} mode={tvSeries.mode} id={tvSeries.id} title={tvSeries.title} poster={tvSeries.poster} />
                 )
                 }
             })

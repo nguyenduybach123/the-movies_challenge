@@ -1,11 +1,11 @@
-import { Button } from './Button'
-import { BannerType } from '../utils/constants'
 import { useNavigate } from 'react-router-dom'
-import { useGlobalContext } from '../context/GlobalContext'
 
+import { Button } from '../../../components/Button'
+import { BannerType } from '../../../utils/types'
+import { useHomeContext } from '../context/HomeContext'
 
 export const Banner = ({ id, name, overview, poster, backdrop }: BannerType) => {
-  const { setIsOpenDialogTrailer, setIdBannerSelected } = useGlobalContext();
+  const { setIsOpenDialogTrailer, setIdBannerSelected } = useHomeContext();
   const navigate = useNavigate();
 
   const handleWatchNow = () => {

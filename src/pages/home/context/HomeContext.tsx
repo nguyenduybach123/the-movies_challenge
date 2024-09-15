@@ -44,30 +44,30 @@ type GlobalContextType = {
 }
 
 
-const GlobalContext = React.createContext<GlobalContextType | undefined>(undefined);
+const HomeContext = React.createContext<GlobalContextType | undefined>(undefined);
 
-export const useGlobalContext = () => {
-    const context = React.useContext(GlobalContext);
+export const useHomeContext = () => {
+    const context = React.useContext(HomeContext);
 
     if (!context) {
-        throw new Error('useGlobalContext must be used within a GlobalContextProvider');
+        throw new Error('useHomeContext must be used within a GlobalContextProvider');
     }
     return context;
 };
 
-export const GlobalProvider = ({children}: {children: React.ReactNode}) => {
+export const HomeProvider = ({children}: {children: React.ReactNode}) => {
     const [menuItems, setMenuItems] = React.useState<MenuItemType[]>(menus);
     const [isOpenDialogTrailer, setIsOpenDialogTrailer] = useState(false);
     const [idBannerSelected, setIdBannerSelected] = useState(NaN);
 
     return (
-        <GlobalContext.Provider value={{
+        <HomeContext.Provider value={{
                                     menuItems, setMenuItems,
                                     isOpenDialogTrailer, setIsOpenDialogTrailer,
                                     idBannerSelected, setIdBannerSelected
                                 }}
         >
             {children}
-        </GlobalContext.Provider>
+        </HomeContext.Provider>
     )
 }

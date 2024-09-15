@@ -1,11 +1,12 @@
 import React from 'react'
 import cn from 'classnames'
-import image from '../assets/tmovie-55621206.png'
 import { Link } from 'react-router-dom';
-import { useGlobalContext } from '../context/GlobalContext';
+
+import image from '../../assets/tmovie-55621206.png'
+import { useHomeContext } from '../../pages/Home/context/HomeContext';
 
 export const Header = () => {
-  const { menuItems, setMenuItems } = useGlobalContext();
+  const { menuItems, setMenuItems } = useHomeContext();
 
   React.useEffect(() => {
     function handleScroll() {
@@ -43,7 +44,7 @@ export const Header = () => {
           <div className="fixed md:relative left-0 md:left-auto right-0 md:right-auto bottom-0 md:bottom-auto flex items-center justify-evenly bg-black-main md:bg-transparent py-2 md:py-4 -mx-4">
             {
               menuItems.map((menuItem, idx) => (
-                <div className="px-4">
+                <div className="px-4" key={menuItem.id}>
                   <Link className={cn("nav-item",{"after:w-full": menuItem.isActive})} to={menuItem.href} 
                      onClick={() => setMenuItems(prevButtons => (
                         prevButtons.map((button) => button.id === idx ? { ...button, isActive: true } : { ...button, isActive: false })

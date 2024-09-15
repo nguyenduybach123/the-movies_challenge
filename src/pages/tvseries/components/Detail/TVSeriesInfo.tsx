@@ -1,63 +1,28 @@
-import { useParams } from 'react-router-dom';
-import { httpRequest } from '../../utils/httpRequest';
-import { CastResponseType, CastType, TVSeriesDetailType } from '../../utils/constants';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
-const MAXIMUM_SHOW_CAST = 5;
+import { getMovieCast, getMovieDetail } from '../../../../service/tvSeries';
 
 export const TVSeriesInfo = () => {
     const { id } = useParams();
-  
-    const getMovieDetail = async () => {
-      const response = await httpRequest.get(`tv/${id}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-      const detail = response.data;
-  
-      if(!response)
-        return;
-  
-      const movieDetail:TVSeriesDetailType = {
-        id: detail.id,
-        title: detail.name,
-        overview: detail.overview,
-        genres: detail.genres,
-        poster: detail.poster_path,
-        backdrop: detail.backdrop_path,
-        vote_average: detail.vote_average,
-        vote_count: detail.vote_count
-      }
-  
-      return movieDetail;
-    }
-  
-    const getMovieCast = async () => {
-      const response = await httpRequest.get(`tv/${id}/credits?api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-      const castData:Array<CastResponseType> = response.data?.cast;
-  
-      if(!response)
-        return;
-  
-      const casts:Array<CastType> = castData.slice(0, MAXIMUM_SHOW_CAST).map(cast => ({
-        id: cast.id,
-        name: cast.name,
-        profile: cast.profile_path
-      }))
-  
-      return casts;
-    }
-  
+    const navigate = useNavigate();
+
     const { data: movieDetail } = useQuery({
       queryKey: ['tvseriesdetail'],
-      queryFn: getMovieDetail
+      queryFn: () => getMovieDetail(id)
     })
   
     const movieId = movieDetail?.id;
   
     const {data: casts } = useQuery({
       queryKey: ['tvseriescasts'],
-      queryFn: getMovieCast,
+      queryFn: () => getMovieCast(movieId),
       enabled: !!movieId
     })
-  
+    
+    if(!movieDetail)
+      navigate("/");
+
     return (
       <div className="relative px-4 md:px-8 lg:px-16 py-12 md:pt-32 md:pb-20 bg-center bg-no-repeat bg-cover z-0 before:content-[&quot;&quot;] before:absolute before:bottom-0 before:left-0 before:right-0 before:h-1/2 before:bg-black-main before:-z-10 after:content-[&quot;&quot;] after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-t after:from-black-main after:to-transparent after:-z-10" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieDetail?.backdrop})`}}>
         <div className="flex items-start -mx-4 max-h-fit">

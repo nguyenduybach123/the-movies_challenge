@@ -1,5 +1,5 @@
-import logoImage from '../assets/tmovie-55621206.png';
-import footerImage from '../assets/footer-bg-e4b3ddb4.jpg'
+import logoImage from '../../assets/tmovie-55621206.png'
+import footerImage from '../../assets/footer-bg-e4b3ddb4.jpg'
 
 
 export const Footer = () => {
