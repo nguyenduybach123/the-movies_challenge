@@ -26,7 +26,7 @@ export const getBannerMovies = async () => {
 export const getVideoBannerById = async (idBannerSelected: number) => {
     const response = await httpRequest.get(`movie/${idBannerSelected}/videos?api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
     const videosData:Array<VideoIntroduceResponseType> = response.data?.results;
-    console.log(videosData);
+
     if(!response)
         return;
 

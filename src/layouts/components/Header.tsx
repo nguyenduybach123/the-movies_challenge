@@ -32,8 +32,6 @@ export const Header = () => {
     };
   }, []);
 
-  console.log(menuItems);
-
   return (
     <div id='header' className="px-8 flex justify-center fixed top-0 w-full z-50 transition-all duration-200 ease-in-out py-0 md:py-8 bg-transparent">
         <div className="max-w-screen-2xl flex justify-between items-center w-full bg">

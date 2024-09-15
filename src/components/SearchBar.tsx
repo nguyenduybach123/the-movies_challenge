@@ -9,9 +9,7 @@ export const SearchBar = () => {
   console.log(_searchParams);
 
   const handleSearchMovie = () => {
-    if(searchValue === "")
-      return;
-    setSearchParams({keyword: searchValue});
+    setSearchParams({keyword: searchValue.trim()});
   }
 
   return (
@@ -19,6 +17,13 @@ export const SearchBar = () => {
         <input className="outline-none border-none rounded-full px-6 py-2 bg-black placeholder-gray-500 text-white flex-1 md:flex-auto md:w-96"
                placeholder="Enter keyword"
                onChange={(e) => setSearchValue(e.target.value)} value={searchValue}
+               onKeyDown={
+                (e) => {
+                  if(e.key === "Enter") {
+                    handleSearchMovie();
+                  }
+                }
+               }
         />
         <Button text='Search' type='primary' onClick={handleSearchMovie} />
     </div>

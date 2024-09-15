@@ -4,8 +4,6 @@ import footerImage from '../../assets/footer-bg-e4b3ddb4.jpg'
 
 export const Footer = () => {
 
-  console.log(footerImage)
-
   return (
     <div className="h-100 lg:h-120 px-8 py-12 md:p-16 bg-cover bg-no-repeat" style={{backgroundImage: `url(${footerImage})`}}>
       <div className="max-w-4xl h-full mx-auto flex flex-col justify-around">

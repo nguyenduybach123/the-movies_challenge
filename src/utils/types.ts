@@ -1,5 +1,10 @@
 import React from "react"
 
+export type DisplayDataType<T> = {
+    data: T,
+    isFetching: boolean
+}
+
 export type QueryParamType = {
     key: Array<string>,
     fn: (page: number) => Promise<MovieCardType[] | undefined>,

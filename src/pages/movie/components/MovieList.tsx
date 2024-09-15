@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import noResultSearchImg from '../../../assets/not-result-search.png'
 import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import { QueryParamType } from '../../../utils/types';
@@ -9,6 +10,7 @@ import { getMovies, getMoviesByName, getMoviesByType } from '../../../service/mo
 export const MovieList = () => {
   //const lastPosRef = React.useRef(null);
   const [searchParams, _setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   console.log(_setSearchParams);
 
   let queryParams: QueryParamType = {
@@ -36,7 +38,6 @@ export const MovieList = () => {
 
   // HTTP GET MOVIES
   const { data: movieData,
-          error,
           isError,
           isPending,
           fetchNextPage,
@@ -82,9 +83,8 @@ export const MovieList = () => {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>
+    navigate('/')
   }
-
   
   return (
     <>
@@ -100,14 +100,23 @@ export const MovieList = () => {
           })
         }
       </div>
-      <div className="flex items-center justify-center mt-8">
-        {
-          hasNextPage ? 
-            <Button text="Watch more" ghost onClick={() => {fetchNextPage();}} disabled={isFetchingNextPage}/> 
-          :
-            <p>Last page</p>
-        }
-      </div>
+      {
+        (movies.length !== 0) ?
+          (<div className="flex items-center justify-center mt-8">
+            {
+              hasNextPage ? 
+                <Button text="Watch more" ghost onClick={() => {fetchNextPage();}} disabled={isFetchingNextPage}/> 
+              :
+                <p className="w-full min-h-60 text-center text-white font-semibold">Last page</p>
+            }
+          </div>) 
+        : 
+            (<div className="h-full text-center font-semibold text-white">
+              <h1 className="text-3xl p-4 mb-4">No Results Found For : {keywordParam}</h1>
+              <img src={noResultSearchImg} className="w-50/2 h-36 mx-auto" />
+              <p className="">Don't give up</p>
+            </div>)
+      }
     </>
   )
 }

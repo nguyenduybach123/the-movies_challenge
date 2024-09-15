@@ -23,9 +23,9 @@ export const Banner = ({ id, name, overview, poster, backdrop }: BannerType) => 
     >
         <div className="max-w-screen-2xl z-10 h-fit flex items-center justify-between">
           <div className='w-full lg:w-2/3 px-4'>
-              <h2 className="font-bold text-4xl md:text-6xl lg:text-8xl delay-300 text-white opacity-0 -translate-y-24 transition duration-700 ease-in-out opacity-100 translate-y-0">{ name }</h2>
-              <p className="font-medium text-white text-xs md:text-xl my-12 delay-[600ms] opacity-0 -translate-y-24 transition duration-700 ease-in-out opacity-100 translate-y-0">{ overview }</p>
-              <div className="flex delay-[900ms] text-white opacity-0 -translate-y-24 transition duration-700 ease-in-out opacity-100 translate-y-0">
+              <h2 className="font-bold text-4xl md:text-6xl lg:text-8xl delay-300 text-white transition duration-700 ease-in-out opacity-100 translate-y-0">{ name }</h2>
+              <p className="font-medium text-white text-xs md:text-xl my-12 delay-[600ms] transition duration-700 ease-in-out opacity-100 translate-y-0">{ overview }</p>
+              <div className="flex delay-[900ms] text-white transition duration-700 ease-in-out opacity-100 translate-y-0">
                   <Button text='Watch Now' size='lg' type='primary' className='mr-4' onClick={handleWatchNow} />
                   <Button text='Watch trailer' size='lg' ghost onClick={handleWatchTrailer} />
               </div>
