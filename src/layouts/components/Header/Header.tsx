@@ -2,11 +2,11 @@ import React from 'react'
 import cn from 'classnames'
 import { Link } from 'react-router-dom';
 
-import image from '../../assets/tmovie-55621206.png'
-import { useHomeContext } from '../../pages/Home/context/HomeContext';
+import image from '../../../assets/tmovie-55621206.png'
+import { useHeaderContext } from './context/HeaderContext';
 
 export const Header = () => {
-  const { menuItems, setMenuItems } = useHomeContext();
+  const { menuItems, setMenuItems } = useHeaderContext();
 
   React.useEffect(() => {
     function handleScroll() {

@@ -2,7 +2,8 @@ import React from "react"
 
 export type DisplayDataType<T> = {
     data: T,
-    isFetching: boolean
+    isFetching: boolean,
+    onClick?: void
 }
 
 export type QueryParamType = {

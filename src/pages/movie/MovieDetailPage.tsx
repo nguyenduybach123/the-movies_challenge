@@ -3,7 +3,7 @@ import React from 'react'
 import { DefaultLayout } from '../../layouts/DefaultLayout/DefaultLayout'
 import { MovieInfo } from './components/Detail/MovieInfo';
 import { MovieIntroduce } from './components/Detail/MovieIntroduce';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getMovieCast, getMovieDetail, getMovieIntroduces } from '../../service/movie';
 import { CardSlider } from '../../components/Slider/CardSlider';
@@ -11,33 +11,29 @@ import { DisplayEnum } from '../../utils/types';
 
 export const MovieDetailPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const { data: movieDetail, isPending: isDetailPending } = useQuery({
-    queryKey: ['detail'],
+    queryKey: ['detail',id],
     queryFn: () => getMovieDetail(id)
   })
 
   const movieId = movieDetail?.id;
 
   const {data: casts } = useQuery({
-    queryKey: ['casts'],
+    queryKey: ['casts',movieId],
     queryFn: () => getMovieCast(movieId),
     enabled: !!movieId
   })
 
   const { data: movieIntroduces, isPending: isPendingIntroduce} = useQuery({
-    queryKey: ['videointroduce'],
+    queryKey: ['videointroduce',id],
     queryFn: () => getMovieIntroduces(id)
   })
 
   React.useEffect(() => {
     window.scrollTo(0,0);
-  },[])
-
-  if(!movieDetail)
-    navigate("/");
-
+  },[movieDetail])
 
   return (
     <DefaultLayout>

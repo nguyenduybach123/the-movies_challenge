@@ -8,14 +8,10 @@ import { DisplayEnum } from '../../../../utils/types';
 export const TVSeriesIntroduce = () => {
     const { id } = useParams();
   
-    const { data: movieIntroduces, isPending, isError, error } = useQuery({
+    const { data: movieIntroduces, isError, error } = useQuery({
       queryKey: ['tvseriesintroduce'],
       queryFn: () => getMovieIntroduces(id)
     })
-  
-    if (isPending) {
-      return <span>Loading...</span>
-  }
   
     if (isError) {
         return <span>Error: {error.message}</span>

@@ -44,14 +44,11 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
         return cardMovies;
     }
 
-    const { data: cards, isPending, isError, error } = useQuery({
+    const { data: cards, isError, error } = useQuery({
         queryKey: ['cards',mode,displayType],
         queryFn: getCards
     })
 
-    if (isPending) {
-        return <span>Loading...</span>
-    }
     
     if (isError) {
         return <span>Error: {error.message}</span>

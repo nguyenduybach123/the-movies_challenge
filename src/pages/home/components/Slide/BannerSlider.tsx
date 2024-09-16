@@ -1,23 +1,14 @@
 import 'swiper/css';
-import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
-import { getBannerMovies } from '../../../../service/banner';
 import { Banner } from '../Banner';
+import { BannerType, DisplayDataType } from '../../../../utils/types';
 
-export const BannerSlider = () => {
-  const {data: banners , isPending, isError, error} = useQuery({
-    queryKey: ['banner'],
-    queryFn: getBannerMovies,
-  })
+export const BannerSlider = ({ data:banners, isFetching }: DisplayDataType<Array<BannerType>>) => {
 
-  if (isPending) {
+  if (isFetching) {
     return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>
   }
 
   return (

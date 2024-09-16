@@ -4,13 +4,18 @@ import { Button } from './Button'
 import { useSearchParams } from 'react-router-dom';
 
 export const SearchBar = () => {
-  const [_searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchValue, setSearchValue] = React.useState("");
-  console.log(_searchParams);
 
   const handleSearchMovie = () => {
     setSearchParams({keyword: searchValue.trim()});
   }
+
+  React.useEffect(() => {
+    const keyword = searchParams.get('keyword');
+    if(keyword !== "" && keyword)
+      setSearchValue(keyword);
+  },[searchParams])
 
   return (
     <div className=" flex items-center relative rounded-full bg-black w-full md:w-fit lg:w-fit">
