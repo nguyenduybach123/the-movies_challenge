@@ -1,19 +1,17 @@
+import { InfiniteData, InfiniteQueryObserverResult } from '@tanstack/react-query';
+
 import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import { DisplayDataType, MovieCardType } from '../../../utils/types';
-import { InfiniteData, InfiniteQueryObserverResult } from '@tanstack/react-query';
 
 const MAX_MOVIE = 20;
 
-export const MovieList = ({data: movies, fetchNextPage, isFetchingNextPage, isFetching }: DisplayDataType<Array<MovieCardType | undefined>> &
+export const MovieList = ({data: movies, fetchNextPage, isFetchingNextPage }: DisplayDataType<Array<MovieCardType | undefined>> &
    {
     fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieCardType[] | undefined, unknown>, Error>>,
     isFetchingNextPage: boolean
    }) => {
-
-  if(isFetching)
-    return <p>Loading . . .</p>
-
+    
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
@@ -22,7 +20,7 @@ export const MovieList = ({data: movies, fetchNextPage, isFetchingNextPage, isFe
           movies.map((movie) => {
             if(movie) {
               return (
-                <Card key={movie.poster} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
+                <Card key={movie.id} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
               )
             }
           })
@@ -37,5 +35,5 @@ export const MovieList = ({data: movies, fetchNextPage, isFetchingNextPage, isFe
             }
       </div>
     </>
-  )
+  );
 }

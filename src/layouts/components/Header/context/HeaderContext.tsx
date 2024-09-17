@@ -39,7 +39,6 @@ type HeaderContextType = {
     }[]>>
 }
 
-
 const HeaderContext = React.createContext<HeaderContextType | undefined>(undefined);
 
 export const useHeaderContext = () => {
@@ -61,5 +60,5 @@ export const HeaderProvider = ({children}: {children: React.ReactNode}) => {
         >
             {children}
         </HeaderContext.Provider>
-    )
+    );
 }

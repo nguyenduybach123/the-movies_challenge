@@ -1,13 +1,13 @@
 import React from 'react';
-
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { SearchBar } from '../../components/SearchBar'
+
 import { DefaultLayout } from '../../layouts/DefaultLayout/DefaultLayout'
+import { SearchBar } from '../../components/SearchBar'
 import { TVSeriesList } from './components/TVSeriesList'
+import { NotFoundResult } from './components/NotFoundResult';
 import { QueryParamType } from '../../utils/types';
 import { getTVSeries, getTvSeriesByName, getTVSeriesByType } from '../../service/tvSeries';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { NotFoundResult } from './components/NotFoundResult';
 
 export const TVSeriesPage = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -18,9 +18,9 @@ export const TVSeriesList = ({data: tvSeries, fetchNextPage, isFetchingNextPage}
             tvSeries &&
             tvSeries.map((tv) => {
                 if(tv) {
-                return (
-                    <Card key={tv.poster} mode={tv.mode} id={tv.id} title={tv.title} poster={tv.poster} />
-                )
+                    return (
+                        <Card key={tv.id} mode={tv.mode} id={tv.id} title={tv.title} poster={tv.poster} />
+                    )
                 }
             })
             }
@@ -28,12 +28,11 @@ export const TVSeriesList = ({data: tvSeries, fetchNextPage, isFetchingNextPage}
         <div className="flex items-center justify-center mt-8">
             {
                 (tvSeries.length === MAX_TV) ? 
-                    <Button text="Watch more" ghost onClick={() => {fetchNextPage();}} disabled={isFetchingNextPage}/> 
+                    <Button text="Watch more" ghost onClick={() => fetchNextPage()} disabled={isFetchingNextPage}/> 
                 :
                     <></>
             }
         </div>
     </>
   )
-    
 }

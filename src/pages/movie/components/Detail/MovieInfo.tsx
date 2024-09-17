@@ -1,9 +1,6 @@
 import { CastType, DisplayDataType, MovieDetailType } from '../../../../utils/types';
 
-export const MovieInfo = ({ data, casts, isFetching }: DisplayDataType<MovieDetailType | null | undefined> & {casts: Array<CastType>}) => {
-
-  if(isFetching)
-    return (<p>Loading . . .</p>);
+export const MovieInfo = ({ data, casts }: DisplayDataType<MovieDetailType | null | undefined> & { casts: Array<CastType> }) => {
 
   return (
     <div className="relative px-4 md:px-8 lg:px-16 py-12 md:pt-32 md:pb-20 bg-center bg-no-repeat bg-cover z-0 before:content-[&quot;&quot;] before:absolute before:bottom-0 before:left-0 before:right-0 before:h-1/2 before:bg-black-main before:-z-10 after:content-[&quot;&quot;] after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-t after:from-black-main after:to-transparent after:-z-10" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${data?.backdrop})`}}>
@@ -39,5 +36,5 @@ export const MovieInfo = ({ data, casts, isFetching }: DisplayDataType<MovieDeta
         </div>
       </div>
     </div>
-  )
+  );
 }

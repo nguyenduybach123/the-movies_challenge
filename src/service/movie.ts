@@ -9,7 +9,7 @@ export const getMovies = async (page: number) => {
     const movies:Array<MovieResponseType> = response.data?.results ;
 
     if(!movies)
-      return;
+      return [];
     
     const cardMovies:Array<MovieCardType> = movies.map(
       (movie) => ({

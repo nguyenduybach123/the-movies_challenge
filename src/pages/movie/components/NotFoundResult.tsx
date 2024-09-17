@@ -7,5 +7,5 @@ export const NotFoundResult = ({keyword}: {keyword: string}) => {
         <img src={noResultSearchImg} className="w-50/2 h-36 mx-auto" />
         <p className="">Don't give up</p>
     </div>
-  )
+  );
 }

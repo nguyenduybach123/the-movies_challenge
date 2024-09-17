@@ -1,9 +1,7 @@
 import { DisplayDataType, VideoIntroduceType } from '../../../../utils/types';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const MovieIntroduce = ({ data, isFetching }: DisplayDataType<Array<VideoIntroduceType>>) => {
-
-  if(isFetching)
-    return (<p>Loading . . .</p>);
 
   return (
     <div className="py-2 px-4 md:px-8 lg:px-16">
@@ -16,5 +14,5 @@ export const MovieIntroduce = ({ data, isFetching }: DisplayDataType<Array<Video
         ))
       }
     </div>
-  )
+  );
 }

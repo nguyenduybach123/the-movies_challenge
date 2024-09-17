@@ -8,7 +8,6 @@ type HomeContextType = {
     setIdBannerSelected: React.Dispatch<React.SetStateAction<number>>
 }
 
-
 const HomeContext = React.createContext<HomeContextType | undefined>(undefined);
 
 export const useHomeContext = () => {
@@ -32,5 +31,5 @@ export const HomeProvider = ({children}: {children: React.ReactNode}) => {
         >
             {children}
         </HomeContext.Provider>
-    )
+    );
 }

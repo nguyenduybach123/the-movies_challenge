@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
-import { httpRequest } from '../../utils/httpRequest';
-import { Button } from '../Button';
-import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/types';
 import { Card } from '../Card';
+import { Button } from '../Button';
+import { httpRequest } from '../../utils/httpRequest';
+import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/types';
 
 const MAXIMUM_CARD = 12;
 const MAXIMUM_CARD_VIEW = 6;
@@ -98,5 +98,5 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
             }
             </Swiper>
         </div>
-      );
+    );
 }

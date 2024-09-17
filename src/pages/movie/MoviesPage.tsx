@@ -1,18 +1,18 @@
 import React from 'react'
-
-import { useSearchParams } from 'react-router-dom'
-import { SearchBar } from '../../components/SearchBar'
-import { DefaultLayout } from '../../layouts/DefaultLayout/DefaultLayout'
-import { getMovies, getMoviesByName, getMoviesByType } from '../../service/movie'
-import { QueryParamType } from '../../utils/types'
-import { MovieList } from './components/MovieList'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { useSearchParams } from 'react-router-dom'
+
+import { DefaultLayout } from '../../layouts/DefaultLayout/DefaultLayout'
+import { SearchBar } from '../../components/SearchBar'
 import { NotFoundResult } from './components/NotFoundResult'
+import { MovieList } from './components/MovieList'
+import { QueryParamType } from '../../utils/types'
+import { getMovies, getMoviesByName, getMoviesByType } from '../../service/movie'
 
 export const MoviesPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isNotResult, setIsNotResult] = React.useState(true);
+  const [isNotResult, setIsNotResult] = React.useState(false);
 
   let queryParams: QueryParamType = {
     key: ["movies"],
@@ -63,8 +63,6 @@ export const MoviesPage = () => {
 
   const movies = movieData?.pages.flatMap((page) => page);
 
-  console.log(isNotResult)
-
   return (
     <DefaultLayout>
       <div className="relative h-48 bg-[url(&quot;src/assets/footer-bg.jpg&quot;)] bg-cover bg-center bg-no-repeat after:content-[&quot;&quot;] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-gradient-to-t after:from-black-main after:to-transparent">
@@ -80,5 +78,5 @@ export const MoviesPage = () => {
         }
       </div>
     </DefaultLayout>
-  )
+  );
 }

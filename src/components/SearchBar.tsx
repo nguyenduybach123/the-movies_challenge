@@ -32,5 +32,5 @@ export const SearchBar = () => {
         />
         <Button text='Search' type='primary' onClick={handleSearchMovie} />
     </div>
-  )
+  );
 }

@@ -1,15 +1,15 @@
+import { Link } from 'react-router-dom'
+
 import { Button } from './Button'
 import { PlayIcon } from './Icon'
 import { MovieCardType } from '../utils/types'
 import defaultPosterImage from '../assets/default-movie.jpg'
-import { Link } from 'react-router-dom'
-
 
 export const Card = ({ id, mode, title, poster }: MovieCardType) => {
   const posterURL = poster ? `https://image.tmdb.org/t/p/w500/${poster}` : defaultPosterImage;
 
   return (
-    <Link to={`/${mode}/${id}`} state={id} className="relative hover:cursor-pointer group/container z-10">
+    <Link to={`/${mode}/${id}`} className="relative hover:cursor-pointer group/container z-10">
         <div className="relative w-full h-72 2xl:h-80 rounded-3xl bg-center bg-no-repeat bg-cover group/poster group/container after:content-[''] after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:rounded-3xl hover:after:bg-black/60 after:transition after:ease-in-out after:duration-300"
              style={{backgroundImage: `url(${ posterURL }`}}
         >
@@ -17,5 +17,5 @@ export const Card = ({ id, mode, title, poster }: MovieCardType) => {
         </div>
         <h3 className="font-medium text-white text-sm md:text-lg mt-4 transition duration-300 ease-in-out group-hover/container:text-red-main hover:text-red-main">{ title }</h3>
     </Link>
-  )
+  );
 }

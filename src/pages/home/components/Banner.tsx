@@ -35,5 +35,5 @@ export const Banner = ({ id, name, overview, poster, backdrop }: BannerType) => 
           </div>
         </div>
     </div>
-  )
+  );
 }
