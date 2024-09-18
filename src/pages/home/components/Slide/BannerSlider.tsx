@@ -5,8 +5,7 @@ import { EffectCoverflow, Pagination } from 'swiper/modules';
 import { Banner } from '../Banner';
 import { BannerType, DisplayDataType } from '../../../../utils/types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const BannerSlider = ({ data:banners, isFetching = false }: DisplayDataType<Array<BannerType>>) => {
+export const BannerSlider = ({ data:banners }: DisplayDataType<Array<BannerType>>) => {
 
   return (
     <Swiper

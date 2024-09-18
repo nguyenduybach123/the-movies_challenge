@@ -10,8 +10,7 @@ import { QueryParamType } from '../../utils/types'
 import { getMovies, getMoviesByName, getMoviesByType } from '../../service/movie'
 
 export const MoviesPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams,] = useSearchParams();
   const [isNotResult, setIsNotResult] = React.useState(false);
 
   let queryParams: QueryParamType = {
