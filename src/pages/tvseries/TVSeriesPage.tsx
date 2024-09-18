@@ -44,6 +44,7 @@ export const TVSeriesPage = () => {
             isPending,
             fetchNextPage,
             isFetchingNextPage,
+            hasNextPage
     } = useInfiniteQuery({
       queryKey:[...queryParams.key],
       queryFn: async ({ pageParam = 1 }) => {
@@ -65,6 +66,10 @@ export const TVSeriesPage = () => {
   
     const tvSeries = tvSeriesData?.pages.flatMap((page) => page);
 
+    React.useEffect(() => {
+      window.scrollTo(0,0);
+    },[])
+
     if (isError) {
       return <span>Error: {error.message}</span>
     }
@@ -78,7 +83,7 @@ export const TVSeriesPage = () => {
         <SearchBar />
         {
           (!isNotResult) ?
-            (<TVSeriesList data={tvSeries} isFetching={isPending} fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage} />)
+            (<TVSeriesList data={tvSeries} isFetching={isPending} fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)
           :
             (<NotFoundResult keyword={keywordParam ? keywordParam : ""} />)
         }

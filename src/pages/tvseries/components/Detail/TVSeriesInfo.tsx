@@ -1,3 +1,4 @@
+import defaultCastImage from '../../../../assets/default-cast.jpg'
 import { CastType, DisplayDataType, TVSeriesDetailType } from '../../../../utils/types'
 
 export const TVSeriesInfo = ({ data: tvDetail, casts }: DisplayDataType<TVSeriesDetailType  | null | undefined> & { casts: Array<CastType> } ) => {
@@ -25,12 +26,16 @@ export const TVSeriesInfo = ({ data: tvDetail, casts }: DisplayDataType<TVSeries
             <h3 className="text-white text-xl font-medium py-2">Casts</h3>
             <div className="flex flex-wrap -mx-2 mt-1">
               {
-                casts?.map(cast => (
-                  <div key={cast.id} className="w-28 px-2 mb-1">
-                    <img src={`https://image.tmdb.org/t/p/w500/${cast.profile}`} className="rounded-xl" />
-                    <span className="text-white text-xs md:text-sm font-sm">{cast.name}</span>
-                  </div>
-                ))
+                casts?.map(cast => {
+                  const castImg = cast.profile ? `https://image.tmdb.org/t/p/w500/${cast.profile}` : defaultCastImage;
+
+                  return (
+                    <div key={cast.id} className="w-28 px-2 mb-1">
+                      <img src={castImg} className="rounded-xl" />
+                      <span className="text-white text-xs md:text-sm font-sm">{cast.name}</span>
+                    </div>
+                  )
+                })
               }
             </div>
           </div>

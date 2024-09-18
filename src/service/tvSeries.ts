@@ -43,22 +43,22 @@ export const getTvSeriesByName = async (page: number, keyword: string) => {
 
 export const getTVSeriesByType = async (page: number, type: string) => {
   const response = await httpRequest.get(`tv/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-  const moviesByTypeData:Array<TVSeriesResponseType> = response.data?.results;
+  const tvByTypeData:Array<TVSeriesResponseType> = response.data?.results;
 
   if(!response)
     return;
 
-  const moviesByType:Array<MovieCardType> = moviesByTypeData.map(movie => ({
-    id: movie.id,
-    title: movie.name,
-    poster: movie.poster_path,
-    mode: "movie"
+  const TVsByType:Array<MovieCardType> = tvByTypeData.map(tv => ({
+    id: tv.id,
+    title: tv.name,
+    poster: tv.poster_path,
+    mode: "tv"
   }))
 
-  return moviesByType;
+  return TVsByType;
 }
 
-export const getMovieDetail = async (id: string | undefined) => {
+export const getTVDetail = async (id: string | undefined) => {
     if(!id)
         return null;
 
@@ -68,7 +68,7 @@ export const getMovieDetail = async (id: string | undefined) => {
     if(!response)
       return;
 
-    const movieDetail:TVSeriesDetailType = {
+    const tvDetail:TVSeriesDetailType = {
       id: detail.id,
       title: detail.name,
       overview: detail.overview,
@@ -79,10 +79,10 @@ export const getMovieDetail = async (id: string | undefined) => {
       vote_count: detail.vote_count
     }
 
-    return movieDetail;
+    return tvDetail;
   }
 
-export const getMovieCast = async (id: number | undefined) => {
+export const getTVCast = async (id: number | undefined) => {
     if(!id)
         return null;
 
@@ -101,7 +101,7 @@ export const getMovieCast = async (id: number | undefined) => {
     return casts;
   }
 
-export const getMovieIntroduces = async (id: string | undefined) => {
+export const getTVIntroduces = async (id: string | undefined) => {
     if(!id)  
       return [];
 

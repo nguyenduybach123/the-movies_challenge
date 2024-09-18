@@ -40,8 +40,11 @@ export const MoviesPage = () => {
   // HTTP GET MOVIES
   const { data: movieData,
           isPending,
+          isError,
+          error,
           fetchNextPage,
           isFetchingNextPage,
+          hasNextPage
   } = useInfiniteQuery({
     queryKey:[...queryParams.key],
     queryFn: async ({ pageParam = 1 }) => {
@@ -63,6 +66,14 @@ export const MoviesPage = () => {
 
   const movies = movieData?.pages.flatMap((page) => page);
 
+  React.useEffect(() => {
+    window.scrollTo(0,0);
+  },[])
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
+
   return (
     <DefaultLayout>
       <div className="relative h-48 bg-[url(&quot;src/assets/footer-bg.jpg&quot;)] bg-cover bg-center bg-no-repeat after:content-[&quot;&quot;] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-gradient-to-t after:from-black-main after:to-transparent">
@@ -72,7 +83,7 @@ export const MoviesPage = () => {
         <SearchBar />
         {
           (!isNotResult) ?
-            (<MovieList data={movies ? movies : []} fetchNextPage={fetchNextPage} isFetching={isPending} isFetchingNextPage={isFetchingNextPage} />)
+            (<MovieList data={movies ? movies : []} fetchNextPage={fetchNextPage} isFetching={isPending} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)
           :
             (<NotFoundResult keyword={keywordParam ? keywordParam : ""} />)  
         }

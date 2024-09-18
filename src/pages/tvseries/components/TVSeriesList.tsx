@@ -4,9 +4,8 @@ import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import { DisplayDataType, MovieCardType } from '../../../utils/types';
 
-const MAX_TV = 20;
-
-export const TVSeriesList = ({data: tvSeries, fetchNextPage, isFetchingNextPage}: DisplayDataType<Array<MovieCardType | undefined>> & {
+export const TVSeriesList = ({ data: tvSeries, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<Array<MovieCardType | undefined>> & {
+  hasNextPage: boolean,
   fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieCardType[] | undefined, unknown>, Error>>,
   isFetchingNextPage: boolean
  }) => {
@@ -27,7 +26,7 @@ export const TVSeriesList = ({data: tvSeries, fetchNextPage, isFetchingNextPage}
         </div>
         <div className="flex items-center justify-center mt-8">
             {
-                (tvSeries.length === MAX_TV) ? 
+                (hasNextPage) ? 
                     <Button text="Watch more" ghost onClick={() => fetchNextPage()} disabled={isFetchingNextPage}/> 
                 :
                     <></>

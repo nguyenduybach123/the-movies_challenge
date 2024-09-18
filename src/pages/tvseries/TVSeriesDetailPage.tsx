@@ -7,27 +7,27 @@ import { TVSeriesInfo } from './components/Detail/TVSeriesInfo'
 import { TVSeriesIntroduce } from './components/Detail/TVSeriesIntroduce'
 import { CardSlider } from '../../components/Slider/CardSlider'
 import { DisplayEnum } from '../../utils/types'
-import { getMovieCast, getMovieDetail, getMovieIntroduces } from '../../service/movie'
+import { getTVCast, getTVDetail, getTVIntroduces } from '../../service/tvSeries'
 
 export const TVSeriesDetailPage = () => {
   const { id } = useParams();
 
   const { data: tvDetail, isError: isErrorDetail, error: errorDetail } = useQuery({
     queryKey: ['tvseriesdetail', id],
-    queryFn: () => getMovieDetail(id)
+    queryFn: () => getTVDetail(id)
   })
 
   const tvId = tvDetail?.id;
 
   const {data: casts } = useQuery({
     queryKey: ['tvseriescasts', tvId],
-    queryFn: () => getMovieCast(tvId),
+    queryFn: () => getTVCast(tvId),
     enabled: !!tvId
   })
   
   const { data: tvIntroduces, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
     queryKey: ['tvseriesintroduce', tvId],
-    queryFn: () => getMovieIntroduces(id)
+    queryFn: () => getTVIntroduces(id)
   })
 
   React.useEffect(() => {
