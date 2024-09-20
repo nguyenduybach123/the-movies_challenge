@@ -4,7 +4,7 @@ import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import { DisplayDataType, MovieCardType } from '../../../utils/types';
 
-export const MovieList = ({data: movies, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<Array<MovieCardType | undefined>> &
+export const MovieList = ({data: movies, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<Array<MovieCardType | undefined>> &
    {
     hasNextPage: boolean,
     fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieCardType[] | undefined, unknown>, Error>>,
@@ -19,7 +19,7 @@ export const MovieList = ({data: movies, fetchNextPage, isFetchingNextPage, hasN
           movies.map((movie) => {
             if(movie) {
               return (
-                <Card key={movie.id} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} />
+                <Card key={movie.id} mode={movie.mode} id={movie.id} title={movie.title} poster={movie.poster} isFetching={isFetching || false} />
               )
             }
           })

@@ -25,7 +25,7 @@ export const MovieDetailPage = () => {
     enabled: !!movieId
   })
 
-  const { data: movieIntroduces, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
+  const { data: movieIntroduces, isPending: isMovieIntroducePending, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
     queryKey: ['videointroduce', movieId],
     queryFn: () => getMovieIntroduces(id)
   })
@@ -46,7 +46,7 @@ export const MovieDetailPage = () => {
     <DefaultLayout>
       <MovieInfo data={movieDetail} casts={casts ? casts : []} />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
-        <MovieIntroduce data={movieIntroduces ? movieIntroduces : []} />
+        <MovieIntroduce data={movieIntroduces ? movieIntroduces : []} isFetching={isMovieIntroducePending} />
         <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="movie" />
       </div>
     </DefaultLayout>

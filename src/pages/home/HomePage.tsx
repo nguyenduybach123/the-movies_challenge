@@ -16,7 +16,7 @@ export const HomePage = () => {
     queryFn: getBannerMovies,
   })
 
-  const { data: trailer, isError: isErrorTrailer, error: errorTrailer } = useQuery({
+  const { data: trailer, isPending: isTrailerPending, isError: isErrorTrailer, error: errorTrailer } = useQuery({
       queryKey: ['trailer'],
       queryFn: () => getVideoBannerById(idBannerSelected),
       enabled: isOpenDialogTrailer
@@ -32,7 +32,7 @@ export const HomePage = () => {
 
   return (
     <DefaultLayout>
-      <TrailerModel trailerKey={trailer ? trailer.key : ""} />
+      <TrailerModel trailerKey={trailer ? trailer.key : ""} isFetching={isTrailerPending} />
       <BannerSlider data={banners ? banners : []} isFetching={isPending} />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
         <CardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />

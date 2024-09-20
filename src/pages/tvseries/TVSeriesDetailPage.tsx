@@ -25,7 +25,7 @@ export const TVSeriesDetailPage = () => {
     enabled: !!tvId
   })
   
-  const { data: tvIntroduces, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
+  const { data: tvIntroduces, isPending: isTVIntroducePending, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
     queryKey: ['tvseriesintroduce', tvId],
     queryFn: () => getTVIntroduces(id)
   })
@@ -46,7 +46,7 @@ export const TVSeriesDetailPage = () => {
     <DefaultLayout>
       <TVSeriesInfo data={tvDetail} casts={casts ? casts : []} />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
-        <TVSeriesIntroduce data={tvIntroduces ? tvIntroduces : []} />
+        <TVSeriesIntroduce data={tvIntroduces ? tvIntroduces : []} isFetching={isTVIntroducePending} />
         <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="tv"/>
       </div>
     </DefaultLayout>

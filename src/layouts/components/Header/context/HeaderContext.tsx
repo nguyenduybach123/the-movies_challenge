@@ -6,7 +6,7 @@ const menus = [
       id: 0,
       title: "Home",
       href: "/",
-      isActive: false
+      isActive: true
     },
     {
       id: 1,

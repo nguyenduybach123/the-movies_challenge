@@ -44,7 +44,7 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
         return cardMovies;
     }
 
-    const { data: cards, isError, error } = useQuery({
+    const { data: cards, isPending, isError, error } = useQuery({
         queryKey: ['cards',mode,displayType],
         queryFn: getCards
     })
@@ -92,7 +92,7 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
                 cards &&
                 cards.map((card) => (
                     <SwiperSlide key={card.id}>
-                        <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
+                        <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} isFetching={isPending} />
                     </SwiperSlide>
                 ))
             }

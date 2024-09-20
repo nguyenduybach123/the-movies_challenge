@@ -4,7 +4,7 @@ import { Button } from '../../../components/Button';
 import { Card } from '../../../components/Card';
 import { DisplayDataType, MovieCardType } from '../../../utils/types';
 
-export const TVSeriesList = ({ data: tvSeries, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<Array<MovieCardType | undefined>> & {
+export const TVSeriesList = ({ data: tvSeries, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<Array<MovieCardType | undefined>> & {
   hasNextPage: boolean,
   fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieCardType[] | undefined, unknown>, Error>>,
   isFetchingNextPage: boolean
@@ -18,7 +18,7 @@ export const TVSeriesList = ({ data: tvSeries, fetchNextPage, isFetchingNextPage
             tvSeries.map((tv) => {
                 if(tv) {
                     return (
-                        <Card key={tv.id} mode={tv.mode} id={tv.id} title={tv.title} poster={tv.poster} />
+                        <Card key={tv.id} mode={tv.mode} id={tv.id} title={tv.title} poster={tv.poster} isFetching={isFetching || false} />
                     )
                 }
             })
