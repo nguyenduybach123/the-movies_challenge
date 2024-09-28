@@ -2,7 +2,6 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { DefaultLayout } from '../../layouts/DefaultLayout/DefaultLayout'
 import { MovieInfo } from './components/Detail/MovieInfo';
 import { MovieIntroduce } from './components/Detail/MovieIntroduce';
 import { CardSlider } from '../../components/Slider/CardSlider';
@@ -43,12 +42,12 @@ export const MovieDetailPage = () => {
   }
 
   return (
-    <DefaultLayout>
+    <>
       <MovieInfo data={movieDetail} casts={casts ? casts : []} />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
         <MovieIntroduce data={movieIntroduces ? movieIntroduces : []} isFetching={isMovieIntroducePending} />
         <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="movie" />
       </div>
-    </DefaultLayout>
+    </>
   );
 }

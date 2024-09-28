@@ -27,11 +27,14 @@ export const MovieInfo = ({ data: detailMovie, casts }: DisplayDataType<MovieDet
           <div className="flex flex-wrap -mx-2 mt-1">
             {
               casts?.map(cast => {
-                const castImage = cast.profile ? `https://image.tmdb.org/t/p/w500/${cast.profile}` : defaultCastImage;
-
                 return (
                   <div key={cast.id} className="w-28 px-2 mb-1">
-                    <img src={castImage} className="rounded-xl" />
+                    {
+                      cast.profile ?
+                        <img src={`https://image.tmdb.org/t/p/w500/${cast.profile}`} className="rounded-xl" />
+                      :
+                        <img src={defaultCastImage} className="h-36 rounded-xl" />
+                    }
                     <span className="text-white text-xs md:text-sm font-sm">{cast.name}</span>
                   </div>
                 )

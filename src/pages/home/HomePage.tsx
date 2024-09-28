@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { DefaultLayout } from '../../layouts/DefaultLayout/DefaultLayout'
 import { TrailerModel } from './components/Modal/TrailerModel'
 import { BannerSlider } from './components/Slide/BannerSlider'
 import { CardSlider } from '../../components/Slider/CardSlider'
@@ -31,7 +30,7 @@ export const HomePage = () => {
   }
 
   return (
-    <DefaultLayout>
+    <>
       <TrailerModel trailerKey={trailer ? trailer.key : ""} isFetching={isTrailerPending} />
       <BannerSlider data={banners ? banners : []} isFetching={isPending} />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
@@ -40,6 +39,6 @@ export const HomePage = () => {
         <CardSlider title="Trending TV" displayType={DisplayEnum.Popular} mode="tv" />
         <CardSlider title="Top Rated TV" displayType={DisplayEnum.TopRated} mode="tv" />
       </div>
-    </DefaultLayout>
+    </>
   );
 }

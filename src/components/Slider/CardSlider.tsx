@@ -54,6 +54,10 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
         return <span>Error: {error.message}</span>
     }
 
+    if(cards?.length === 0) {
+        return null;
+    }
+
     return (
         <div className="mt-8 md:mt-16">
             <div className="flex justify-between items-center mb-3">
