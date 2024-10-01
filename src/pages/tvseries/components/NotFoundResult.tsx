@@ -1,6 +1,11 @@
 import noResultSearchImg from '../../../assets/not-result-search.png'
 
-export const NotFoundResult = ({keyword}: {keyword: string}) => {
+export const NotFoundResult = ({keyword, isFetching}: {keyword: string, isFetching: boolean}) => {
+  
+  if(isFetching) {
+    return null;
+  }
+  
   return (
     <div className="h-full text-center font-semibold text-white">
         <h1 className="text-3xl p-4 mb-4">No Results Found For : {keyword}</h1>

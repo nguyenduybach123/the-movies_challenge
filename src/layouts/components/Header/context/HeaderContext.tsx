@@ -1,5 +1,6 @@
 
 import React from 'react'
+import { useLocation } from 'react-router-dom';
 
 const menus = [
     {
@@ -51,7 +52,17 @@ export const useHeaderContext = () => {
 };
 
 export const HeaderProvider = ({children}: {children: React.ReactNode}) => {
+    const location = useLocation(); 
     const [menuItems, setMenuItems] = React.useState<MenuItemType[]>(menus);
+
+    React.useEffect(() => {
+        setMenuItems(prevMenuItems =>
+          prevMenuItems.map(menuItem => ({
+            ...menuItem,
+            isActive: menuItem.href === location.pathname,
+          }))
+        );
+      }, [location]);
 
     return (
         <HeaderContext.Provider value={{

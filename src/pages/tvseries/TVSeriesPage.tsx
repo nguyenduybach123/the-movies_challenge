@@ -9,63 +9,68 @@ import { QueryParamType } from '../../utils/types';
 import { getTVSeries, getTvSeriesByName, getTVSeriesByType } from '../../service/tvSeries';
 
 export const TVSeriesPage = () => {
-    const [searchParams,] = useSearchParams();
+  const [searchParams,] = useSearchParams();
 
-    let queryParams: QueryParamType = {
-      key: ["tvseries"],
-      fn: getTVSeries,
+  let queryParams: QueryParamType = {
+    key: ["tvseries"],
+    fn: getTVSeries,
+    enable: true
+  }
+
+  const keywordParam = searchParams.get('keyword');
+  const typeParam = searchParams.get('type');
+  if(keywordParam !== "" && keywordParam !== null) {
+    queryParams = {
+      key: ["tvsearch", keywordParam],
+      fn: (page: number) => getTvSeriesByName(page,keywordParam),
       enable: true
     }
+  }
+  else if (typeParam !== "" && typeParam !== null) {
+    queryParams = {
+      key: ["tvtype", typeParam],
+      fn: (page: number) => getTVSeriesByType(page, typeParam),
+      enable: true
+    }
+  }
   
-    const keywordParam = searchParams.get('keyword');
-    const typeParam = searchParams.get('type');
-    if(keywordParam !== "" && keywordParam !== null) {
-      queryParams = {
-        key: ["tvsearch", keywordParam],
-        fn: (page: number) => getTvSeriesByName(page,keywordParam),
-        enable: true
-      }
-    }
-    else if (typeParam !== "" && typeParam !== null) {
-      queryParams = {
-        key: ["tvtype", typeParam],
-        fn: (page: number) => getTVSeriesByType(page, typeParam),
-        enable: true
-      }
-    }
-    
-    // HTTP GET MOVIES
-    const { data: tvSeriesData,
-            error,
-            isError,
-            isPending,
-            fetchNextPage,
-            isFetchingNextPage,
-            hasNextPage
-    } = useInfiniteQuery({
-      queryKey:[...queryParams.key],
-      queryFn: async ({ pageParam = 1 }) => {
-        const response = await queryParams.fn(pageParam);
+  // HTTP GET MOVIES
+  const { data: tvSeriesData,
+          error,
+          isError,
+          isFetching,
+          fetchNextPage,
+          isFetchingNextPage,
+          hasNextPage
+  } = useInfiniteQuery({
+    queryKey:[...queryParams.key],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await queryParams.fn(pageParam);
 
-        return response;
-      },
-      getNextPageParam: (_,pages) => pages.length + 1,
-      initialPageParam: 1,
-      initialData: {
-        pages: [],
-        pageParams: [1]
+      return response;
+    },
+    getNextPageParam: (lastpage, pages) => {
+      if(lastpage && lastpage.length < 20) {
+        return undefined;
       }
-    })
-  
-    const tvSeries = tvSeriesData?.pages.flatMap((page) => page);
-
-    React.useEffect(() => {
-      window.scrollTo(0,0);
-    },[])
-
-    if (isError) {
-      return <span>Error: {error.message}</span>
+      return pages.length + 1;
+    },
+    initialPageParam: 1,
+    initialData: {
+      pages: [],
+      pageParams: [1]
     }
+  })
+
+  const tvSeries = tvSeriesData?.pages.flatMap((page) => page);
+
+  React.useEffect(() => {
+    window.scrollTo(0,0);
+  },[])
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
 
   return (
     <>
@@ -75,10 +80,10 @@ export const TVSeriesPage = () => {
       <div className="bg-black-main px-4 md:px-8 py-8 xl:p-16">
         <SearchBar />
         {
-          (tvSeries.length !== 0) ?
-            (<TVSeriesList data={tvSeries} isFetching={isPending} fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)
+          (tvSeries.length === 0) ?
+            (<NotFoundResult keyword={keywordParam ? keywordParam : ""} isFetching={isFetching} />)
           :
-            (<NotFoundResult keyword={keywordParam ? keywordParam : ""} />)
+            (<TVSeriesList data={tvSeries} isFetching={isFetching} fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)        
         }
       </div>
     </>

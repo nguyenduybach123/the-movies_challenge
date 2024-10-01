@@ -36,9 +36,9 @@ export const MoviesPage = () => {
 
   // HTTP GET MOVIES
   const { data: movieData,
-          isFetching,
           isError,
           error,
+          isFetching,
           fetchNextPage,
           isFetchingNextPage,
           hasNextPage
@@ -49,8 +49,7 @@ export const MoviesPage = () => {
       
       return response;
     },
-    getNextPageParam: (lastpage,pages) => {
-      console.log(lastpage);
+    getNextPageParam: (lastpage, pages) => {
       if(lastpage && lastpage.length < 20) {
         return undefined;
       }
@@ -68,6 +67,10 @@ export const MoviesPage = () => {
   React.useEffect(() => {
     window.scrollTo(0,0);
   },[])
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
 
   return (
     <>
