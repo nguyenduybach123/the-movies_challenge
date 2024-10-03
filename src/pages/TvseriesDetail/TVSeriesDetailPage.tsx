@@ -1,16 +1,21 @@
-import React from 'react'
+// Core
+import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
-import { TVSeriesInfo } from './components/Detail/TVSeriesInfo'
-import { TVSeriesIntroduce } from './components/Detail/TVSeriesIntroduce'
-import { CardSlider } from '../../components/Slider/CardSlider'
+// App
+import { CardSlider } from '../../components'
 import { DisplayEnum } from '../../utils/types'
 import { getTVCast, getTVDetail, getTVIntroduces } from '../../service/tvSeries'
 
+import { TVSeriesInfo, TVSeriesIntroduce } from './components'
+
+// Component
 export const TVSeriesDetailPage = () => {
+  // States
   const { id } = useParams();
 
+  // Queries
   const { data: tvDetail, isError: isErrorDetail, error: errorDetail } = useQuery({
     queryKey: ['tvseriesdetail', id],
     queryFn: () => getTVDetail(id)
@@ -29,10 +34,13 @@ export const TVSeriesDetailPage = () => {
     queryFn: () => getTVIntroduces(id)
   })
 
-  React.useEffect(() => {
+  // Effects
+  // * scroll to top
+  useEffect(() => {
     window.scrollTo(0,0);
   },[tvDetail])
 
+  // Templates
   if (isErrorDetail) {
     return <span>Error: {errorDetail.message}</span>
   }

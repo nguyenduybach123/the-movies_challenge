@@ -4,7 +4,7 @@ import { CloseIcon } from '../../../../components/Icon'
 import { useHomeContext } from '../../context/HomeContext';
 import { VideoSkeleton } from '../../../../components/Skeleton/VideoSkeleton';
 
-export const TrailerModel = ({ trailerKey, isFetching }: {trailerKey: string, isFetching: boolean}) => {
+export const TrailerModal = ({ trailerKey, isFetching }: {trailerKey: string, isFetching: boolean}) => {
     const { isOpenDialogTrailer, setIsOpenDialogTrailer } = useHomeContext();
 
     return (
@@ -21,3 +21,5 @@ export const TrailerModel = ({ trailerKey, isFetching }: {trailerKey: string, is
         </div>
     );
 }
+
+export default TrailerModal;

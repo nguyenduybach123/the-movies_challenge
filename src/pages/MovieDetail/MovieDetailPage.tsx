@@ -1,16 +1,22 @@
-import React from 'react'
+// Core
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-import { MovieInfo } from './components/Detail/MovieInfo';
-import { MovieIntroduce } from './components/Detail/MovieIntroduce';
-import { CardSlider } from '../../components/Slider/CardSlider';
+// App
 import { DisplayEnum } from '../../utils/types';
 import { getMovieCast, getMovieDetail, getMovieIntroduces } from '../../service/movie';
+import { CardSlider } from '../../components/Card/CardSlider';
 
+// Internal
+import { MovieInfo, MovieIntroduce } from './components';
+import { useEffect } from 'react';
+
+// Component
 export const MovieDetailPage = () => {
+  // State
   const { id } = useParams();
 
+  // Queries
   const { data: movieDetail, isError: isErrorDetail, error: errorDetail } = useQuery({
     queryKey: ['detail',id],
     queryFn: () => getMovieDetail(id)
@@ -29,10 +35,13 @@ export const MovieDetailPage = () => {
     queryFn: () => getMovieIntroduces(id)
   })
 
-  React.useEffect(() => {
+  // Effect
+  // * srcoll to top
+  useEffect(() => {
     window.scrollTo(0,0);
   },[movieDetail])
 
+  // Templates
   if (isErrorDetail) {
     return <span>Error: {errorDetail.message}</span>
   }

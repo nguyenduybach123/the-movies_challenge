@@ -1,17 +1,20 @@
-import React from 'react'
-
-import { Button } from './Button'
+// Core
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+// Internal
+import Button from './Button';
+
 
 export const SearchBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchValue, setSearchValue] = React.useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   const handleSearchMovie = () => {
     setSearchParams({keyword: searchValue.trim()});
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const keyword = searchParams.get('keyword');
     if(keyword !== "" && keyword)
       setSearchValue(keyword);
@@ -34,3 +37,5 @@ export const SearchBar = () => {
     </div>
   );
 }
+
+export default SearchBar;

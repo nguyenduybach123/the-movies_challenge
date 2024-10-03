@@ -1,16 +1,22 @@
-import React from 'react';
+// Core
+import { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 
-import { SearchBar } from '../../components/SearchBar'
-import { TVSeriesList } from './components/TVSeriesList'
-import { NotFoundResult } from './components/NotFoundResult';
+//App
 import { QueryParamType } from '../../utils/types';
 import { getTVSeries, getTvSeriesByName, getTVSeriesByType } from '../../service/tvSeries';
+import { SearchBar } from '../../components';
 
+// Internal
+import { NotFoundResult, TVSeriesList } from './components';
+
+// Component
 export const TVSeriesPage = () => {
+  // States
   const [searchParams,] = useSearchParams();
 
+  // Queries
   let queryParams: QueryParamType = {
     key: ["tvseries"],
     fn: getTVSeries,
@@ -64,10 +70,13 @@ export const TVSeriesPage = () => {
 
   const tvSeries = tvSeriesData?.pages.flatMap((page) => page);
 
-  React.useEffect(() => {
+  // Effects
+  // * scroll to top
+  useEffect(() => {
     window.scrollTo(0,0);
   },[])
 
+  // Templates
   if (isError) {
     return <span>Error: {error.message}</span>
   }

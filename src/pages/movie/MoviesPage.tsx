@@ -1,16 +1,22 @@
-import React from 'react'
+// Core
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 
-import { SearchBar } from '../../components/SearchBar'
-import { NotFoundResult } from './components/NotFoundResult'
-import { MovieList } from './components/MovieList'
+// App
 import { QueryParamType } from '../../utils/types'
 import { getMovies, getMoviesByName, getMoviesByType } from '../../service/movie'
+import { SearchBar } from '../../components'
+import { useEffect } from 'react'
 
+// Internal
+import { MovieList, NotFoundResult } from './components'
+
+// Component
 export const MoviesPage = () => {
+  // States
   const [searchParams,] = useSearchParams();
 
+  // Queries
   let queryParams: QueryParamType = {
     key: ["movies"],
     fn: getMovies,
@@ -64,10 +70,12 @@ export const MoviesPage = () => {
 
   const movies = movieData?.pages.flatMap((page) => page);
 
-  React.useEffect(() => {
+  // Effefects
+  useEffect(() => {
     window.scrollTo(0,0);
   },[])
 
+  // Templates
   if (isError) {
     return <span>Error: {error.message}</span>
   }
@@ -89,3 +97,5 @@ export const MoviesPage = () => {
     </>
   );
 }
+
+export default MoviesPage;

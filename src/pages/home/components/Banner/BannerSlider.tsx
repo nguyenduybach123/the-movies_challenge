@@ -2,7 +2,7 @@ import 'swiper/css';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 
-import { Banner } from '../Banner';
+import { Banner } from './Banner';
 import { BannerType, DisplayDataType } from '../../../../utils/types';
 
 export const BannerSlider = ({ data:banners }: DisplayDataType<Array<BannerType>>) => {
@@ -35,3 +35,5 @@ export const BannerSlider = ({ data:banners }: DisplayDataType<Array<BannerType>
     </Swiper>
   );
 }
+
+export default BannerSlider;

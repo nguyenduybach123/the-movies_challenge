@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from "framer-motion"
 
-import { Button } from '../../../components/Button'
-import { BannerType } from '../../../utils/types'
-import { useHomeContext } from '../context/HomeContext'
+import { Button } from '../../../../components/Button'
+import { BannerType } from '../../../../utils/types'
+import { useHomeContext } from '../../context/HomeContext'
 
 const variantBanner = {
   initial: {
@@ -53,3 +53,5 @@ export const Banner = ({ id, name, overview, poster, backdrop }: BannerType) => 
     </div>
   );
 }
+
+export default Banner;

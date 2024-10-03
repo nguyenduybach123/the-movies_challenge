@@ -1,7 +1,10 @@
+// Core
 import cn from 'classnames'
 
+// App
 import { IconType } from '../utils/types'
 
+// Components
 export const CloseIcon = ({width, height, colorHover, onClick, className}: IconType) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width={width} height={height} className={cn(className, `hover:${colorHover}`)} onClick={onClick} fill='#fff' >

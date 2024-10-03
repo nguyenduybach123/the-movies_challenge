@@ -35,3 +35,5 @@ export const TVSeriesList = ({ data: tvSeries, isFetching, fetchNextPage, isFetc
     </>
   )
 }
+
+export default TVSeriesList;

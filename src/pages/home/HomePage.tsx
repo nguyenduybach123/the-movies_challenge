@@ -1,15 +1,21 @@
+// Core
 import { useQuery } from '@tanstack/react-query'
 
-import { TrailerModel } from './components/Modal/TrailerModel'
-import { BannerSlider } from './components/Slide/BannerSlider'
-import { CardSlider } from '../../components/Slider/CardSlider'
+// App
 import { DisplayEnum } from '../../utils/types'
-import { useHomeContext } from './context/HomeContext'
 import { getBannerMovies, getVideoBannerById } from '../../service/banner'
 
+// Internal
+import { BannerSlider, TrailerModal } from './components'
+import { useHomeContext } from './context/HomeContext'
+import { CardSlider } from '../../components'
+
+// Component
 export const HomePage = () => {
+  // Context
   const { idBannerSelected, isOpenDialogTrailer } = useHomeContext();
 
+  // Queries
   const {data: banners , isPending, isError: isErrorBanner, error: errorBanner} = useQuery({
     queryKey: ['banner'],
     queryFn: getBannerMovies,
@@ -20,7 +26,8 @@ export const HomePage = () => {
       queryFn: () => getVideoBannerById(idBannerSelected),
       enabled: isOpenDialogTrailer
   })
-  
+
+  // Template
   if (isErrorBanner) {
       return <span>Error: {errorBanner.message}</span>
   }
@@ -31,7 +38,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <TrailerModel trailerKey={trailer ? trailer.key : ""} isFetching={isTrailerPending} />
+      <TrailerModal trailerKey={trailer ? trailer.key : ""} isFetching={isTrailerPending} />
       <BannerSlider data={banners ? banners : []} isFetching={isPending} />
       <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
         <CardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />
@@ -42,3 +49,5 @@ export const HomePage = () => {
     </>
   );
 }
+
+export default HomePage;

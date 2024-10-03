@@ -1,20 +1,28 @@
+// Core
 import { useQuery } from '@tanstack/react-query';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
-import { Card } from '../Card';
-import { Button } from '../Button';
+// App 
 import { httpRequest } from '../../utils/httpRequest';
 import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/types';
 
+// Internal
+import Card from './Card';
+import Button from '../Button';
+
+// Contanst
 const MAXIMUM_CARD = 12;
 const MAXIMUM_CARD_VIEW = 6;
 
+// Component
 export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: DisplayEnum, mode: 'movie' | 'tv', similarId?: string }) => {
 
-    // HTTP GET MOVIE CARD
+
+    // Queries
     const getCards = async () => {
         let requestURL = "";
+
         requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
   
         if (displayType === DisplayEnum.Similar) {
@@ -49,7 +57,7 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
         queryFn: getCards
     })
 
-    
+    // Template
     if (isError) {
         return <span>Error: {error.message}</span>
     }
@@ -104,3 +112,5 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
         </div>
     );
 }
+
+export default CardSlider;

@@ -1,10 +1,13 @@
-import React from 'react'
+// Core
+import { FC, ReactNode } from 'react'
 
-import { Header } from '../components/Header/Header'
-import { Footer } from '../components/Footer'
+// Internal
+import { Header, Footer } from './components';
 
-export const DefaultLayout = ({ children }: {children: React.ReactNode}) => {
+// Component
+export const DefaultLayout: FC<{children: ReactNode}> = ({ children }) => {
   
+  // Template
   return (
     <div className="relative">
         <Header />
@@ -13,3 +16,5 @@ export const DefaultLayout = ({ children }: {children: React.ReactNode}) => {
     </div>
   );
 }
+
+export default DefaultLayout;

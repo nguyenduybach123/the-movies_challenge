@@ -1,8 +1,12 @@
-import defaultCastImage from '../../../../assets/default-cast.jpg'
-import { CastType, DisplayDataType, TVSeriesDetailType } from '../../../../utils/types'
+// App
 
+import { defaultCastImage } from '../../../assets';
+import { CastType, DisplayDataType, TVSeriesDetailType } from '../../../utils/types'
+
+// Component
 export const TVSeriesInfo = ({ data: tvDetail, casts }: DisplayDataType<TVSeriesDetailType  | null | undefined> & { casts: Array<CastType> } ) => {
 
+    // Templates
     return (
       <div className="relative px-4 md:px-8 lg:px-16 py-12 md:pt-32 md:pb-20 bg-center bg-no-repeat bg-cover z-0 before:content-[&quot;&quot;] before:absolute before:bottom-0 before:left-0 before:right-0 before:h-1/2 before:bg-black-main before:-z-10 after:content-[&quot;&quot;] after:absolute after:top-0 after:left-0 after:right-0 after:h-1/2 after:bg-gradient-to-t after:from-black-main after:to-transparent after:-z-10" style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${tvDetail?.backdrop})`}}>
         <div className="flex items-start -mx-4 max-h-fit">
@@ -46,3 +50,5 @@ export const TVSeriesInfo = ({ data: tvDetail, casts }: DisplayDataType<TVSeries
       </div>
     )
 }
+
+export default TVSeriesInfo;

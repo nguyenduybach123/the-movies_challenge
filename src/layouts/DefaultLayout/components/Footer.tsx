@@ -1,10 +1,12 @@
-import logoImage from '../../assets/tmovie-55621206.png'
-import footerImage from '../../assets/footer-bg-e4b3ddb4.jpg'
+// App
+import { footerBgImage, logoImage } from "../../../assets";
 
+// Component
 export const Footer = () => {
 
+  // Templates
   return (
-    <div className="h-100 lg:h-120 px-8 py-12 md:p-16 bg-cover bg-no-repeat" style={{backgroundImage: `url(${footerImage})`}}>
+    <div className="h-100 lg:h-120 px-8 py-12 md:p-16 bg-cover bg-no-repeat" style={{backgroundImage: `url(${footerBgImage})`}}>
       <div className="max-w-4xl h-full mx-auto flex flex-col justify-around">
         <a className="flex items-center justify-center hover:cursor-pointer group" href="/">
           <img src={logoImage} alt="Logo" className="mr-2 md:mr-4 w-8 md:w-12" />
@@ -27,3 +29,5 @@ export const Footer = () => {
     </div>
   );
 }
+
+export default Footer;

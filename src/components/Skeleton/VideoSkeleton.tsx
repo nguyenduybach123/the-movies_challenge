@@ -10,3 +10,5 @@ export const VideoSkeleton = ({width, height}: {width: string, height: string}) 
     </div>
   )
 }
+
+export default VideoSkeleton;

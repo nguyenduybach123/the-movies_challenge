@@ -138,3 +138,10 @@ export type ButtonType = {
     onClick?: React.MouseEventHandler<HTMLButtonElement>,
     className?: string
 }
+
+export type MenuItemType = {
+    id: number,
+    title: string,
+    href: string,
+    isActive: boolean
+}

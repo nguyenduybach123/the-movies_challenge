@@ -1,16 +1,20 @@
+// Core
 import { InfiniteData, InfiniteQueryObserverResult } from '@tanstack/react-query';
 
+// App
 import { Button } from '../../../components/Button';
-import { Card } from '../../../components/Card';
+import Card from '../../../components/Card/Card';
 import { DisplayDataType, MovieCardType } from '../../../utils/types';
 
+// Component
 export const MovieList = ({data: movies, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<Array<MovieCardType | undefined>> &
    {
     hasNextPage: boolean,
     fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieCardType[] | undefined, unknown>, Error>>,
     isFetchingNextPage: boolean
    }) => {
-    
+  
+  // Templates  
   return (
     <>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
@@ -25,14 +29,14 @@ export const MovieList = ({data: movies, isFetching, fetchNextPage, isFetchingNe
           })
         }
       </div>
-      <div className="flex items-center justify-center mt-8">
-            {
-              (hasNextPage) ? 
-                <Button text="Watch more" ghost onClick={() => fetchNextPage()} disabled={isFetchingNextPage}/> 
-              :
-                <></>
-            }
-      </div>
+      {
+        (hasNextPage) &&
+          <div className="flex items-center justify-center mt-8">
+            <Button text="Watch more" ghost onClick={() => fetchNextPage()} disabled={isFetchingNextPage}/> 
+          </div>
+      }
     </>
   );
 }
+
+export default MovieList;

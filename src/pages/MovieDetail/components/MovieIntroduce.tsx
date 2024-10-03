@@ -1,5 +1,5 @@
-import { VideoSkeleton } from '../../../../components/Skeleton/VideoSkeleton';
-import { DisplayDataType, VideoIntroduceType } from '../../../../utils/types';
+import { VideoSkeleton } from '../../../components/Skeleton/VideoSkeleton';
+import { DisplayDataType, VideoIntroduceType } from '../../../utils/types';
 
 export const MovieIntroduce = ({ data, isFetching = false }: DisplayDataType<Array<VideoIntroduceType>>) => {
 
@@ -21,3 +21,5 @@ export const MovieIntroduce = ({ data, isFetching = false }: DisplayDataType<Arr
     </div>
   );
 }
+
+export default MovieIntroduce;

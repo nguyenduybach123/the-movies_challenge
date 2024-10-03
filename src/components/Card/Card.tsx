@@ -1,14 +1,20 @@
+// Core
 import { Link } from 'react-router-dom'
 import cn from 'classnames'
 
-import { Button } from './Button'
-import { PlayIcon } from './Icon'
-import { MovieCardType } from '../utils/types'
-import defaultPosterImage from '../assets/default-movie.jpg'
+// App
+import { defaultMovieImage } from '../../assets';
+import { MovieCardType } from '../../utils/types';
 
+// Internal
+import { Button } from '../Button';
+import { PlayIcon } from '../Icon';
+
+// Component
 export const Card = ({ id, mode, title, poster, isFetching = false }: MovieCardType & {isFetching: boolean}) => {
-  const posterURL = poster ? `https://image.tmdb.org/t/p/w500/${poster}` : defaultPosterImage;
+  const posterURL = poster ? `https://image.tmdb.org/t/p/w500/${poster}` : defaultMovieImage;
 
+  // Template
   return (
     <>
       {
@@ -39,3 +45,5 @@ const CardSkeleton = () => {
     </div>
   )
 }
+
+export default Card;
