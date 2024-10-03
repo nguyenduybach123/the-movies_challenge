@@ -6,10 +6,14 @@ export type DisplayDataType<T> = {
     onClick?: void
 }
 
-export type QueryParamType = {
+export type QueryMovieParamType = {
     key: Array<string>,
-    fn: (page: number) => Promise<MovieCardType[] | undefined>,
-    enable: boolean | null
+    fn: (page: number) => Promise<MovieResponseType[]>
+}
+
+export type QueryTVSeriesParamType = {
+    key: Array<string>,
+    fn: (page: number) => Promise<TVSeriesResponseType[]>
 }
 
 export type MovieResponseType = {
@@ -112,7 +116,7 @@ export enum DisplayEnum {
     Similar = "similar"
 }
 
-export type MovieCardType = {
+export type CardType = {
     id: number,
     title: string,
     poster: string,

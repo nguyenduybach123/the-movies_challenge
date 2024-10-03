@@ -1,61 +1,39 @@
 import { httpRequest } from "../utils/httpRequest";
-import { CastResponseType, CastType, MovieCardType, MovieDetailType, MovieResponseType, VideoIntroduceResponseType, VideoIntroduceType } from "../utils/types";
+import { CastResponseType, CastType, DisplayEnum, MovieDetailType, MovieResponseType, VideoIntroduceResponseType, VideoIntroduceType } from "../utils/types";
 
 const MAXIMUM_SHOW_CAST = 5;
 const MAXIMUM_SHOW_VIDEO = 5;
 
-export const getMovies = async (page: number) => {
-    const response = await httpRequest.get(`movie/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-    const movies:Array<MovieResponseType> = response.data?.results ;
+export const getMovies = async (page: number, type?: DisplayEnum, keyword?: string) => {
+  let url = '';
 
-    if(!movies)
-      return [];
-    
-    const cardMovies:Array<MovieCardType> = movies.map(
-      (movie) => ({
-          id: movie.id,
-          title: movie.title,
-          poster: movie.poster_path,
-          mode: "movie"
-      })
-  )
+  if (keyword) {
+    url = `search/movie?query=${keyword}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  } else if (type) {
+    url = `movie/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  } else {
+    url = `movie/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  }
 
-    return cardMovies;
-}
+  const response = await httpRequest.get(url);
+  const movies:Array<MovieResponseType> = response.data?.results;
 
-export const getMoviesByName = async (page: number, keyword: string) => {
-  const response = await httpRequest.get(`search/movie?query=${keyword}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
+  if (!movies) 
+    return [];
+
+  return movies;
+};
+
+export const getMovieSimilar = async (similarId: string) => {
+  const url = `movie/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+
+  const response = await httpRequest.get(url);
   const movies:Array<MovieResponseType> = response.data?.results ;
 
-    if(!movies)
+  if(!movies)
       return [];
-    
-    const cardMovies:Array<MovieCardType> = movies.map(
-      (movie) => ({
-          id: movie.id,
-          title: movie.title,
-          poster: movie.poster_path,
-          mode: "movie"
-      }));
 
-    return cardMovies;
-}
-
-export const getMoviesByType = async (page: number, type: string) => {
-  const response = await httpRequest.get(`movie/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-  const moviesByTypeData:Array<MovieResponseType> = response.data?.results;
-
-  if(!response)
-    return;
-
-  const moviesByType:Array<MovieCardType> = moviesByTypeData.map(movie => ({
-    id: movie.id,
-    title: movie.title,
-    poster: movie.poster_path,
-    mode: "movie"
-  }))
-
-  return moviesByType;
+  return movies;
 }
 
 export const getMovieDetail = async (id: string | undefined) => {
@@ -102,7 +80,7 @@ export const getMovieCast = async (id: number | undefined) => {
 }
 
 
-export const getMovieIntroduces = async (id: string | undefined) => {
+export const getMovieIntroduce = async (id: string | undefined) => {
     if(!id)
         return [];
 

@@ -1,14 +1,21 @@
+// Core
+import { FC } from 'react';
 import cn from 'classnames';
 
-import { CloseIcon } from '../../../../components/Icon'
+// App
+import { CloseIcon, VideoSkeleton } from '../../../../components';
 import { useHomeContext } from '../../context/HomeContext';
-import { VideoSkeleton } from '../../../../components/Skeleton/VideoSkeleton';
 
-export const TrailerModal = ({ trailerKey, isFetching }: {trailerKey: string, isFetching: boolean}) => {
+// Component
+export const TrailerModal: FC<{
+    trailerKey: string,
+    isFetching: boolean,
+}> = ({ trailerKey, isFetching }) => {
     const { isOpenDialogTrailer, setIsOpenDialogTrailer } = useHomeContext();
 
+    // Templates
     return (
-        <div className={cn("fixed","top-0 bottom-0 left-0 right-0 bg-black/40 py-16 md:py-64 lg:py-16 z-[60]",{"hidden": !isOpenDialogTrailer})}>
+        <div className={cn("fixed top-0 bottom-0 left-0 right-0 bg-black/40 py-16 md:py-64 lg:py-16 z-[60]",{"hidden": !isOpenDialogTrailer})}>
             <div className="relative max-w-screen-md bg-black-main h-full z-50 mx-auto p-8">
                 <CloseIcon width={'32px'} height={'32px'} className="absolute top-1 right-1 cursor-pointer z-10" colorHover={'text-red-main'} onClick={() => setIsOpenDialogTrailer(false)} />
                 {

@@ -4,56 +4,71 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 // App 
-import { httpRequest } from '../../utils/httpRequest';
-import { MovieCardType, DisplayEnum, MovieResponseType } from '../../utils/types';
+import {DisplayEnum, MovieResponseType, TVSeriesResponseType} from '../../utils/types';
 
 // Internal
 import Card from './Card';
 import Button from '../Button';
+import { getMovies, getMovieSimilar } from '../../service/movie';
+import { getTVSeries, getTVSeriesSimilar } from '../../service/tvSeries';
 
 // Contanst
+const DEFAULT_PAGE = 1;
 const MAXIMUM_CARD = 12;
 const MAXIMUM_CARD_VIEW = 6;
+
 
 // Component
 export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: DisplayEnum, mode: 'movie' | 'tv', similarId?: string }) => {
 
-
     // Queries
     const getCards = async () => {
-        let requestURL = "";
+        if(mode === "movie") {
+            let responseData: Array<MovieResponseType> = [];
 
-        requestURL = `${mode}/${displayType}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
-  
-        if (displayType === DisplayEnum.Similar) {
-            if(!similarId)
-                return;
-            requestURL = `${mode}/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+            if (displayType === DisplayEnum.Similar) {
+                if(similarId)
+                    responseData = await getMovieSimilar(similarId);
+            }
+            else {
+                responseData = await getMovies(DEFAULT_PAGE, displayType);
+            }
+
+            return responseData.slice(0, MAXIMUM_CARD_VIEW)
+                               .map(
+                                    data => ({
+                                        id: data.id,
+                                        title: data.title,
+                                        poster: data.poster_path,
+                                        mode: mode
+                                    })
+                               );
         }
-        else if(displayType !== DisplayEnum.Popular && displayType !== DisplayEnum.TopRated){
-            return [];
+        else {
+            let responseData: Array<TVSeriesResponseType> = [];
+
+            if (displayType === DisplayEnum.Similar) {
+                if(similarId)
+                    responseData = await getTVSeriesSimilar(similarId);
+            }
+            else {
+                responseData = await getTVSeries(DEFAULT_PAGE, displayType);
+            }
+
+            return responseData.slice(0, MAXIMUM_CARD)
+                               .map(
+                                    data => ({
+                                        id: data.id,
+                                        title: data.name,
+                                        poster: data.poster_path,
+                                        mode: mode
+                                    })
+                               );
         }
-
-        const response = await httpRequest.get(requestURL);
-        const movies:Array<MovieResponseType> = response.data?.results ;
-
-        if(!movies)
-            return;
-
-        const cardMovies:Array<MovieCardType> = movies.slice(0, MAXIMUM_CARD).map(
-            (movie) => ({
-                id: movie.id,
-                title: mode === "movie" ? movie.title : movie.name,
-                poster: movie.poster_path,
-                mode: mode
-            })
-        )
-
-        return cardMovies;
     }
 
     const { data: cards, isPending, isError, error } = useQuery({
-        queryKey: ['cards',mode,displayType],
+        queryKey: ['cards', mode,displayType],
         queryFn: getCards
     })
 

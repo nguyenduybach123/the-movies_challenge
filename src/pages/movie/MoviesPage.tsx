@@ -3,8 +3,8 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 
 // App
-import { QueryParamType } from '../../utils/types'
-import { getMovies, getMoviesByName, getMoviesByType } from '../../service/movie'
+import { DisplayEnum, QueryMovieParamType } from '../../utils/types'
+import { getMovies } from '../../service/movie'
 import { SearchBar } from '../../components'
 import { useEffect } from 'react'
 
@@ -17,10 +17,9 @@ export const MoviesPage = () => {
   const [searchParams,] = useSearchParams();
 
   // Queries
-  let queryParams: QueryParamType = {
+  let queryParams: QueryMovieParamType = {
     key: ["movies"],
-    fn: getMovies,
-    enable: true
+    fn: getMovies
   }
 
   const keywordParam = searchParams.get('keyword');
@@ -28,20 +27,18 @@ export const MoviesPage = () => {
   if(keywordParam !== "" && keywordParam !== null) {
     queryParams = {
       key: ["search", keywordParam],
-      fn: (page) => getMoviesByName(page, keywordParam),
-      enable: true
+      fn: (page) => getMovies(page, undefined, keywordParam)
     }
   }
   else if (typeParam !== "" && typeParam !== null) {
     queryParams = {
       key: ["type", typeParam],
-      fn: (page) => getMoviesByType(page, typeParam),
-      enable: true
+      fn: (page) => getMovies(page, typeParam as DisplayEnum)
     }
   }
 
   // HTTP GET MOVIES
-  const { data: movieData,
+  const { data: movies,
           isError,
           error,
           isFetching,
@@ -68,8 +65,6 @@ export const MoviesPage = () => {
     },
   })
 
-  const movies = movieData?.pages.flatMap((page) => page);
-
   // Effefects
   useEffect(() => {
     window.scrollTo(0,0);
@@ -88,10 +83,10 @@ export const MoviesPage = () => {
       <div className="bg-black-main px-8 py-4 md:px-16 md:py-8">
         <SearchBar />
         {
-          (movies.length === 0) ?
+          (movies.pages.length === 0) ?
             (<NotFoundResult keyword={keywordParam ? keywordParam : ""} isFetching={isFetching} />) 
           :
-            (<MovieList data={movies ? movies : []} fetchNextPage={fetchNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)  
+            (<MovieList data={movies} fetchNextPage={fetchNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)  
         }
       </div>
     </>

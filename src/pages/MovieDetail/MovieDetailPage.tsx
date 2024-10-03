@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 // App
 import { DisplayEnum } from '../../utils/types';
-import { getMovieCast, getMovieDetail, getMovieIntroduces } from '../../service/movie';
+import { getMovieCast, getMovieDetail, getMovieIntroduce } from '../../service/movie';
 import { CardSlider } from '../../components/Card/CardSlider';
 
 // Internal
@@ -32,7 +32,7 @@ export const MovieDetailPage = () => {
 
   const { data: movieIntroduces, isPending: isMovieIntroducePending, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
     queryKey: ['videointroduce', movieId],
-    queryFn: () => getMovieIntroduces(id)
+    queryFn: () => getMovieIntroduce(id)
   })
 
   // Effect

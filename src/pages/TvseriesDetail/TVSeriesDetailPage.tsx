@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 // App
 import { CardSlider } from '../../components'
 import { DisplayEnum } from '../../utils/types'
-import { getTVCast, getTVDetail, getTVIntroduces } from '../../service/tvSeries'
+import { getTVCast, getTVSeriesDetail, getTVSeriesIntroduce } from '../../service/tvSeries'
 
 import { TVSeriesInfo, TVSeriesIntroduce } from './components'
 
@@ -18,7 +18,7 @@ export const TVSeriesDetailPage = () => {
   // Queries
   const { data: tvDetail, isError: isErrorDetail, error: errorDetail } = useQuery({
     queryKey: ['tvseriesdetail', id],
-    queryFn: () => getTVDetail(id)
+    queryFn: () => getTVSeriesDetail(id)
   })
 
   const tvId = tvDetail?.id;
@@ -31,7 +31,7 @@ export const TVSeriesDetailPage = () => {
   
   const { data: tvIntroduces, isPending: isTVIntroducePending, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
     queryKey: ['tvseriesintroduce', tvId],
-    queryFn: () => getTVIntroduces(id)
+    queryFn: () => getTVSeriesIntroduce(id)
   })
 
   // Effects

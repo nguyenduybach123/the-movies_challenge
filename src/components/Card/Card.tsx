@@ -4,14 +4,14 @@ import cn from 'classnames'
 
 // App
 import { defaultMovieImage } from '../../assets';
-import { MovieCardType } from '../../utils/types';
+import { CardType } from '../../utils/types';
 
 // Internal
 import { Button } from '../Button';
 import { PlayIcon } from '../Icon';
 
 // Component
-export const Card = ({ id, mode, title, poster, isFetching = false }: MovieCardType & {isFetching: boolean}) => {
+export const Card = ({ id, mode, title, poster, isFetching = false }: CardType & {isFetching: boolean}) => {
   const posterURL = poster ? `https://image.tmdb.org/t/p/w500/${poster}` : defaultMovieImage;
 
   // Template

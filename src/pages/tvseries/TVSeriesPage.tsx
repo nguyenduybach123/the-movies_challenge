@@ -4,8 +4,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 
 //App
-import { QueryParamType } from '../../utils/types';
-import { getTVSeries, getTvSeriesByName, getTVSeriesByType } from '../../service/tvSeries';
+import { DisplayEnum, QueryTVSeriesParamType } from '../../utils/types';
+import { getTVSeries } from '../../service/tvSeries';
 import { SearchBar } from '../../components';
 
 // Internal
@@ -17,10 +17,9 @@ export const TVSeriesPage = () => {
   const [searchParams,] = useSearchParams();
 
   // Queries
-  let queryParams: QueryParamType = {
+  let queryParams: QueryTVSeriesParamType = {
     key: ["tvseries"],
-    fn: getTVSeries,
-    enable: true
+    fn: getTVSeries
   }
 
   const keywordParam = searchParams.get('keyword');
@@ -28,20 +27,18 @@ export const TVSeriesPage = () => {
   if(keywordParam !== "" && keywordParam !== null) {
     queryParams = {
       key: ["tvsearch", keywordParam],
-      fn: (page: number) => getTvSeriesByName(page,keywordParam),
-      enable: true
+      fn: (page: number) => getTVSeries(page, undefined, keywordParam)
     }
   }
   else if (typeParam !== "" && typeParam !== null) {
     queryParams = {
       key: ["tvtype", typeParam],
-      fn: (page: number) => getTVSeriesByType(page, typeParam),
-      enable: true
+      fn: (page: number) => getTVSeries(page, typeParam as DisplayEnum)
     }
   }
   
   // HTTP GET MOVIES
-  const { data: tvSeriesData,
+  const { data: tvSeries,
           error,
           isError,
           isFetching,
@@ -68,8 +65,6 @@ export const TVSeriesPage = () => {
     }
   })
 
-  const tvSeries = tvSeriesData?.pages.flatMap((page) => page);
-
   // Effects
   // * scroll to top
   useEffect(() => {
@@ -89,7 +84,7 @@ export const TVSeriesPage = () => {
       <div className="bg-black-main px-4 md:px-8 py-8 xl:p-16">
         <SearchBar />
         {
-          (tvSeries.length === 0) ?
+          (tvSeries.pages.length === 0) ?
             (<NotFoundResult keyword={keywordParam ? keywordParam : ""} isFetching={isFetching} />)
           :
             (<TVSeriesList data={tvSeries} isFetching={isFetching} fetchNextPage={fetchNextPage} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)        

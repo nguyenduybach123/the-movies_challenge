@@ -1,64 +1,42 @@
 import { httpRequest } from "../utils/httpRequest";
-import { CastResponseType, CastType, MovieCardType, TVSeriesDetailType, TVSeriesResponseType, VideoIntroduceResponseType, VideoIntroduceType } from "../utils/types";
+import { CastResponseType, CastType, DisplayEnum, TVSeriesDetailType, TVSeriesResponseType, VideoIntroduceResponseType, VideoIntroduceType } from "../utils/types";
 
 const MAXIMUM_SHOW_VIDEO = 5;
 const MAXIMUM_SHOW_CAST = 5;
 
-export const getTVSeries = async (page: number) => {
-  const response = await httpRequest.get(`tv/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-  const tvSeries:Array<TVSeriesResponseType> = response.data?.results ;
+export const getTVSeries = async (page: number, type?: DisplayEnum, keyword?: string) => {
+  let url = '';
 
-  if(!tvSeries)
-    return;
-  
-  const cardTVSeries:Array<MovieCardType> = tvSeries.map(
-    (tv) => ({
-        id: tv.id,
-        title: tv.name,
-        poster: tv.poster_path,
-        mode: "tv"
-    })
-)
+  if (keyword) {
+    url = `search/tv?query=${keyword}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  } else if (type) {
+    url = `tv/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  } else {
+    url = `tv/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+  }
 
-  return cardTVSeries;
+  const response = await httpRequest.get(url);
+  const tvSeries:Array<TVSeriesResponseType> = response.data?.results;
+
+  if (!tvSeries) 
+    return [];
+
+  return tvSeries;
 }
 
-export const getTvSeriesByName = async (page: number, keyword: string) => {
-  const response = await httpRequest.get(`search/tv?query=${keyword}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-  const tvSeries:Array<TVSeriesResponseType> = response.data?.results ;
+export const getTVSeriesSimilar = async (similarId: string) => {
+  const url = `movie/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
 
-  if(!tvSeries)
-    return;
-  
-  const cardTVSeries:Array<MovieCardType> = tvSeries.map(
-    (tv) => ({
-        id: tv.id,
-        title: tv.name,
-        poster: tv.poster_path,
-        mode: "tv"
-    }));
+  const response = await httpRequest.get(url);
+  const movies:Array<TVSeriesResponseType> = response.data?.results ;
 
-  return cardTVSeries;
+  if(!movies)
+      return [];
+
+  return movies;
 }
 
-export const getTVSeriesByType = async (page: number, type: string) => {
-  const response = await httpRequest.get(`tv/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
-  const tvByTypeData:Array<TVSeriesResponseType> = response.data?.results;
-
-  if(!response)
-    return;
-
-  const TVsByType:Array<MovieCardType> = tvByTypeData.map(tv => ({
-    id: tv.id,
-    title: tv.name,
-    poster: tv.poster_path,
-    mode: "tv"
-  }))
-
-  return TVsByType;
-}
-
-export const getTVDetail = async (id: string | undefined) => {
+export const getTVSeriesDetail = async (id: string | undefined) => {
     if(!id)
         return null;
 
@@ -101,7 +79,7 @@ export const getTVCast = async (id: number | undefined) => {
     return casts;
   }
 
-export const getTVIntroduces = async (id: string | undefined) => {
+export const getTVSeriesIntroduce = async (id: string | undefined) => {
     if(!id)  
       return [];
 

@@ -1,1 +1,1 @@
-export { TrailerModal } from "./TrailerModel";
+export { TrailerModal } from "./TrailerModal"
