@@ -1,1 +1,1 @@
-export { TrailerModal } from "./TrailerModal";
+export { TrailerModal } from './TrailerModal';

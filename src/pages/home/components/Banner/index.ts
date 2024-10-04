@@ -1,1 +1,1 @@
-export { BannerSlider } from "./BannerSlider"
+export { BannerSlider } from './BannerSlider';
