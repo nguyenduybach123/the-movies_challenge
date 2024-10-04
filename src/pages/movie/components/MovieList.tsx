@@ -1,21 +1,26 @@
 // Core
-import { InfiniteData, InfiniteQueryObserverResult } from '@tanstack/react-query';
+import { FC, useMemo } from "react";
+import { InfiniteData, InfiniteQueryObserverResult } from "@tanstack/react-query";
 
 // App
-import { Button } from '../../../components/Button';
-import Card from '../../../components/Card/Card';
-import { DisplayDataType, CardType, MovieResponseType } from '../../../utils/types';
-import { useMemo } from 'react';
+import { Button } from "../../../components/Button";
+import Card from "../../../components/Card/Card";
+import {  CardType, MovieResponseType } from "../../../utils/types";
+
+// Type
+type MovieListType = {
+  movies: InfiniteData<MovieResponseType[]>,
+  isFetching: boolean,
+  hasNextPage: boolean,
+  fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieResponseType[], unknown>, Error>>,
+  isFetchingNextPage: boolean
+}
 
 // Component
-export const MovieList = ({data: movies, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage }: DisplayDataType<InfiniteData<MovieResponseType[]>> &
-   {
-    hasNextPage: boolean,
-    fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<MovieResponseType[], unknown>, Error>>,
-    isFetchingNextPage: boolean
-   }) => {
+export const MovieList :FC<MovieListType> = ({movies, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage }) => {
 
-  const movieCards:Array<CardType> = useMemo(() => {
+  const movieCards :Array<CardType> = useMemo(() => {
+    
     return movies.pages.flatMap((page) => page).map((movie) => ({
       id: movie.id,
       title: movie.title,
@@ -41,7 +46,7 @@ export const MovieList = ({data: movies, isFetching, fetchNextPage, isFetchingNe
       {
         (hasNextPage) &&
           <div className="flex items-center justify-center mt-8">
-            <Button text="Watch more" ghost onClick={() => fetchNextPage()} disabled={isFetchingNextPage}/> 
+            <Button text="Watch more" ghost onClick={() => fetchNextPage()} loading={isFetchingNextPage}/> 
           </div>
       }
     </>

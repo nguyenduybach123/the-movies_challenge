@@ -1,5 +1,6 @@
+import { FC } from "react";
 
-export const VideoSkeleton = ({width, height}: {width: string, height: string}) => {
+export const VideoSkeleton:FC<{width: string, height: string}> = ({width, height}) => {
   return (
     <div role="status" className="flex items-center justify-center bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700" style={{width: width, height: height}}>
         <svg className="w-14 h-14 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">

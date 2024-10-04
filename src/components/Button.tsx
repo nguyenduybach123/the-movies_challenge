@@ -1,20 +1,26 @@
-import cn from 'classnames';
-import { Link } from 'react-router-dom';
+// Core
+import { FC } from "react";
+import cn from "classnames";
+import { Link } from "react-router-dom";
 
-import { ButtonType } from '../utils/types'
+// App
+import { ButtonType } from "../utils/types"
+import { BaseSpinner } from "./Spinner";
 
-export const Button = ({ 
+// Component
+export const Button :FC<ButtonType> = ({ 
     text, 
     size = 'md' , 
     type = 'default',
     icon,
-    ghost = false, 
+    ghost = false,
+    loading = false, 
     to,
-    disabled,
     onClick,
     className
-}: ButtonType) => {
+}) => {
 
+    // Templates
     if (to) {
         return (
             <Link className={cn("flex justify-center items-center","rounded-full","transition-all duration-300","ease-in-out",{ 
@@ -41,10 +47,20 @@ export const Button = ({
                             "btn-primary": type === 'primary'}, 
                             className)} 
               onClick={onClick}
-              disabled={disabled}
+              disabled={loading}
         >
-            {icon}
-            {text}
+            {
+                (loading) ?
+                    <BaseSpinner color='#FF0000' width={20} height={20} className="mr-2" />
+                :
+                    icon 
+            }
+            {
+                (loading) ?
+                    "Loading . . ."
+                :
+                    text
+            }
         </button>
     );
 }

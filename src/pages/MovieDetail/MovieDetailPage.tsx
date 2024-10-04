@@ -1,4 +1,5 @@
 // Core
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
@@ -9,7 +10,6 @@ import { CardSlider } from '../../components/Card/CardSlider';
 
 // Internal
 import { MovieInfo, MovieIntroduce } from './components';
-import { useEffect } from 'react';
 
 // Component
 export const MovieDetailPage = () => {
@@ -50,6 +50,7 @@ export const MovieDetailPage = () => {
       return <span>Error: {errorIntroduce.message}</span>
   }
 
+  //Template
   return (
     <>
       <MovieInfo data={movieDetail} casts={casts ? casts : []} />

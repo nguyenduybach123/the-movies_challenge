@@ -39,7 +39,7 @@ export const TVSeriesList = ({ data: tvSeries, isFetching, fetchNextPage, isFetc
         <div className="flex items-center justify-center mt-8">
             {
                 (hasNextPage) ? 
-                    <Button text="Watch more" ghost onClick={() => fetchNextPage()} disabled={isFetchingNextPage}/> 
+                    <Button text="Watch more" ghost onClick={() => fetchNextPage()} loading={isFetchingNextPage}/> 
                 :
                     <></>
             }

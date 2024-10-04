@@ -1,14 +1,13 @@
 // Core
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 
 // App
-import { DisplayEnum } from '../../utils/types'
-import { getBannerMovies, getVideoBannerById } from '../../service/banner'
+import { DisplayEnum } from "../../utils/types";
+import { useHomeContext } from "./context/HomeContext";
+import { getBannerMovies, getVideoBannerById } from "../../service/banner";
 
-// Internal
-import { BannerSlider, TrailerModal } from './components'
-import { useHomeContext } from './context/HomeContext'
-import { CardSlider } from '../../components'
+import { BannerSlider, TrailerModal } from "./components";
+import { BaseSpinner, CardSlider, NotFoundQuery } from "../../components";
 
 // Component
 export const HomePage = () => {
@@ -16,36 +15,47 @@ export const HomePage = () => {
   const { idBannerSelected, isOpenDialogTrailer } = useHomeContext();
 
   // Queries
-  const {data: banners , isFetching, isError: isErrorBanner, error: errorBanner} = useQuery({
+  // * fetch data banners
+  const { data: banners , isFetching, isError: isErrorBanner } = useQuery({
     queryKey: ['banner'],
     queryFn: getBannerMovies,
   })
 
-  const { data: trailer, isFetching: isTrailerFetching, isError: isErrorTrailer, error: errorTrailer } = useQuery({
+  // * fetch data trailer
+  const { data: trailer, isFetching: isTrailerFetching, isError: isErrorTrailer } = useQuery({
       queryKey: ['trailer'],
       queryFn: () => getVideoBannerById(idBannerSelected),
       enabled: isOpenDialogTrailer
   })
 
-  // Template
+  // Templates
   if (isErrorBanner) {
-      return <span>Error: {errorBanner.message}</span>
+      return <NotFoundQuery />
   }
 
   if (isErrorTrailer) {
-    return <span>Error: {errorTrailer.message}</span>
+    return <NotFoundQuery />
   }
 
   return (
     <>
-      <TrailerModal trailerKey={trailer ? trailer.key : ""} isFetching={isTrailerFetching} />
-      <BannerSlider data={banners ? banners : []} isFetching={isFetching} />
-      <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
-        <CardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />
-        <CardSlider title="Top Rated Movies" displayType={DisplayEnum.TopRated} mode="movie" />
-        <CardSlider title="Trending TV" displayType={DisplayEnum.Popular} mode="tv" />
-        <CardSlider title="Top Rated TV" displayType={DisplayEnum.TopRated} mode="tv" />
-      </div>
+      {
+        (isFetching) ?
+          <div className='flex justify-center items-center w-screen h-screen'>
+            <BaseSpinner width={50} height={50} />
+          </div>
+        :
+          <>
+            <TrailerModal trailerKey={trailer ? trailer.key : ""} isFetching={isTrailerFetching} />
+            <BannerSlider data={banners ? banners : []} />
+            <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
+              <CardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />
+              <CardSlider title="Top Rated Movies" displayType={DisplayEnum.TopRated} mode="movie" />
+              <CardSlider title="Trending TV" displayType={DisplayEnum.Popular} mode="tv" />
+              <CardSlider title="Top Rated TV" displayType={DisplayEnum.TopRated} mode="tv" />
+            </div>
+          </>
+      }
     </>
   );
 }

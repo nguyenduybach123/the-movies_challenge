@@ -37,7 +37,7 @@ body {
     transition-duration: .3s;
     transition-timing-function: cubic-bezier(.4,0,.2,1);
     position: relative;
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     line-height: 1.75rem;
     font-weight: 600;
     --tw-text-opacity: 1;

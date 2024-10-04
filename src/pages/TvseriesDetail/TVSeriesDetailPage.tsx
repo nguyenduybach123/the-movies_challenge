@@ -1,22 +1,23 @@
 // Core
-import { useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 // App
-import { CardSlider } from '../../components'
-import { DisplayEnum } from '../../utils/types'
-import { getTVCast, getTVSeriesDetail, getTVSeriesIntroduce } from '../../service/tvSeries'
+import { DisplayEnum } from "../../utils/types";
+import { getTVCast, getTVSeriesDetail, getTVSeriesIntroduce } from "../../service/tvSeries";
+import { CardSlider, NotFoundQuery } from "../../components";
 
-import { TVSeriesInfo, TVSeriesIntroduce } from './components'
+// Internal
+import { TVSeriesInfo, TVSeriesIntroduce } from "./components";
 
 // Component
 export const TVSeriesDetailPage = () => {
-  // States
+  // Hooks
   const { id } = useParams();
 
   // Queries
-  const { data: tvDetail, isError: isErrorDetail, error: errorDetail } = useQuery({
+  const { data: tvDetail, isError: isErrorDetail } = useQuery({
     queryKey: ['tvseriesdetail', id],
     queryFn: () => getTVSeriesDetail(id)
   })
@@ -29,24 +30,24 @@ export const TVSeriesDetailPage = () => {
     enabled: !!tvId
   })
   
-  const { data: tvIntroduces, isPending: isTVIntroducePending, isError: isErrorIntroduce, error: errorIntroduce } = useQuery({
+  const { data: tvIntroduces, isPending: isTVIntroducePending, isError: isErrorIntroduce } = useQuery({
     queryKey: ['tvseriesintroduce', tvId],
     queryFn: () => getTVSeriesIntroduce(id)
   })
 
   // Effects
-  // * scroll to top
+  // * sync scroll to top
   useEffect(() => {
     window.scrollTo(0,0);
   },[tvDetail])
 
   // Templates
   if (isErrorDetail) {
-    return <span>Error: {errorDetail.message}</span>
+    return <NotFoundQuery />
   }
 
   if (isErrorIntroduce) {
-      return <span>Error: {errorIntroduce.message}</span>
+      return <NotFoundQuery />
   }
 
   return (

@@ -1,14 +1,20 @@
-import 'swiper/css';
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+// Core
+import { FC } from "react";
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react"
+import { EffectCoverflow, Pagination } from "swiper/modules";
 
-import { Banner } from './Banner';
-import { BannerType, DisplayDataType } from '../../../../utils/types';
+// App
+import { BannerType } from "../../../../utils/types";
 
-export const BannerSlider = ({ data:banners }: DisplayDataType<Array<BannerType>>) => {
+// Internal
+import { Banner } from "./Banner";
 
+// Component
+export const BannerSlider :FC<{ data: Array<BannerType> }> = ({ data:banners }) => {
+
+  // Template
   return (
-    <>
       <Swiper
         spaceBetween={0}
         slidesPerView={'auto'}
@@ -27,14 +33,13 @@ export const BannerSlider = ({ data:banners }: DisplayDataType<Array<BannerType>
       >
       {
         banners &&
-        banners.map((banner) => (
-          <SwiperSlide key={banner.id}>
-            <Banner id={banner.id} name={banner.name} overview={banner.overview} poster={banner.poster} backdrop={banner.backdrop} />
-          </SwiperSlide>
-        ))
+          banners.map((banner) => (
+            <SwiperSlide key={banner.id}>
+              <Banner id={banner.id} name={banner.name} overview={banner.overview} poster={banner.poster} backdrop={banner.backdrop} />
+            </SwiperSlide>
+          ))
       }
       </Swiper>
-    </>
   );
 }
 

@@ -1,10 +1,14 @@
-import { useNavigate } from 'react-router-dom'
-import { motion } from "framer-motion"
+// Core
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
-import { Button } from '../../../../components/Button'
-import { BannerType } from '../../../../utils/types'
-import { useHomeContext } from '../../context/HomeContext'
+// App
+import { BannerType } from "../../../../utils/types";
+import { useHomeContext } from "../../context/HomeContext";
+import { Button } from "../../../../components/Button";
 
+// Constant
 const variantBanner = {
   initial: {
     y: -100,
@@ -20,19 +24,27 @@ const variantBanner = {
   },
 }
 
-export const Banner = ({ id, name, overview, poster, backdrop }: BannerType) => {
-  const { setIsOpenDialogTrailer, setIdBannerSelected } = useHomeContext();
+// Component
+export const Banner :FC<BannerType> = ({ id, name, overview, poster, backdrop }) => {
+  // State
   const navigate = useNavigate();
 
+  // Context
+  const { setIsOpenDialogTrailer, setIdBannerSelected } = useHomeContext();
+
+  // Functions
+  // * handle navigate to detail movie
   const handleWatchNow = () => {
     navigate(`/movie/${id}`);
   }
 
+  // * handle open modal trailer movie
   const handleWatchTrailer = () => {
     setIdBannerSelected(id);
     setIsOpenDialogTrailer(true);
   }
 
+  // Template
   return (
     <div className="relative h-100 md:h-[36rem] lg:h-[52rem] px-4 md:px-12 py-12 md:py-32 flex justify-center bg-center bg-no-repeat bg-cover before:content-[&quot;&quot;] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:bg-black/60 after:content-[&quot;&quot;] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-28 after:bg-gradient-to-t after:from-black-main after:to-transparent cursor-grab" 
          style={{backgroundImage: `url(https://image.tmdb.org/t/p/original/${ backdrop })`}}

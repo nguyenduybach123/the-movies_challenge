@@ -6,6 +6,13 @@ export type DisplayDataType<T> = {
     onClick?: void
 }
 
+export type SpinnerType = {
+    color?: string,
+    width?: string | number,
+    height?: string | number,
+    className?: string
+}
+
 export type QueryMovieParamType = {
     key: Array<string>,
     fn: (page: number) => Promise<MovieResponseType[]>
@@ -120,7 +127,14 @@ export type CardType = {
     id: number,
     title: string,
     poster: string,
+    isFetching: boolean,
     mode: 'movie' | 'tv'
+}
+
+export type CardSliderType = {
+    title: string,
+    displayType: DisplayEnum, mode: 'movie' | 'tv',
+    similarId?: string
 }
 
 export type IconType = {
@@ -136,9 +150,9 @@ export type ButtonType = {
     size?: 'sm' | 'md' | 'lg',
     icon?: React.ReactNode,
     ghost?: boolean,
+    loading?: boolean,
     to?: string,
     type?: 'primary' | 'dashed' | 'link' | 'text' | 'default',
-    disabled?: boolean,
     onClick?: React.MouseEventHandler<HTMLButtonElement>,
     className?: string
 }

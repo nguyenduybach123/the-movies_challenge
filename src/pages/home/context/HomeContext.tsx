@@ -1,6 +1,8 @@
 
+// Core
 import React from 'react'
 
+// Type
 type HomeContextType = {
     isOpenDialogTrailer: boolean,
     setIsOpenDialogTrailer: React.Dispatch<React.SetStateAction<boolean>>,
@@ -8,8 +10,10 @@ type HomeContextType = {
     setIdBannerSelected: React.Dispatch<React.SetStateAction<number>>
 }
 
+// Constant
 const HomeContext = React.createContext<HomeContextType | undefined>(undefined);
 
+// Hook
 export const useHomeContext = () => {
     const context = React.useContext(HomeContext);
 
@@ -19,10 +23,13 @@ export const useHomeContext = () => {
     return context;
 };
 
+// Component
 export const HomeProvider = ({children}: {children: React.ReactNode}) => {
+    // States
     const [isOpenDialogTrailer, setIsOpenDialogTrailer] = React.useState(false);
     const [idBannerSelected, setIdBannerSelected] = React.useState(NaN);
 
+    // Template
     return (
         <HomeContext.Provider value={{
                                     isOpenDialogTrailer, setIsOpenDialogTrailer,

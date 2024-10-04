@@ -1,16 +1,17 @@
 // Core
-import { useQuery } from '@tanstack/react-query';
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { FC } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 // App 
-import {DisplayEnum, MovieResponseType, TVSeriesResponseType} from '../../utils/types';
+import {CardSliderType, DisplayEnum, MovieResponseType, TVSeriesResponseType} from "../../utils/types";
+import { getMovies, getMovieSimilar } from "../../service/movie";
+import { getTVSeries, getTVSeriesSimilar } from "../../service/tvSeries";
 
 // Internal
-import Card from './Card';
-import Button from '../Button';
-import { getMovies, getMovieSimilar } from '../../service/movie';
-import { getTVSeries, getTVSeriesSimilar } from '../../service/tvSeries';
+import Card from "./Card";
+import Button from "../Button";
 
 // Contanst
 const DEFAULT_PAGE = 1;
@@ -19,7 +20,7 @@ const MAXIMUM_CARD_VIEW = 6;
 
 
 // Component
-export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ title: string, displayType: DisplayEnum, mode: 'movie' | 'tv', similarId?: string }) => {
+export const CardSlider :FC<CardSliderType> = ({ title, displayType, mode="movie", similarId }) => {
 
     // Queries
     const getCards = async () => {
@@ -72,7 +73,7 @@ export const CardSlider = ({ title, displayType, mode="movie", similarId }:{ tit
         queryFn: getCards
     })
 
-    // Template
+    // Templates
     if (isError) {
         return <span>Error: {error.message}</span>
     }

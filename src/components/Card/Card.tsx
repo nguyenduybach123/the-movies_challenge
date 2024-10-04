@@ -1,4 +1,5 @@
 // Core
+import { FC } from 'react';
 import { Link } from 'react-router-dom'
 import cn from 'classnames'
 
@@ -11,7 +12,7 @@ import { Button } from '../Button';
 import { PlayIcon } from '../Icon';
 
 // Component
-export const Card = ({ id, mode, title, poster, isFetching = false }: CardType & {isFetching: boolean}) => {
+export const Card :FC<CardType> = ({ id, mode, title, poster, isFetching = false }) => {
   const posterURL = poster ? `https://image.tmdb.org/t/p/w500/${poster}` : defaultMovieImage;
 
   // Template
@@ -34,7 +35,10 @@ export const Card = ({ id, mode, title, poster, isFetching = false }: CardType &
   );
 }
 
+// Component
 const CardSkeleton = () => {
+
+  // Template
   return (
     <div role="status" className="flex items-center justify-center w-full h-72 2xl:h-80 bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700">
         <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">

@@ -1,15 +1,15 @@
 // Core
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 // App
 import { DisplayEnum, QueryMovieParamType } from '../../utils/types'
 import { getMovies } from '../../service/movie'
-import { SearchBar } from '../../components'
-import { useEffect } from 'react'
+import { BaseSpinner, NotFoundQuery, NotFoundResult, SearchBar } from '../../components'
 
 // Internal
-import { MovieList, NotFoundResult } from './components'
+import { MovieList } from './components'
 
 // Component
 export const MoviesPage = () => {
@@ -40,7 +40,6 @@ export const MoviesPage = () => {
   // HTTP GET MOVIES
   const { data: movies,
           isError,
-          error,
           isFetching,
           fetchNextPage,
           isFetchingNextPage,
@@ -60,7 +59,7 @@ export const MoviesPage = () => {
     },
     initialPageParam: 1,
     initialData: {
-      pages: [],
+      pages: [[]],
       pageParams: [1]
     },
   })
@@ -72,7 +71,7 @@ export const MoviesPage = () => {
 
   // Templates
   if (isError) {
-    return <span>Error: {error.message}</span>
+    return <NotFoundQuery />
   }
 
   return (
@@ -83,10 +82,17 @@ export const MoviesPage = () => {
       <div className="bg-black-main px-8 py-4 md:px-16 md:py-8">
         <SearchBar />
         {
-          (movies.pages.length === 0) ?
-            (<NotFoundResult keyword={keywordParam ? keywordParam : ""} isFetching={isFetching} />) 
+          (movies.pages[0].length === 0) ?
+            (isFetching) ?
+              (
+                <div className='flex justify-center items-center w-screen h-screen'>
+                  <BaseSpinner width={50} height={50} />
+                </div>
+              )
+            :
+              (<NotFoundResult keyword={keywordParam ? keywordParam : ""} />) 
           :
-            (<MovieList data={movies} fetchNextPage={fetchNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)  
+            (<MovieList movies={movies} fetchNextPage={fetchNextPage} isFetching={isFetching} isFetchingNextPage={isFetchingNextPage} hasNextPage={hasNextPage} />)  
         }
       </div>
     </>

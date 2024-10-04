@@ -1,6 +1,10 @@
-import { httpRequest } from "../utils/httpRequest";
+// App
 import { CastResponseType, CastType, DisplayEnum, MovieDetailType, MovieResponseType, VideoIntroduceResponseType, VideoIntroduceType } from "../utils/types";
 
+// Internal
+import { httpRequest } from "../utils/httpRequest";
+
+// Constant
 const MAXIMUM_SHOW_CAST = 5;
 const MAXIMUM_SHOW_VIDEO = 5;
 
