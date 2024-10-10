@@ -25,7 +25,7 @@ export const TVSeriesPage = () => {
     // Queries
     let queryParams: QueryTVSeriesParamType = {
         key: ['tvseries'],
-        fn: getTVSeries,
+        fn: (page) => getTVSeries({ page }),
     };
 
     const keywordParam = searchParams.get('keyword');
@@ -33,12 +33,12 @@ export const TVSeriesPage = () => {
     if (keywordParam !== '' && keywordParam !== null) {
         queryParams = {
             key: ['tvsearch', keywordParam],
-            fn: (page: number) => getTVSeries(page, undefined, keywordParam),
+            fn: (page: number) => getTVSeries({ page, keyword: keywordParam }),
         };
     } else if (typeParam !== '' && typeParam !== null) {
         queryParams = {
             key: ['tvtype', typeParam],
-            fn: (page: number) => getTVSeries(page, typeParam as DisplayEnum),
+            fn: (page: number) => getTVSeries({ page, type: typeParam as DisplayEnum }),
         };
     }
 
@@ -64,6 +64,10 @@ export const TVSeriesPage = () => {
             return pages.length + 1;
         },
         initialPageParam: 1,
+        initialData: {
+            pages: [],
+            pageParams: [1],
+        },
         refetchOnWindowFocus: false,
     });
 
@@ -96,7 +100,7 @@ export const TVSeriesPage = () => {
                             isFetchingNextPage={isFetchingNextPage}
                             hasNextPage={hasNextPage}
                         />
-                    ) : tvSeries ? (
+                    ) : tvSeries.pages[0].length !== 0 ? (
                         <TVSeriesList
                             tvseries={tvSeries}
                             fetchNextPage={fetchNextPage}

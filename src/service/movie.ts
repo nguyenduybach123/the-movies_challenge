@@ -16,12 +16,21 @@ import { httpRequest } from '../utils/httpRequest';
 const MAXIMUM_SHOW_CAST = 5;
 const MAXIMUM_SHOW_VIDEO = 5;
 
+// Type
+interface movieParam {
+    page: number;
+    type?: DisplayEnum;
+    keyword?: string;
+}
+
 // handle all option url ex: /type/keyword
 // * get data movies
-export const getMovies = async (page: number, type: DisplayEnum = DisplayEnum.Popular, keyword?: string) => {
+export const getMovies = async ({ page, type, keyword }: movieParam) => {
     let url = '';
 
-    if (keyword) {
+    if (keyword && type) {
+        url = `search/movie?query=${keyword}&type=${type}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+    } else if (keyword) {
         url = `search/movie?query=${keyword}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
     } else if (type) {
         url = `movie/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;

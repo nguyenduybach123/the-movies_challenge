@@ -5,7 +5,7 @@ import { notQueryImage } from '../../assets';
 export const NotFoundQuery = () => {
     // Template
     return (
-        <div className="flex justify-center items-center w-screen h-screen">
+        <div className="flex justify-center items-center w-screen-2xl h-screen">
             <div className="flex flex-col justify-center items-center text-white text-center">
                 <h1 className="my-8 text-4xl font-bold tracking-wide">Has Some Error :(( </h1>
                 <img src={notQueryImage} alt="error" width={200} height={200} />

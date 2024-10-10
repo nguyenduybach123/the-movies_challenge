@@ -1,8 +1,7 @@
 // Core
 import { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { SwiperSlide } from 'swiper/react';
 
 // App
 import { ComponentProps, DisplayEnum, MovieResponseType, TVSeriesResponseType } from '../../utils/types';
@@ -15,6 +14,7 @@ import { NotFoundQuery } from '../Exception';
 import Card from './Card';
 import Button from '../Button';
 import { cn } from '../../utils/utils';
+import Carousel from '../Carousel';
 
 // Contanst
 const DEFAULT_PAGE = 1;
@@ -38,7 +38,7 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'mo
             if (displayType === DisplayEnum.Similar) {
                 if (similarId) responseData = await getMovieSimilar(similarId);
             } else {
-                responseData = await getMovies(DEFAULT_PAGE, displayType);
+                responseData = await getMovies({ page: DEFAULT_PAGE, type: displayType });
             }
 
             return responseData.slice(0, MAXIMUM_CARD).map((data) => ({
@@ -53,7 +53,7 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'mo
             if (displayType === DisplayEnum.Similar) {
                 if (similarId) responseData = await getTVSeriesSimilar(similarId);
             } else {
-                responseData = await getTVSeries(DEFAULT_PAGE, displayType);
+                responseData = await getTVSeries({ page: DEFAULT_PAGE, type: displayType });
             }
 
             return responseData.slice(0, MAXIMUM_CARD).map((data) => ({
@@ -88,10 +88,8 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'mo
                     <Button text="View more" ghost to={`${mode}?type=${displayType}`} />
                 )}
             </div>
-            <Swiper
-                pagination={{
-                    clickable: true,
-                }}
+            <Carousel
+                clickable={true}
                 breakpoints={{
                     '@0.00': {
                         slidesPerView: 2,
@@ -110,15 +108,13 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'mo
                     delay: 2500,
                     disableOnInteraction: false,
                 }}
-                modules={[Autoplay, Pagination, Navigation]}
             >
-                {cards &&
-                    cards.map((card) => (
-                        <SwiperSlide key={card.id}>
-                            <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
-                        </SwiperSlide>
-                    ))}
-            </Swiper>
+                {(cards || []).map((card) => (
+                    <SwiperSlide key={card.id}>
+                        <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
+                    </SwiperSlide>
+                ))}
+            </Carousel>
         </div>
     );
 };

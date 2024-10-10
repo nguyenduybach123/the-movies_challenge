@@ -12,15 +12,24 @@ import {
 // Internal
 import { httpRequest } from '../utils/httpRequest';
 
+// Type
+interface tvParam {
+    page: number;
+    type?: DisplayEnum;
+    keyword?: string;
+}
+
 // Constant
 const MAXIMUM_SHOW_VIDEO = 5;
 const MAXIMUM_SHOW_CAST = 5;
 
 // * get data tvseries
-export const getTVSeries = async (page: number, type?: DisplayEnum, keyword?: string) => {
+export const getTVSeries = async ({ page, type, keyword }: tvParam) => {
     let url = '';
 
-    if (keyword) {
+    if (keyword && type) {
+        url = `search/tv?query=${keyword}&type=${type}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+    } else if (keyword) {
         url = `search/tv?query=${keyword}&page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
     } else if (type) {
         url = `tv/${type}?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;

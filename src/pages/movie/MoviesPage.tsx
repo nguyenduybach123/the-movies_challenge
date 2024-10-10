@@ -11,6 +11,7 @@ import { NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
 // Internal
 import { MovieList } from './components';
 
+// Constant
 const defaultMovies: InfiniteData<MovieResponseType[], unknown> = {
     pages: [],
     pageParams: [],
@@ -24,7 +25,7 @@ export const MoviesPage = () => {
     // Queries
     let queryParams: QueryMovieParamType = {
         key: ['movies'],
-        fn: getMovies,
+        fn: (page) => getMovies({ page }),
     };
 
     const keywordParam = searchParams.get('keyword');
@@ -32,12 +33,12 @@ export const MoviesPage = () => {
     if (keywordParam !== '' && keywordParam !== null) {
         queryParams = {
             key: ['search', keywordParam],
-            fn: (page) => getMovies(page, undefined, keywordParam),
+            fn: (page) => getMovies({ page, keyword: keywordParam }),
         };
     } else if (typeParam !== '' && typeParam !== null) {
         queryParams = {
             key: ['type', typeParam],
-            fn: (page) => getMovies(page, typeParam as DisplayEnum),
+            fn: (page) => getMovies({ page, type: typeParam as DisplayEnum }),
         };
     }
 
@@ -62,6 +63,10 @@ export const MoviesPage = () => {
             return pages.length + 1;
         },
         initialPageParam: 1,
+        initialData: {
+            pages: [],
+            pageParams: [1],
+        },
         refetchOnWindowFocus: false,
     });
 
@@ -75,7 +80,6 @@ export const MoviesPage = () => {
         return <NotFoundQuery />;
     }
 
-    // issue: set initail 'undifield'
     return (
         <>
             <div className="relative h-48 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-gradient-to-t after:from-black-main after:to-white">
@@ -93,7 +97,7 @@ export const MoviesPage = () => {
                             fetchNextPage={fetchNextPage}
                             hasNextPage={hasNextPage}
                         />
-                    ) : movies ? (
+                    ) : movies.pages[0].length !== 0 ? (
                         <MovieList
                             movies={movies}
                             isFetching={isFetching}

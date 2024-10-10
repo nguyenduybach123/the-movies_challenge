@@ -27,7 +27,7 @@ const Carousel: FC<CarouselProps> = ({
     effect,
     coverflowEffect,
     centeredSlides,
-    clickable = true,
+    clickable = false,
     className,
     children,
 }) => {
