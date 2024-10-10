@@ -4,33 +4,51 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 // App
-import { BannerType } from '../../../../utils/types';
-import { useHomeContext } from '../../context/HomeContext';
 import { Button } from '../../../../components/Button';
+import { ComponentProps } from '../../../../utils/types';
+
+// Type
+export interface BannerProps extends ComponentProps {
+    id: number;
+    name: string;
+    overview: string;
+    poster: string;
+    backdrop: string;
+    onActiveTrailer?: () => void;
+}
 
 // Constant
-const variantBanner = {
+const variantOpacityBanner = {
     initial: {
-        y: -100,
         opacity: 0,
     },
     animate: {
-        y: 0,
         opacity: 1,
         transition: {
             duration: 1,
-            staggerChildren: 0.1,
+            staggerChildren: 0.3,
+        },
+    },
+};
+
+const variantScaleBanner = {
+    initial: {
+        scaleX: 0,
+        scaleY: 0,
+    },
+    animate: {
+        scaleX: 1,
+        scaleY: 1,
+        transition: {
+            duration: 1,
         },
     },
 };
 
 // Component
-export const Banner: FC<BannerType> = ({ id, name, overview, poster, backdrop }) => {
+export const Banner: FC<BannerProps> = ({ id, name, overview, poster, backdrop, onActiveTrailer = () => {} }) => {
     // State
     const navigate = useNavigate();
-
-    // Context
-    const { setIsOpenDialogTrailer, setIdBannerSelected } = useHomeContext();
 
     // Functions
     // * handle navigate to detail movie
@@ -40,8 +58,7 @@ export const Banner: FC<BannerType> = ({ id, name, overview, poster, backdrop })
 
     // * handle open modal trailer movie
     const handleWatchTrailer = () => {
-        setIdBannerSelected(id);
-        setIsOpenDialogTrailer(true);
+        onActiveTrailer();
     };
 
     // Template
@@ -53,35 +70,38 @@ export const Banner: FC<BannerType> = ({ id, name, overview, poster, backdrop })
             <div className="max-w-screen-2xl z-10 h-fit flex items-center justify-between">
                 <motion.div
                     className="w-full lg:w-2/3 px-4"
-                    variants={variantBanner}
+                    variants={variantOpacityBanner}
                     initial="initial"
                     whileInView="animate"
                 >
                     <motion.h2
                         className="font-bold text-4xl md:text-6xl lg:text-8xl delay-300 text-white transition duration-700 ease-in-out opacity-100 translate-y-0"
-                        variants={variantBanner}
+                        variants={variantOpacityBanner}
                     >
                         {name}
                     </motion.h2>
                     <motion.p
                         className="font-medium text-white text-xs md:text-xl my-12 delay-[600ms] transition duration-700 ease-in-out opacity-100 translate-y-0"
-                        variants={variantBanner}
+                        variants={variantOpacityBanner}
                     >
                         {overview}
                     </motion.p>
                     <motion.div
                         className="flex delay-[900ms] text-white transition duration-700 ease-in-out opacity-100 translate-y-0"
-                        variants={variantBanner}
+                        variants={variantOpacityBanner}
                     >
                         <Button text="Watch Now" size="lg" type="primary" className="mr-4" onClick={handleWatchNow} />
                         <Button text="Watch trailer" size="lg" ghost onClick={handleWatchTrailer} />
                     </motion.div>
                 </motion.div>
                 <div className="hidden px-4 lg:block lg:w-1/3">
-                    <img
+                    <motion.img
                         className="w-96 rounded-3xl scale-animate"
                         src={`https://image.tmdb.org/t/p/w500/${poster}`}
                         alt="Poster"
+                        variants={variantScaleBanner}
+                        initial="initial"
+                        whileInView="animate"
                     />
                 </div>
             </div>

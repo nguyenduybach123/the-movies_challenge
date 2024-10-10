@@ -1,18 +1,24 @@
 // Core
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { SwiperSlide } from 'swiper/react';
 
 // App
 import { DisplayEnum } from '../../utils/types';
-import { useHomeContext } from './context/HomeContext';
 import { getBannerMovies, getVideoBannerById } from '../../service/banner';
 
-import { BannerSlider, TrailerModal } from './components';
-import { BaseSpinner, CardSlider, NotFoundQuery } from '../../components';
+// Internal
+import { TrailerModal } from './components';
+import Carousel from '../../components/Carousel';
+import { CardSlider, NotFoundQuery } from '../../components';
+import Loading from '../../components/Loading';
+import { Banner } from './components';
 
 // Component
 export const HomePage = () => {
-    // Context
-    const { idBannerSelected, isOpenDialogTrailer } = useHomeContext();
+    // State
+    const [isOpenDialogTrailer, setIsOpenDialogTrailer] = useState(false);
+    const [idBannerSelected, setIdBannerSelected] = useState(NaN);
 
     // Queries
     // * fetch data banners
@@ -23,6 +29,7 @@ export const HomePage = () => {
     } = useQuery({
         queryKey: ['banner'],
         queryFn: getBannerMovies,
+        refetchOnWindowFocus: false,
     });
 
     // * fetch data trailer
@@ -34,6 +41,7 @@ export const HomePage = () => {
         queryKey: ['trailer'],
         queryFn: () => getVideoBannerById(idBannerSelected),
         enabled: isOpenDialogTrailer,
+        refetchOnWindowFocus: false,
     });
 
     // Templates
@@ -48,18 +56,49 @@ export const HomePage = () => {
     return (
         <>
             {isFetching ? (
-                <div className="flex justify-center items-center w-screen h-screen">
-                    <BaseSpinner width={50} height={50} />
-                </div>
+                <Loading />
             ) : (
                 <>
-                    <TrailerModal trailerKey={trailer ? trailer.key : ''} isFetching={isTrailerFetching} />
-                    <BannerSlider data={banners ? banners : []} />
+                    <TrailerModal
+                        trailerKey={trailer ? trailer.key : ''}
+                        isOpen={isOpenDialogTrailer}
+                        isFetching={isTrailerFetching}
+                        onCloseTrailer={() => setIsOpenDialogTrailer(false)}
+                    />
+                    <Carousel
+                        centeredSlides={true}
+                        effect={'coverflow'}
+                        coverflowEffect={{
+                            rotate: 50,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 1,
+                            slideShadows: true,
+                        }}
+                    >
+                        {(banners || []).map((banner) => (
+                            <SwiperSlide key={banner.id}>
+                                <Banner
+                                    id={banner.id}
+                                    name={banner.name}
+                                    overview={banner.overview}
+                                    poster={banner.poster}
+                                    backdrop={banner.backdrop}
+                                    onActiveTrailer={() => {
+                                        setIdBannerSelected(banner.id);
+                                        setIsOpenDialogTrailer(true);
+                                    }}
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Carousel>
                     <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
-                        <CardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />
-                        <CardSlider title="Top Rated Movies" displayType={DisplayEnum.TopRated} mode="movie" />
-                        <CardSlider title="Trending TV" displayType={DisplayEnum.Popular} mode="tv" />
-                        <CardSlider title="Top Rated TV" displayType={DisplayEnum.TopRated} mode="tv" />
+                        <div className="max-w-screen-2xl mx-auto">
+                            <CardSlider title="Trending Movies" displayType={DisplayEnum.Popular} mode="movie" />
+                            <CardSlider title="Top Rated Movies" displayType={DisplayEnum.TopRated} mode="movie" />
+                            <CardSlider title="Trending TV" displayType={DisplayEnum.Popular} mode="tv" />
+                            <CardSlider title="Top Rated TV" displayType={DisplayEnum.TopRated} mode="tv" />
+                        </div>
                     </div>
                 </>
             )}

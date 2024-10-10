@@ -1,2 +1,2 @@
-export { BannerSlider } from './Banner';
+export { Banner } from './Banner';
 export { TrailerModal } from './Modal';

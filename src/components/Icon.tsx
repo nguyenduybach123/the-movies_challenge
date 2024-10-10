@@ -1,19 +1,26 @@
 // Core
 import { FC } from 'react';
-import cn from 'classnames';
 
 // App
-import { IconType } from '../utils/types';
+import { cn } from '../utils/utils';
+import { ComponentProps } from '../utils/types';
+
+// Type
+export interface IconProps extends ComponentProps {
+    width?: string | number;
+    height?: string | number;
+    onClick?: React.MouseEventHandler<SVGSVGElement> | undefined;
+}
 
 // Component
-export const CloseIcon: FC<IconType> = ({ width, height, colorHover, onClick, className }) => {
+export const CloseIcon: FC<IconProps> = ({ width, height, onClick, className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 512"
             width={width}
             height={height}
-            className={cn(className, `hover:${colorHover}`)}
+            className={cn(className)}
             onClick={onClick}
             fill="#fff"
         >
@@ -23,14 +30,14 @@ export const CloseIcon: FC<IconType> = ({ width, height, colorHover, onClick, cl
 };
 
 // Component
-export const PlayIcon: FC<IconType> = ({ width, height, colorHover, onClick, className }) => {
+export const PlayIcon: FC<IconProps> = ({ width, height, onClick, className }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 512"
             width={width}
             height={height}
-            className={cn(className, `hover:${colorHover}`)}
+            className={cn(className)}
             onClick={onClick}
             fill="#fff"
         >

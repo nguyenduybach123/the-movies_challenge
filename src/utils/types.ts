@@ -1,5 +1,4 @@
-import React from 'react';
-
+// Data Props
 export type QueryMovieParamType = {
     key: Array<string>;
     fn: (page: number) => Promise<MovieResponseType[]>;
@@ -96,32 +95,20 @@ export type VideoIntroduceType = {
     publishedAt: string;
 };
 
-export type BannerType = {
-    id: number;
-    name: string;
-    overview: string;
-    poster: string;
-    backdrop: string;
-};
-
 export enum DisplayEnum {
     TopRated = 'top_rated',
     Popular = 'popular',
     Similar = 'similar',
 }
 
-export type CardType = {
+// Component Props
+export interface ComponentProps {
+    className?: string;
+}
+
+export interface CardProps extends ComponentProps {
     id: number;
     title: string;
     poster: string;
-    isFetching: boolean;
     mode: 'movie' | 'tv';
-};
-
-export type IconType = {
-    width?: string | number;
-    height?: string | number;
-    colorHover?: string;
-    className?: string;
-    onClick?: React.MouseEventHandler<SVGSVGElement> | undefined;
-};
+}

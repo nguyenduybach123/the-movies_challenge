@@ -20,6 +20,7 @@ export const TVSeriesDetailPage = () => {
     const { data: tvDetail, isError: isErrorDetail } = useQuery({
         queryKey: ['tvseriesdetail', id],
         queryFn: () => getTVSeriesDetail(id),
+        refetchOnWindowFocus: false,
     });
 
     const tvId = tvDetail?.id;
@@ -28,6 +29,7 @@ export const TVSeriesDetailPage = () => {
         queryKey: ['tvseriescasts', tvId],
         queryFn: () => getTVCast(tvId),
         enabled: !!tvId,
+        refetchOnWindowFocus: false,
     });
 
     const {
@@ -37,6 +39,7 @@ export const TVSeriesDetailPage = () => {
     } = useQuery({
         queryKey: ['tvseriesintroduce', tvId],
         queryFn: () => getTVSeriesIntroduce(id),
+        refetchOnWindowFocus: false,
     });
 
     // Effects
@@ -59,7 +62,9 @@ export const TVSeriesDetailPage = () => {
             <TVSeriesInfo detailTV={tvDetail} casts={casts ? casts : []} />
             <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
                 <TVSeriesIntroduce introduces={tvIntroduces ? tvIntroduces : []} isFetching={isTVIntroducePending} />
-                <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="tv" />
+                <div className="max-w-screen-2xl mx-auto">
+                    <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="tv" />
+                </div>
             </div>
         </>
     );

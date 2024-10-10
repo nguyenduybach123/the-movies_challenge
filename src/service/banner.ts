@@ -1,5 +1,6 @@
 // App
-import { BannerType, MovieResponseType, VideoIntroduceResponseType, VideoIntroduceType } from '../utils/types';
+import { MovieResponseType, VideoIntroduceResponseType, VideoIntroduceType } from '../utils/types';
+import { BannerProps } from '../pages/Home/components/Banner/Banner';
 
 // Internal
 import { httpRequest } from '../utils/httpRequest';
@@ -14,7 +15,7 @@ export const getBannerMovies = async () => {
 
     if (!movies) return;
 
-    const bannerPopularMovies: Array<BannerType> = movies.slice(0, MAXIMUM_BANNER).map((movie) => ({
+    const bannerPopularMovies: Array<BannerProps> = movies.slice(0, MAXIMUM_BANNER).map((movie) => ({
         id: movie.id,
         name: movie.title,
         overview: movie.overview,

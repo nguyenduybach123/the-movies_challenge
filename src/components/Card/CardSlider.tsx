@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 // App
-import { DisplayEnum, MovieResponseType, TVSeriesResponseType } from '../../utils/types';
+import { ComponentProps, DisplayEnum, MovieResponseType, TVSeriesResponseType } from '../../utils/types';
 import { getMovies, getMovieSimilar } from '../../service/movie';
 import { getTVSeries, getTVSeriesSimilar } from '../../service/tvSeries';
 
@@ -14,22 +14,22 @@ import { NotFoundQuery } from '../Exception';
 // Internal
 import Card from './Card';
 import Button from '../Button';
+import { cn } from '../../utils/utils';
 
 // Contanst
 const DEFAULT_PAGE = 1;
 const MAXIMUM_CARD = 12;
-const MAXIMUM_CARD_VIEW = 6;
 
 // Type
-type CardSliderType = {
+interface CardSliderProps extends ComponentProps {
     title: string;
     displayType: DisplayEnum;
     mode: 'movie' | 'tv';
     similarId?: string;
-};
+}
 
 // Component
-export const CardSlider: FC<CardSliderType> = ({ title, displayType, mode = 'movie', similarId }) => {
+export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'movie', similarId, className }) => {
     // Queries
     const getCards = async () => {
         if (mode === 'movie') {
@@ -41,7 +41,7 @@ export const CardSlider: FC<CardSliderType> = ({ title, displayType, mode = 'mov
                 responseData = await getMovies(DEFAULT_PAGE, displayType);
             }
 
-            return responseData.slice(0, MAXIMUM_CARD_VIEW).map((data) => ({
+            return responseData.slice(0, MAXIMUM_CARD).map((data) => ({
                 id: data.id,
                 title: data.title,
                 poster: data.poster_path,
@@ -65,13 +65,10 @@ export const CardSlider: FC<CardSliderType> = ({ title, displayType, mode = 'mov
         }
     };
 
-    const {
-        data: cards,
-        isPending,
-        isError,
-    } = useQuery({
+    const { data: cards, isError } = useQuery({
         queryKey: ['cards', mode, displayType],
         queryFn: getCards,
+        refetchOnWindowFocus: false,
     });
 
     // Templates
@@ -84,7 +81,7 @@ export const CardSlider: FC<CardSliderType> = ({ title, displayType, mode = 'mov
     }
 
     return (
-        <div className="mt-8 md:mt-16">
+        <div className={cn('mt-8 md:mt-16', className)}>
             <div className="flex justify-between items-center mb-3">
                 <span className="text-white font-medium text-lg md:text-2xl">{title}</span>
                 {!(displayType === DisplayEnum.Similar) && (
@@ -92,8 +89,6 @@ export const CardSlider: FC<CardSliderType> = ({ title, displayType, mode = 'mov
                 )}
             </div>
             <Swiper
-                slidesPerView={1}
-                spaceBetween={MAXIMUM_CARD_VIEW}
                 pagination={{
                     clickable: true,
                 }}
@@ -120,13 +115,7 @@ export const CardSlider: FC<CardSliderType> = ({ title, displayType, mode = 'mov
                 {cards &&
                     cards.map((card) => (
                         <SwiperSlide key={card.id}>
-                            <Card
-                                mode={card.mode}
-                                id={card.id}
-                                title={card.title}
-                                poster={card.poster}
-                                isFetching={isPending}
-                            />
+                            <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
                         </SwiperSlide>
                     ))}
             </Swiper>

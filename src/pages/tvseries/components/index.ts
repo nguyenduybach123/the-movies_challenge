@@ -1,1 +1,1 @@
-export { TVSeriesList } from "./TVSeriesList";
+export { TVSeriesList } from './TVSeriesList';

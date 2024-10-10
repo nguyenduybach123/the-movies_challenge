@@ -24,6 +24,7 @@ export const MovieDetailPage = () => {
     } = useQuery({
         queryKey: ['detail', id],
         queryFn: () => getMovieDetail(id),
+        refetchOnWindowFocus: false,
     });
 
     const movieId = movieDetail?.id;
@@ -32,6 +33,7 @@ export const MovieDetailPage = () => {
         queryKey: ['casts', movieId],
         queryFn: () => getMovieCast(movieId),
         enabled: !!movieId,
+        refetchOnWindowFocus: false,
     });
 
     const {
@@ -42,6 +44,7 @@ export const MovieDetailPage = () => {
     } = useQuery({
         queryKey: ['videointroduce', movieId],
         queryFn: () => getMovieIntroduce(id),
+        refetchOnWindowFocus: false,
     });
 
     // Effect
@@ -63,12 +66,14 @@ export const MovieDetailPage = () => {
     return (
         <>
             <MovieInfo detailMovie={movieDetail} casts={casts ? casts : []} />
-            <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
+            <div className="bg-black-main md:px-4 lg:px-8 md:py-8 lg:py-16">
                 <MovieIntroduce
                     introduces={movieIntroduces ? movieIntroduces : []}
                     isFetching={isMovieIntroducePending}
                 />
-                <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="movie" />
+                <div className="max-w-screen-2xl mx-auto">
+                    <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="movie" />
+                </div>
             </div>
         </>
     );

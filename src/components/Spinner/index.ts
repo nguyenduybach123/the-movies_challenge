@@ -1,1 +1,1 @@
-export { BaseSpinner } from "./BaseSpinner"
+export { BaseSpinner } from './BaseSpinner';

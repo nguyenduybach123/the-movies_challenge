@@ -1,15 +1,20 @@
 // Core
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 
 // App
-import { DisplayEnum, QueryMovieParamType } from '../../utils/types';
+import { DisplayEnum, MovieResponseType, QueryMovieParamType } from '../../utils/types';
 import { getMovies } from '../../service/movie';
-import { BaseSpinner, NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
+import { NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
 
 // Internal
 import { MovieList } from './components';
+
+const defaultMovies: InfiniteData<MovieResponseType[], unknown> = {
+    pages: [],
+    pageParams: [],
+};
 
 // Component
 export const MoviesPage = () => {
@@ -42,7 +47,6 @@ export const MoviesPage = () => {
         isError,
         isFetching,
         fetchNextPage,
-        isFetchingNextPage,
         hasNextPage,
     } = useInfiniteQuery({
         queryKey: [...queryParams.key],
@@ -58,10 +62,7 @@ export const MoviesPage = () => {
             return pages.length + 1;
         },
         initialPageParam: 1,
-        initialData: {
-            pages: [[]],
-            pageParams: [1],
-        },
+        refetchOnWindowFocus: false,
     });
 
     // Effefects
@@ -74,6 +75,7 @@ export const MoviesPage = () => {
         return <NotFoundQuery />;
     }
 
+    // issue: set initail 'undifield'
     return (
         <>
             <div className="relative h-48 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-gradient-to-t after:from-black-main after:to-white">
@@ -82,24 +84,26 @@ export const MoviesPage = () => {
                 </span>
             </div>
             <div className="bg-black-main px-8 py-4 md:px-16 md:py-8">
-                <SearchBar />
-                {movies.pages[0].length === 0 ? (
-                    isFetching ? (
-                        <div className="flex justify-center items-center w-screen h-screen">
-                            <BaseSpinner width={50} height={50} />
-                        </div>
+                <div className="max-w-screen-2xl mx-auto">
+                    <SearchBar />
+                    {isFetching ? (
+                        <MovieList
+                            movies={movies || defaultMovies}
+                            isFetching={isFetching}
+                            fetchNextPage={fetchNextPage}
+                            hasNextPage={hasNextPage}
+                        />
+                    ) : movies ? (
+                        <MovieList
+                            movies={movies}
+                            isFetching={isFetching}
+                            fetchNextPage={fetchNextPage}
+                            hasNextPage={hasNextPage}
+                        />
                     ) : (
                         <NotFoundResult keyword={keywordParam ? keywordParam : ''} />
-                    )
-                ) : (
-                    <MovieList
-                        movies={movies}
-                        fetchNextPage={fetchNextPage}
-                        isFetching={isFetching}
-                        isFetchingNextPage={isFetchingNextPage}
-                        hasNextPage={hasNextPage}
-                    />
-                )}
+                    )}
+                </div>
             </div>
         </>
     );

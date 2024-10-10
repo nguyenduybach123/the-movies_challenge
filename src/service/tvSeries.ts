@@ -38,7 +38,7 @@ export const getTVSeries = async (page: number, type?: DisplayEnum, keyword?: st
 
 // * get data tvseries
 export const getTVSeriesSimilar = async (similarId: string) => {
-    const url = `movie/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
+    const url = `tv/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
 
     const response = await httpRequest.get(url);
     const movies: Array<TVSeriesResponseType> = response.data?.results;

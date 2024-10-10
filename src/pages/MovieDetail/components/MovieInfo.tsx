@@ -28,7 +28,7 @@ export const MovieInfo: FC<MovieInfoType> = ({ detailMovie, casts }) => {
                     <h2 className="py-2 lg:py-4 font-bold text-white text-3xl md:text-5xl lg:text-7xl">
                         {detailMovie?.title}
                     </h2>
-                    <ul className="flex items-center p-4">
+                    <ul className="flex items-center md:p-4">
                         {detailMovie?.genres.map((genre) => (
                             <li
                                 key={genre.id}
@@ -38,7 +38,9 @@ export const MovieInfo: FC<MovieInfoType> = ({ detailMovie, casts }) => {
                             </li>
                         ))}
                     </ul>
-                    <p className="py-2 lg:py-4 text-white text-xs md:text-sm lg:text-base">{detailMovie?.overview}</p>
+                    <p className="w-4/5 md:w-full py-2 lg:py-4 text-white text-sm md:text-md lg:text-base leading-4">
+                        {detailMovie?.overview}
+                    </p>
                     <h3 className="text-white text-xl font-medium py-2">Casts</h3>
                     <div className="flex flex-wrap -mx-2 mt-1">
                         {casts?.map((cast) => {

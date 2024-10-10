@@ -1,16 +1,21 @@
 // Core
 import { useEffect } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 
 //App
-import { DisplayEnum, QueryTVSeriesParamType } from '../../utils/types';
+import { DisplayEnum, MovieResponseType, QueryTVSeriesParamType } from '../../utils/types';
 import { getTVSeries } from '../../service/tvSeries';
-import { BaseSpinner, NotFoundResult, SearchBar } from '../../components';
+import { NotFoundResult, SearchBar } from '../../components';
 
 // Internal
 import { TVSeriesList } from './components';
 import { NotFoundQuery } from '../../components/Exception';
+
+const defaultTVSeries: InfiniteData<MovieResponseType[], unknown> = {
+    pages: [],
+    pageParams: [],
+};
 
 // Component
 export const TVSeriesPage = () => {
@@ -59,10 +64,7 @@ export const TVSeriesPage = () => {
             return pages.length + 1;
         },
         initialPageParam: 1,
-        initialData: {
-            pages: [[]],
-            pageParams: [1],
-        },
+        refetchOnWindowFocus: false,
     });
 
     // Effect
@@ -84,24 +86,27 @@ export const TVSeriesPage = () => {
                 </span>
             </div>
             <div className="bg-black-main px-4 md:px-8 py-8 xl:p-16">
-                <SearchBar />
-                {tvSeries.pages[0].length === 0 ? (
-                    isFetching ? (
-                        <div className="flex justify-center items-center w-screen h-screen">
-                            <BaseSpinner width={50} height={50} />
-                        </div>
+                <div className="max-w-screen-2xl mx-auto">
+                    <SearchBar />
+                    {isFetching ? (
+                        <TVSeriesList
+                            tvseries={tvSeries || defaultTVSeries}
+                            isFetching={isFetching}
+                            fetchNextPage={fetchNextPage}
+                            isFetchingNextPage={isFetchingNextPage}
+                            hasNextPage={hasNextPage}
+                        />
+                    ) : tvSeries ? (
+                        <TVSeriesList
+                            tvseries={tvSeries}
+                            fetchNextPage={fetchNextPage}
+                            isFetchingNextPage={isFetchingNextPage}
+                            hasNextPage={hasNextPage}
+                        />
                     ) : (
                         <NotFoundResult keyword={keywordParam ? keywordParam : ''} />
-                    )
-                ) : (
-                    <TVSeriesList
-                        tvseries={tvSeries}
-                        isFetching={isFetching}
-                        fetchNextPage={fetchNextPage}
-                        isFetchingNextPage={isFetchingNextPage}
-                        hasNextPage={hasNextPage}
-                    />
-                )}
+                    )}
+                </div>
             </div>
         </>
     );

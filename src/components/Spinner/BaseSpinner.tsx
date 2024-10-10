@@ -1,17 +1,20 @@
 // Core
 import { FC } from 'react';
-import cn from 'classnames';
+
+// App
+import { cn } from '../../utils/utils';
+import { ComponentProps } from '../../utils/types';
 
 // Type
-type SpinnerType = {
+interface SpinnerProps extends ComponentProps {
     color?: string;
     width?: string | number;
     height?: string | number;
     className?: string;
-};
+}
 
 // Component
-export const BaseSpinner: FC<SpinnerType> = ({ color = '#FF0000', width = 30, height = 30, className }) => {
+export const BaseSpinner: FC<SpinnerProps> = ({ color = '#FF0000', width = 30, height = 30, className }) => {
     // Template
     return (
         <div>
