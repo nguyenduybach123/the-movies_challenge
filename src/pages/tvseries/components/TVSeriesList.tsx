@@ -7,7 +7,6 @@ import { CardProps, TVSeriesResponseType } from '../../../utils/types';
 
 import Card from '../../../components/Card/Card';
 import { Button } from '../../../components/Button';
-import { CardSkeleton } from '../../../components/Skeleton';
 
 // Type
 type TVSeriesType = {
@@ -15,7 +14,6 @@ type TVSeriesType = {
     isFetching?: boolean;
     hasNextPage: boolean;
     fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<TVSeriesResponseType[], unknown>, Error>>;
-    isFetchingNextPage: boolean;
 };
 
 // Component
@@ -40,16 +38,6 @@ export const TVSeriesList: FC<TVSeriesType> = ({ tvseries, isFetching = false, h
                         return <Card key={tv.id} mode={tv.mode} id={tv.id} title={tv.title} poster={tv.poster} />;
                     }
                 })}
-                {isFetching && (
-                    <>
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                    </>
-                )}
             </div>
             <div className="flex items-center justify-center mt-8">
                 {hasNextPage ? (

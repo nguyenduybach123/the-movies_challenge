@@ -1,21 +1,17 @@
 // Core
 import { useEffect } from 'react';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 
 //App
-import { DisplayEnum, MovieResponseType, QueryTVSeriesParamType } from '../../utils/types';
+import { DisplayEnum, QueryTVSeriesParamType } from '../../utils/types';
 import { getTVSeries } from '../../service/tvSeries';
 import { NotFoundResult, SearchBar } from '../../components';
 
 // Internal
 import { TVSeriesList } from './components';
 import { NotFoundQuery } from '../../components/Exception';
-
-const defaultTVSeries: InfiniteData<MovieResponseType[], unknown> = {
-    pages: [],
-    pageParams: [],
-};
+import { CardSkeleton } from '../../components/Skeleton';
 
 // Component
 export const TVSeriesPage = () => {
@@ -47,8 +43,8 @@ export const TVSeriesPage = () => {
         data: tvSeries,
         isError,
         isFetching,
+        isLoading,
         fetchNextPage,
-        isFetchingNextPage,
         hasNextPage,
     } = useInfiniteQuery({
         queryKey: [...queryParams.key],
@@ -64,10 +60,6 @@ export const TVSeriesPage = () => {
             return pages.length + 1;
         },
         initialPageParam: 1,
-        initialData: {
-            pages: [],
-            pageParams: [1],
-        },
         refetchOnWindowFocus: false,
     });
 
@@ -92,19 +84,22 @@ export const TVSeriesPage = () => {
             <div className="bg-black-main px-4 md:px-8 py-8 xl:p-16">
                 <div className="max-w-screen-2xl mx-auto">
                     <SearchBar />
-                    {isFetching ? (
-                        <TVSeriesList
-                            tvseries={tvSeries || defaultTVSeries}
-                            isFetching={isFetching}
-                            fetchNextPage={fetchNextPage}
-                            isFetchingNextPage={isFetchingNextPage}
-                            hasNextPage={hasNextPage}
-                        />
-                    ) : tvSeries.pages[0].length !== 0 ? (
+                    {isError && <NotFoundQuery />}
+                    {isLoading && (
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                        </div>
+                    )}
+                    {tvSeries?.pages[0].length ? (
                         <TVSeriesList
                             tvseries={tvSeries}
+                            isFetching={isFetching}
                             fetchNextPage={fetchNextPage}
-                            isFetchingNextPage={isFetchingNextPage}
                             hasNextPage={hasNextPage}
                         />
                     ) : (

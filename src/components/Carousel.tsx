@@ -1,24 +1,15 @@
 import React, { FC } from 'react';
-import { Swiper, SwiperSlideProps } from 'swiper/react';
-import { AutoplayOptions, CoverflowEffectOptions, SwiperOptions } from 'swiper/types';
+import { Swiper, SwiperProps, SwiperSlide, SwiperSlideProps } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 
 // App
 import { cn } from '../utils/utils';
 import { ComponentProps } from '../utils/types';
 
-interface CarouselProps extends ComponentProps {
-    breakpoints?: {
-        [width: number]: SwiperOptions;
-        [ratio: string]: SwiperOptions;
+type CarouselProps = SwiperProps &
+    ComponentProps & {
+        children: React.ReactElement<SwiperSlideProps> | React.ReactElement<SwiperSlideProps>[];
     };
-    autoplay?: boolean | AutoplayOptions | undefined;
-    effect?: 'slide' | 'fade' | 'cube' | 'coverflow' | 'flip' | 'creative' | 'cards';
-    coverflowEffect?: CoverflowEffectOptions | undefined;
-    centeredSlides?: boolean;
-    clickable?: boolean;
-    children: React.ReactElement<SwiperSlideProps> | React.ReactElement<SwiperSlideProps>[];
-}
 
 // Component
 const Carousel: FC<CarouselProps> = ({
@@ -27,7 +18,7 @@ const Carousel: FC<CarouselProps> = ({
     effect,
     coverflowEffect,
     centeredSlides,
-    clickable = false,
+    pagination,
     className,
     children,
 }) => {
@@ -35,9 +26,7 @@ const Carousel: FC<CarouselProps> = ({
     return (
         <Swiper
             className={cn(className, 'flex justify-center items-center')}
-            pagination={{
-                clickable: clickable,
-            }}
+            pagination={pagination}
             autoplay={autoplay}
             breakpoints={breakpoints}
             effect={effect}
@@ -50,9 +39,11 @@ const Carousel: FC<CarouselProps> = ({
                 Pagination,
             ]}
         >
-            {Array.isArray(children)
-                ? children.map((slide) => React.cloneElement(slide))
-                : React.cloneElement(children)}
+            {Array.isArray(children) ? (
+                children.map((slide) => <SwiperSlide>{React.cloneElement(slide)}</SwiperSlide>)
+            ) : (
+                <SwiperSlide>{React.cloneElement(children)}</SwiperSlide>
+            )}
         </Swiper>
     );
 };

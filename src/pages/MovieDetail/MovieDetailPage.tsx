@@ -10,6 +10,7 @@ import { CardSlider } from '../../components/Card/CardSlider';
 
 // Internal
 import { MovieInfo, MovieIntroduce } from './components';
+import { NotFoundQuery } from '../../components';
 
 // Component
 export const MovieDetailPage = () => {
@@ -54,9 +55,6 @@ export const MovieDetailPage = () => {
     }, [movieDetail]);
 
     // Templates
-    if (isErrorDetail) {
-        return <span>Error: {errorDetail.message}</span>;
-    }
 
     if (isErrorIntroduce) {
         return <span>Error: {errorIntroduce.message}</span>;
@@ -65,7 +63,7 @@ export const MovieDetailPage = () => {
     //Template
     return (
         <>
-            <MovieInfo detailMovie={movieDetail} casts={casts ? casts : []} />
+            {isErrorDetail ? <NotFoundQuery /> : <MovieInfo detailMovie={movieDetail} casts={casts ? casts : []} />}
             <div className="bg-black-main md:px-4 lg:px-8 md:py-8 lg:py-16">
                 <MovieIntroduce
                     introduces={movieIntroduces ? movieIntroduces : []}

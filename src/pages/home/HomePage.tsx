@@ -1,7 +1,6 @@
 // Core
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { SwiperSlide } from 'swiper/react';
 
 // App
 import { DisplayEnum } from '../../utils/types';
@@ -23,7 +22,7 @@ export const HomePage = () => {
     // Queries
     // * fetch data banners
     const {
-        data: banners,
+        data: bannerData,
         isFetching,
         isError: isErrorBanner,
     } = useQuery({
@@ -43,6 +42,8 @@ export const HomePage = () => {
         enabled: isOpenDialogTrailer,
         refetchOnWindowFocus: false,
     });
+
+    const banners = bannerData || [];
 
     // Templates
     if (isErrorBanner) {
@@ -76,20 +77,18 @@ export const HomePage = () => {
                             slideShadows: true,
                         }}
                     >
-                        {(banners || []).map((banner) => (
-                            <SwiperSlide key={banner.id}>
-                                <Banner
-                                    id={banner.id}
-                                    name={banner.name}
-                                    overview={banner.overview}
-                                    poster={banner.poster}
-                                    backdrop={banner.backdrop}
-                                    onActiveTrailer={() => {
-                                        setIdBannerSelected(banner.id);
-                                        setIsOpenDialogTrailer(true);
-                                    }}
-                                />
-                            </SwiperSlide>
+                        {banners.map((banner) => (
+                            <Banner
+                                id={banner.id}
+                                name={banner.name}
+                                overview={banner.overview}
+                                poster={banner.poster}
+                                backdrop={banner.backdrop}
+                                onActiveTrailer={() => {
+                                    setIdBannerSelected(banner.id);
+                                    setIsOpenDialogTrailer(true);
+                                }}
+                            />
                         ))}
                     </Carousel>
                     <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">

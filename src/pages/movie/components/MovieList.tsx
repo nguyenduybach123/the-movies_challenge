@@ -6,7 +6,6 @@ import { InfiniteData, InfiniteQueryObserverResult } from '@tanstack/react-query
 import { Button } from '../../../components/Button';
 import Card from '../../../components/Card/Card';
 import { CardProps, MovieResponseType } from '../../../utils/types';
-import { CardSkeleton } from '../../../components/Skeleton';
 
 // Type
 type MovieListType = {
@@ -44,20 +43,10 @@ export const MovieList: FC<MovieListType> = ({ movies, isFetching, fetchNextPage
                         />
                     );
                 })}
-                {isFetching && (
-                    <>
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                        <CardSkeleton />
-                    </>
-                )}
             </div>
             {hasNextPage && (
                 <div className="flex items-center justify-center mt-8">
-                    <Button text="Watch more" ghost onClick={() => fetchNextPage()} loading={isFetching} />
+                    <Button text="Watch more" ghost onClick={fetchNextPage} loading={isFetching} />
                 </div>
             )}
         </>

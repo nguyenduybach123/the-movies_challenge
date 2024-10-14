@@ -49,19 +49,18 @@ export const TVSeriesDetailPage = () => {
     }, [tvDetail]);
 
     // Templates
-    if (isErrorDetail) {
-        return <NotFoundQuery />;
-    }
-
-    if (isErrorIntroduce) {
-        return <NotFoundQuery />;
-    }
-
     return (
         <>
-            <TVSeriesInfo detailTV={tvDetail} casts={casts ? casts : []} />
+            {isErrorDetail ? <NotFoundQuery /> : <TVSeriesInfo detailTV={tvDetail} casts={casts ? casts : []} />}
             <div className="bg-black-main px-4 md:px-8 py-8 md:py-16">
-                <TVSeriesIntroduce introduces={tvIntroduces ? tvIntroduces : []} isFetching={isTVIntroducePending} />
+                {isErrorIntroduce ? (
+                    <NotFoundQuery />
+                ) : (
+                    <TVSeriesIntroduce
+                        introduces={tvIntroduces ? tvIntroduces : []}
+                        isFetching={isTVIntroducePending}
+                    />
+                )}
                 <div className="max-w-screen-2xl mx-auto">
                     <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode="tv" />
                 </div>

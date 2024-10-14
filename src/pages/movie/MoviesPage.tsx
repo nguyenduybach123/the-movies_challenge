@@ -1,21 +1,16 @@
 // Core
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 // App
-import { DisplayEnum, MovieResponseType, QueryMovieParamType } from '../../utils/types';
+import { DisplayEnum, QueryMovieParamType } from '../../utils/types';
 import { getMovies } from '../../service/movie';
 import { NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
 
 // Internal
 import { MovieList } from './components';
-
-// Constant
-const defaultMovies: InfiniteData<MovieResponseType[], unknown> = {
-    pages: [],
-    pageParams: [],
-};
+import { CardSkeleton } from '../../components/Skeleton';
 
 // Component
 export const MoviesPage = () => {
@@ -47,6 +42,7 @@ export const MoviesPage = () => {
         data: movies,
         isError,
         isFetching,
+        isLoading,
         fetchNextPage,
         hasNextPage,
     } = useInfiniteQuery({
@@ -63,10 +59,6 @@ export const MoviesPage = () => {
             return pages.length + 1;
         },
         initialPageParam: 1,
-        initialData: {
-            pages: [],
-            pageParams: [1],
-        },
         refetchOnWindowFocus: false,
     });
 
@@ -76,10 +68,6 @@ export const MoviesPage = () => {
     }, []);
 
     // Templates
-    if (isError) {
-        return <NotFoundQuery />;
-    }
-
     return (
         <>
             <div className="relative h-48 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-gradient-to-t after:from-black-main after:to-white">
@@ -90,14 +78,18 @@ export const MoviesPage = () => {
             <div className="bg-black-main px-8 py-4 md:px-16 md:py-8">
                 <div className="max-w-screen-2xl mx-auto">
                     <SearchBar />
-                    {isFetching ? (
-                        <MovieList
-                            movies={movies || defaultMovies}
-                            isFetching={isFetching}
-                            fetchNextPage={fetchNextPage}
-                            hasNextPage={hasNextPage}
-                        />
-                    ) : movies.pages[0].length !== 0 ? (
+                    {isError && <NotFoundQuery />}
+                    {isLoading && (
+                        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                            <CardSkeleton />
+                        </div>
+                    )}
+                    {movies?.pages[0].length ? (
                         <MovieList
                             movies={movies}
                             isFetching={isFetching}

@@ -89,7 +89,7 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'mo
                 )}
             </div>
             <Carousel
-                clickable={true}
+                pagination={{ clickable: true }}
                 breakpoints={{
                     '@0.00': {
                         slidesPerView: 2,

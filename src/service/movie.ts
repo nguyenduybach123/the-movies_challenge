@@ -53,7 +53,7 @@ export const getMovieSimilar = async (similarId: string) => {
     const response = await httpRequest.get(url);
     const movies: Array<MovieResponseType> = response.data?.results;
 
-    if (!movies) return [];
+    if (!movies || movies.length === 0) return [];
 
     return movies;
 };
