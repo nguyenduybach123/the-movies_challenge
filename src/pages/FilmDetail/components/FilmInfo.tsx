@@ -4,13 +4,13 @@ import { defaultCastImage } from '../../../assets';
 import { CastType, MovieDetailType } from '../../../utils/types';
 
 // Type
-type MovieInfoType = {
+type FilmInfoType = {
     detailMovie: MovieDetailType | null | undefined;
     casts: Array<CastType>;
 };
 
 // Component
-export const MovieInfo: FC<MovieInfoType> = ({ detailMovie, casts }) => {
+export const FilmInfo: FC<FilmInfoType> = ({ detailMovie, casts }) => {
     // Templates
     return (
         <div
@@ -65,4 +65,4 @@ export const MovieInfo: FC<MovieInfoType> = ({ detailMovie, casts }) => {
     );
 };
 
-export default MovieInfo;
+export default FilmInfo;

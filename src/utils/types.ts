@@ -1,3 +1,15 @@
+// Enum
+export enum DisplayEnum {
+    TopRated = 'top_rated',
+    Popular = 'popular',
+    Similar = 'similar',
+}
+
+export enum Mode {
+    movie = 'movie',
+    tvseries = 'tv',
+}
+
 // Data Props
 export type QueryMovieParamType = {
     key: Array<string>;
@@ -21,6 +33,7 @@ export type MovieResponseType = {
     video: false;
     vote_average: number;
     vote_count: number;
+    mode: Mode.movie;
 };
 
 export type TVSeriesResponseType = {
@@ -34,6 +47,21 @@ export type TVSeriesResponseType = {
     video: false;
     vote_average: number;
     vote_count: number;
+    mode: Mode.tvseries;
+};
+
+export type FilmResponseType = {
+    id: number;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    backdrop_path: string;
+    release_date: string;
+    title: string;
+    name: string;
+    vote_average: number;
+    vote_count: number;
+    mode: Mode;
 };
 
 type GenreType = {
@@ -95,12 +123,6 @@ export type VideoIntroduceType = {
     publishedAt: string;
 };
 
-export enum DisplayEnum {
-    TopRated = 'top_rated',
-    Popular = 'popular',
-    Similar = 'similar',
-}
-
 // Component Props
 export interface ComponentProps {
     className?: string;
@@ -110,5 +132,5 @@ export interface CardProps extends ComponentProps {
     id: number;
     title: string;
     poster: string;
-    mode: 'movie' | 'tv';
+    mode: Mode;
 }

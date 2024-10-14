@@ -2,12 +2,12 @@ import { FC } from 'react';
 import { VideoSkeleton } from '../../../components/Skeleton/VideoSkeleton';
 import { VideoIntroduceType } from '../../../utils/types';
 
-type MovieIntroduceType = {
+interface FilmVideoIntroduceProps {
     introduces: Array<VideoIntroduceType>;
     isFetching: boolean;
-};
+}
 
-export const MovieIntroduce: FC<MovieIntroduceType> = ({ introduces, isFetching = false }) => {
+export const FilmVideoIntroduce: FC<FilmVideoIntroduceProps> = ({ introduces, isFetching = false }) => {
     return (
         <div className="py-2 px-4 md:px-8 lg:px-16">
             {introduces?.map((movieIntroduce) => (
@@ -31,4 +31,4 @@ export const MovieIntroduce: FC<MovieIntroduceType> = ({ introduces, isFetching 
     );
 };
 
-export default MovieIntroduce;
+export default FilmVideoIntroduce;

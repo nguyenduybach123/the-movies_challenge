@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { SwiperSlide } from 'swiper/react';
 
 // App
-import { ComponentProps, DisplayEnum, MovieResponseType, TVSeriesResponseType } from '../../utils/types';
+import { ComponentProps, DisplayEnum, Mode, MovieResponseType, TVSeriesResponseType } from '../../utils/types';
 import { getMovies, getMovieSimilar } from '../../service/movie';
 import { getTVSeries, getTVSeriesSimilar } from '../../service/tvSeries';
 
@@ -24,15 +24,15 @@ const MAXIMUM_CARD = 12;
 interface CardSliderProps extends ComponentProps {
     title: string;
     displayType: DisplayEnum;
-    mode: 'movie' | 'tv';
+    mode: Mode;
     similarId?: string;
 }
 
 // Component
-export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = 'movie', similarId, className }) => {
+export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = Mode.movie, similarId, className }) => {
     // Queries
     const getCards = async () => {
-        if (mode === 'movie') {
+        if (mode === Mode.movie) {
             let responseData: Array<MovieResponseType> = [];
 
             if (displayType === DisplayEnum.Similar) {

@@ -6,7 +6,8 @@ import 'swiper/css';
 
 // App
 import { DefaultLayout } from './layouts';
-import { HomePage, MovieDetailPage, MoviesPage, TVSeriesDetailPage, TVSeriesPage } from './pages';
+import { FilmDetailPage, FilmPage, HomePage } from './pages';
+import { Mode } from './utils/types';
 
 // Contanst
 const queryClient = new QueryClient();
@@ -21,12 +22,12 @@ function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/movie">
-                            <Route path="" element={<MoviesPage />} />
-                            <Route path=":id" element={<MovieDetailPage />} />
+                            <Route path="" element={<FilmPage mode={Mode.movie} />} />
+                            <Route path=":id" element={<FilmDetailPage mode={Mode.movie} />} />
                         </Route>
                         <Route path="/tv">
-                            <Route path="" element={<TVSeriesPage />} />
-                            <Route path=":id" element={<TVSeriesDetailPage />} />
+                            <Route path="" element={<FilmPage mode={Mode.tvseries} />} />
+                            <Route path=":id" element={<FilmDetailPage mode={Mode.tvseries} />} />
                         </Route>
                     </Routes>
                 </DefaultLayout>
