@@ -1,6 +1,6 @@
 // Core
-import { FC, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { redirect, useParams, useSearchParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 // App
@@ -13,37 +13,36 @@ import { FilmList } from './components';
 import { CardSkeleton } from '../../components/Skeleton';
 
 // Type
-interface FilmPageProps {
-    mode: Mode;
-}
-
 interface QueryFilmParamProps {
     key: Array<string>;
     fn: (page: number) => Promise<FilmResponseType[]>;
 }
 
 // Component
-export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
-    // States
+export const FilmPage = () => {
+    // Hooks
+    const { mode } = useParams<{ mode: Mode }>();
     const [searchParams] = useSearchParams();
+
+    const modeType = mode || Mode.movie;
 
     // Queries
     let queryParams: QueryFilmParamProps = {
-        key: ['films', mode],
-        fn: (page) => getFilms({ page, mode }),
+        key: ['films', modeType],
+        fn: (page) => getFilms({ page, type: DisplayEnum.Popular, mode: modeType }),
     };
 
     const keywordParam = searchParams.get('keyword');
     const typeParam = searchParams.get('type');
     if (keywordParam !== '' && keywordParam !== null) {
         queryParams = {
-            key: ['search', keywordParam, mode],
-            fn: (page) => getFilms({ page, keyword: keywordParam, mode: mode }),
+            key: ['search', keywordParam, modeType],
+            fn: (page) => getFilms({ page, keyword: keywordParam, mode: modeType }),
         };
     } else if (typeParam !== '' && typeParam !== null) {
         queryParams = {
-            key: ['type', typeParam, mode],
-            fn: (page) => getFilms({ page, type: typeParam as DisplayEnum, mode: mode }),
+            key: ['type', typeParam, modeType],
+            fn: (page) => getFilms({ page, type: typeParam as DisplayEnum, mode: modeType }),
         };
     }
 
@@ -78,7 +77,12 @@ export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
     }, []);
 
     const films = filmData?.pages[0].length !== 0 ? filmData : undefined;
+
     // Templates
+    if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
+        return redirect('/');
+    }
+
     return (
         <>
             <div className="relative h-48 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:top-0 after:bg-gradient-to-t after:from-black-main after:to-white">
@@ -104,7 +108,7 @@ export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
                         <FilmList
                             mode={mode}
                             films={films}
-                            isFetching={isFetching}
+                            isFetchingNextPage={isFetching}
                             fetchNextPage={fetchNextPage}
                             hasNextPage={hasNextPage}
                         />

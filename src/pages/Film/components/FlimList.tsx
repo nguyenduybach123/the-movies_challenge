@@ -8,16 +8,16 @@ import Card from '../../../components/Card/Card';
 import { CardProps, FilmResponseType, Mode } from '../../../utils/types';
 
 // Type
-interface FlimListProps {
+interface FilmListProps {
     films: InfiniteData<FilmResponseType[]>;
-    isFetching: boolean;
+    isFetchingNextPage: boolean;
     hasNextPage: boolean;
     fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<FilmResponseType[], unknown>, Error>>;
     mode: Mode;
 }
 
 // Component
-export const FilmList: FC<FlimListProps> = ({ films, isFetching, fetchNextPage, hasNextPage, mode }) => {
+export const FilmList: FC<FilmListProps> = ({ films, isFetchingNextPage, fetchNextPage, hasNextPage, mode }) => {
     const filmCards: Array<CardProps> = useMemo(() => {
         return films.pages
             .flatMap((page) => page)
@@ -39,7 +39,7 @@ export const FilmList: FC<FlimListProps> = ({ films, isFetching, fetchNextPage, 
             </div>
             {hasNextPage && (
                 <div className="flex items-center justify-center mt-8">
-                    <Button text="Watch more" ghost onClick={fetchNextPage} loading={isFetching} />
+                    <Button text="Watch more" ghost onClick={fetchNextPage} loading={isFetchingNextPage} />
                 </div>
             )}
         </>

@@ -1,7 +1,7 @@
 // Core
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { redirect, useParams } from 'react-router-dom';
 
 // App
 import { DisplayEnum, Mode } from '../../utils/types';
@@ -14,14 +14,13 @@ import { FilmInfo, FilmVideoIntroduce } from './components';
 import { FilmInfoSkeleton, FilmVideoIntroduceSkeleton } from './components/Skeleton';
 
 // Type
-interface FilmDetailPageProps {
-    mode: Mode;
-}
 
 // Component
-export const FilmDetailPage: FC<FilmDetailPageProps> = ({ mode }) => {
+export const FilmDetailPage = () => {
     // Hook
-    const { id } = useParams();
+    const { mode, id } = useParams<{ id: string; mode: Mode }>();
+
+    const modeType = mode || Mode.movie;
 
     // Queries
     const {
@@ -30,15 +29,15 @@ export const FilmDetailPage: FC<FilmDetailPageProps> = ({ mode }) => {
         isError: isErrorDetail,
     } = useQuery({
         queryKey: ['detail', id, mode],
-        queryFn: () => getFilmDetail(id, mode),
+        queryFn: () => getFilmDetail(id, modeType),
         refetchOnWindowFocus: false,
     });
 
     const filmId = filmDetail?.id;
 
     const { data: casts } = useQuery({
-        queryKey: ['casts', filmId, mode],
-        queryFn: () => getFilmCast(filmId, mode),
+        queryKey: ['casts', filmId, modeType],
+        queryFn: () => getFilmCast(filmId, modeType),
         enabled: !!filmId,
         refetchOnWindowFocus: false,
     });
@@ -49,7 +48,7 @@ export const FilmDetailPage: FC<FilmDetailPageProps> = ({ mode }) => {
         isError: isErrorIntroduce,
     } = useQuery({
         queryKey: ['videointroduce', filmId, mode],
-        queryFn: () => getFilmIntroduce({ id: filmId, mode }),
+        queryFn: () => getFilmIntroduce({ id: filmId, mode: modeType }),
         refetchOnWindowFocus: false,
     });
 
@@ -60,6 +59,10 @@ export const FilmDetailPage: FC<FilmDetailPageProps> = ({ mode }) => {
     }, [filmDetail]);
 
     //Template
+    if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
+        return redirect('/');
+    }
+
     return (
         <>
             {isErrorDetail && <NotFoundQuery />}
@@ -70,7 +73,7 @@ export const FilmDetailPage: FC<FilmDetailPageProps> = ({ mode }) => {
                 {isFilmIntroduceFetching && <FilmVideoIntroduceSkeleton />}
                 {movieIntroduces && <FilmVideoIntroduce introduces={movieIntroduces} />}
                 <div className="max-w-screen-2xl mx-auto">
-                    <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode={mode} />
+                    <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode={modeType} />
                 </div>
             </div>
         </>
