@@ -88,7 +88,7 @@ export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
             </div>
             <div className="bg-black-main px-8 py-4 md:px-16 md:py-8">
                 <div className="max-w-screen-2xl mx-auto">
-                    <SearchBar />
+                    <SearchBar key={mode} />
                     {isError && <NotFoundQuery />}
                     {isLoading && (
                         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
