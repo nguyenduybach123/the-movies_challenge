@@ -1,7 +1,7 @@
 // Core
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // App
 import { DisplayEnum, Mode } from '../../utils/types';
@@ -9,7 +9,7 @@ import { CardSlider } from '../../components/Card/CardSlider';
 import { getFilmCast, getFilmDetail, getFilmIntroduce } from '../../service/film';
 
 // Internal
-import { NotFoundQuery } from '../../components';
+import { NotFoundPage, NotFoundQuery } from '../../components';
 import { FilmInfo, FilmVideoIntroduce } from './components';
 import { FilmInfoSkeleton, FilmVideoIntroduceSkeleton } from './components/Skeleton';
 
@@ -60,7 +60,7 @@ export const FilmDetailPage = () => {
 
     //Template
     if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
-        return redirect('/');
+        return <NotFoundPage />;
     }
 
     return (

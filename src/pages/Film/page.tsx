@@ -1,12 +1,12 @@
 // Core
 import { useEffect } from 'react';
-import { redirect, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 // App
 import { getFilms } from '../../service/film';
 import { DisplayEnum, FilmResponseType, Mode } from '../../utils/types';
-import { NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
+import { NotFoundPage, NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
 
 // Internal
 import { FilmList } from './components';
@@ -80,7 +80,7 @@ export const FilmPage = () => {
 
     // Templates
     if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
-        return redirect('/');
+        return <NotFoundPage />;
     }
 
     return (
