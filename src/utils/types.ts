@@ -11,45 +11,6 @@ export enum Mode {
 }
 
 // Data Props
-export type QueryMovieParamType = {
-    key: Array<string>;
-    fn: (page: number) => Promise<MovieResponseType[]>;
-};
-
-export type QueryTVSeriesParamType = {
-    key: Array<string>;
-    fn: (page: number) => Promise<TVSeriesResponseType[]>;
-};
-
-export type MovieResponseType = {
-    id: number;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    backdrop_path: string;
-    release_date: string;
-    title: string;
-    name: string;
-    video: false;
-    vote_average: number;
-    vote_count: number;
-    mode: Mode.movie;
-};
-
-export type TVSeriesResponseType = {
-    id: number;
-    overview: string;
-    popularity: number;
-    poster_path: string;
-    backdrop_path: string;
-    release_date: string;
-    name: string;
-    video: false;
-    vote_average: number;
-    vote_count: number;
-    mode: Mode.tvseries;
-};
-
 export type FilmResponseType = {
     id: number;
     overview: string;

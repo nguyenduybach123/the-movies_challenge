@@ -4,13 +4,13 @@ import { useSearchParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 // App
+import { getFilms } from '../../service/film';
 import { DisplayEnum, FilmResponseType, Mode } from '../../utils/types';
 import { NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
 
 // Internal
 import { FilmList } from './components';
 import { CardSkeleton } from '../../components/Skeleton';
-import { getFilms } from '../../service/film';
 
 // Type
 interface FilmPageProps {
@@ -26,7 +26,6 @@ interface QueryFilmParamProps {
 export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
     // States
     const [searchParams] = useSearchParams();
-    console.log(searchParams.get('keyword'));
 
     // Queries
     let queryParams: QueryFilmParamProps = {
@@ -38,19 +37,19 @@ export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
     const typeParam = searchParams.get('type');
     if (keywordParam !== '' && keywordParam !== null) {
         queryParams = {
-            key: ['search', keywordParam],
+            key: ['search', keywordParam, mode],
             fn: (page) => getFilms({ page, keyword: keywordParam, mode: mode }),
         };
     } else if (typeParam !== '' && typeParam !== null) {
         queryParams = {
-            key: ['type', typeParam],
+            key: ['type', typeParam, mode],
             fn: (page) => getFilms({ page, type: typeParam as DisplayEnum, mode: mode }),
         };
     }
 
     // HTTP GET MOVIES
     const {
-        data: movies,
+        data: filmData,
         isError,
         isFetching,
         isLoading,
@@ -78,8 +77,7 @@ export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
         window.scrollTo(0, 0);
     }, []);
 
-    console.log(movies);
-
+    const films = filmData?.pages[0].length !== 0 ? filmData : undefined;
     // Templates
     return (
         <>
@@ -102,10 +100,10 @@ export const FilmPage: FC<FilmPageProps> = ({ mode }) => {
                             <CardSkeleton />
                         </div>
                     )}
-                    {movies?.pages[0].length ? (
+                    {films ? (
                         <FilmList
                             mode={mode}
-                            films={movies}
+                            films={films}
                             isFetching={isFetching}
                             fetchNextPage={fetchNextPage}
                             hasNextPage={hasNextPage}

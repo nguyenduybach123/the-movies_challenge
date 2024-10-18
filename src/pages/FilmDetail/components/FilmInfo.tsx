@@ -5,7 +5,7 @@ import { CastType, MovieDetailType } from '../../../utils/types';
 
 // Type
 type FilmInfoType = {
-    detailMovie: MovieDetailType | null | undefined;
+    detailMovie: MovieDetailType;
     casts: Array<CastType>;
 };
 

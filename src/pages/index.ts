@@ -1,6 +1,3 @@
-export { HomePage } from './Home/HomePage';
-export { MoviesPage } from './Movie/MoviesPage';
-export { TVSeriesPage } from './Tvseries/TVSeriesPage';
-export { TVSeriesDetailPage } from './TvseriesDetail/TVSeriesDetailPage';
+export { HomePage } from './Home/page';
 export { FilmPage } from './Film/page';
 export { FilmDetailPage } from './FilmDetail/page';

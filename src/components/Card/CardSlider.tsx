@@ -1,13 +1,9 @@
 // Core
 import { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { SwiperSlide } from 'swiper/react';
 
 // App
-import { ComponentProps, DisplayEnum, Mode, MovieResponseType, TVSeriesResponseType } from '../../utils/types';
-import { getMovies, getMovieSimilar } from '../../service/movie';
-import { getTVSeries, getTVSeriesSimilar } from '../../service/tvSeries';
-
+import { ComponentProps, DisplayEnum, FilmResponseType, Mode } from '../../utils/types';
 import { NotFoundQuery } from '../Exception';
 
 // Internal
@@ -15,6 +11,7 @@ import Card from './Card';
 import Button from '../Button';
 import { cn } from '../../utils/utils';
 import Carousel from '../Carousel';
+import { getFilms, getFilmSimilar } from '../../service/film';
 
 // Contanst
 const DEFAULT_PAGE = 1;
@@ -32,37 +29,20 @@ interface CardSliderProps extends ComponentProps {
 export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = Mode.movie, similarId, className }) => {
     // Queries
     const getCards = async () => {
-        if (mode === Mode.movie) {
-            let responseData: Array<MovieResponseType> = [];
+        let responseData: Array<FilmResponseType> = [];
 
-            if (displayType === DisplayEnum.Similar) {
-                if (similarId) responseData = await getMovieSimilar(similarId);
-            } else {
-                responseData = await getMovies({ page: DEFAULT_PAGE, type: displayType });
-            }
-
-            return responseData.slice(0, MAXIMUM_CARD).map((data) => ({
-                id: data.id,
-                title: data.title,
-                poster: data.poster_path,
-                mode: mode,
-            }));
+        if (displayType === DisplayEnum.Similar) {
+            if (similarId) responseData = await getFilmSimilar(similarId, mode);
         } else {
-            let responseData: Array<TVSeriesResponseType> = [];
-
-            if (displayType === DisplayEnum.Similar) {
-                if (similarId) responseData = await getTVSeriesSimilar(similarId);
-            } else {
-                responseData = await getTVSeries({ page: DEFAULT_PAGE, type: displayType });
-            }
-
-            return responseData.slice(0, MAXIMUM_CARD).map((data) => ({
-                id: data.id,
-                title: data.name,
-                poster: data.poster_path,
-                mode: mode,
-            }));
+            responseData = await getFilms({ page: DEFAULT_PAGE, type: displayType, mode });
         }
+
+        return responseData.slice(0, MAXIMUM_CARD).map((data) => ({
+            id: data.id,
+            title: data.title,
+            poster: data.poster_path,
+            mode: mode,
+        }));
     };
 
     const { data: cards, isError } = useQuery({
@@ -110,9 +90,7 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = Mod
                 }}
             >
                 {(cards || []).map((card) => (
-                    <SwiperSlide key={card.id}>
-                        <Card mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
-                    </SwiperSlide>
+                    <Card key={card.id} mode={card.mode} id={card.id} title={card.title} poster={card.poster} />
                 ))}
             </Carousel>
         </div>

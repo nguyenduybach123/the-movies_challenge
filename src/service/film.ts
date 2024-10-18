@@ -13,56 +13,49 @@ import {
 
 // Internal
 import { httpRequest } from '../utils/httpRequest';
+import { BannerProps } from '../pages/Home/components/Banner/Banner';
 
 // Constant
 const MAXIMUM_SHOW_CAST = 5;
 const MAXIMUM_SHOW_VIDEO = 5;
 
 // Type
-interface filmParam {
+interface filmParamProps {
     page: number;
     type?: DisplayEnum;
     keyword?: string;
     mode: Mode;
 }
 
-// Mapper
-// const convertDataToFilm: (
-//     films: Array<MovieResponseType> | Array<TVSeriesResponseType>,
-//     mode: 'movie' | 'tvseries',
-// ) => Array<FilmResponseType> = (films, mode) => {
-//     if (mode === "movie") {
-//         return (films as Array<MovieResponseType>).map((film) => ({
-//             id: film.id,
-//             title: film.title,
-//             overview: film.overview,
-//             popularity: film.popularity,
-//             poster_path: film.poster_path,
-//             backdrop_path: film.backdrop_path,
-//             release_date: film.release_date,
-//             vote_average: film.vote_average,
-//             vote_count: film.vote_count,
-//             mode: mode,
-//         }));
-//     } else {
-//         return (films as Array<TVSeriesResponseType>).map((film) => ({
-//             id: film.id,
-//             title: film.name,
-//             overview: film.overview,
-//             popularity: film.popularity,
-//             poster_path: film.poster_path,
-//             backdrop_path: film.backdrop_path,
-//             release_date: film.release_date,
-//             vote_average: film.vote_average,
-//             vote_count: film.vote_count,
-//             mode: mode,
-//         }));
-//     }
-// };
+interface filmIntroduceParamProps {
+    id: number | undefined;
+    isTrailer?: boolean;
+    mode: Mode;
+}
+
+const MAXIMUM_BANNER = 5;
+
+// * get data banner movies popular
+export const getFilmBanners = async () => {
+    const response = await httpRequest.get('movie/popular?api_key=ae722869d6f14e76aebfb0d1fd961dd7');
+    const movies: Array<FilmResponseType> = response.data?.results;
+
+    if (!movies) return;
+
+    const bannerPopularMovies: Array<BannerProps> = movies.slice(0, MAXIMUM_BANNER).map((movie) => ({
+        id: movie.id,
+        name: movie.title,
+        overview: movie.overview,
+        poster: movie.poster_path,
+        backdrop: movie.backdrop_path,
+    }));
+
+    return bannerPopularMovies;
+};
 
 // handle all option url ex: /type/keyword
 // * get data films
-export const getFilms = async ({ page, type, keyword, mode }: filmParam) => {
+export const getFilms = async ({ page, type, keyword, mode }: filmParamProps) => {
     let url = '';
 
     if (keyword && type) {
@@ -75,7 +68,6 @@ export const getFilms = async ({ page, type, keyword, mode }: filmParam) => {
         url = `${mode}/popular?page=${page}&api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
     }
 
-    console.log(url);
     const response = await httpRequest.get(url);
     const films: Array<FilmResponseType> = response.data?.results;
 
@@ -86,7 +78,7 @@ export const getFilms = async ({ page, type, keyword, mode }: filmParam) => {
 
 // * get data movies similar
 export const getFilmSimilar = async (similarId: string, mode: Mode) => {
-    const url = `${mode}/${similarId}/similar?api_key=${process.env.API_KEY}`;
+    const url = `${mode}/${similarId}/similar?api_key=ae722869d6f14e76aebfb0d1fd961dd7`;
 
     const response = await httpRequest.get(url);
     const films: Array<FilmResponseType> = response.data?.results;
@@ -97,8 +89,8 @@ export const getFilmSimilar = async (similarId: string, mode: Mode) => {
 };
 
 // * get data detail film
-export const getFilmDetail = async (id: string, mode: Mode) => {
-    const response = await httpRequest.get(`${mode}/${id}?api_key=${process.env.API_KEY}`);
+export const getFilmDetail = async (id: string | undefined, mode: Mode) => {
+    const response = await httpRequest.get(`${mode}/${id}?api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
     const detail = response.data;
 
     if (!response) return;
@@ -140,10 +132,10 @@ export const getFilmDetail = async (id: string, mode: Mode) => {
 };
 
 // * get data cast of movie
-export const getMovieCast = async (id: number | undefined, mode: Mode) => {
+export const getFilmCast = async (id: number | undefined, mode: Mode) => {
     if (!id) return [];
 
-    const response = await httpRequest.get(`${mode}/${id}/credits?api_key=${process.env.API_KEY}`);
+    const response = await httpRequest.get(`${mode}/${id}/credits?api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
     const castData: Array<CastResponseType> = response.data?.cast;
 
     if (!response) return;
@@ -158,7 +150,7 @@ export const getMovieCast = async (id: number | undefined, mode: Mode) => {
 };
 
 // * get data movie introduce
-export const getMovieIntroduce = async (id: string, mode: Mode) => {
+export const getFilmIntroduce = async ({ id, isTrailer = false, mode }: filmIntroduceParamProps) => {
     if (!id) return [];
 
     const response = await httpRequest.get(`${mode}/${id}/videos?api_key=ae722869d6f14e76aebfb0d1fd961dd7`);
@@ -167,14 +159,9 @@ export const getMovieIntroduce = async (id: string, mode: Mode) => {
     if (!response) return;
 
     const videoIntroduces: Array<VideoIntroduceType> = videoIntroducesData
-        .slice(0, MAXIMUM_SHOW_VIDEO)
+        .slice(0, isTrailer ? 1 : MAXIMUM_SHOW_VIDEO)
         .map((videoIntroduce) => ({
-            name: videoIntroduce.name,
-            key: videoIntroduce.key,
-            site: videoIntroduce.site,
-            size: videoIntroduce.size,
-            type: videoIntroduce.type,
-            official: videoIntroduce.official,
+            ...videoIntroduce,
             publishedAt: videoIntroduce.published_at,
         }));
 

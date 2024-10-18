@@ -1,5 +1,6 @@
+'use client';
 import React, { FC } from 'react';
-import { Swiper, SwiperProps, SwiperSlide, SwiperSlideProps } from 'swiper/react';
+import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 
 // App
@@ -8,7 +9,7 @@ import { ComponentProps } from '../utils/types';
 
 type CarouselProps = SwiperProps &
     ComponentProps & {
-        children: React.ReactElement<SwiperSlideProps> | React.ReactElement<SwiperSlideProps>[];
+        children: React.ReactElement[];
     };
 
 // Component
@@ -40,7 +41,9 @@ const Carousel: FC<CarouselProps> = ({
             ]}
         >
             {Array.isArray(children) ? (
-                children.map((slide) => <SwiperSlide>{React.cloneElement(slide)}</SwiperSlide>)
+                children.map((slide) => (
+                    <SwiperSlide key={'slide' + slide.key}>{React.cloneElement(slide)}</SwiperSlide>
+                ))
             ) : (
                 <SwiperSlide>{React.cloneElement(children)}</SwiperSlide>
             )}
