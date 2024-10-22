@@ -4,8 +4,8 @@ import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 
 // App
-import { cn } from '../utils/utils';
-import { ComponentProps } from '../utils/types';
+import { cn } from '../utils';
+import { ComponentProps } from '../types';
 
 type CarouselProps = SwiperProps &
     ComponentProps & {

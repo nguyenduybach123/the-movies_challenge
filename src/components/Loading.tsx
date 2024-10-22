@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 // App
 import { BaseSpinner } from './Spinner';
-import { cn } from '../utils/utils';
+import { cn } from '../utils';
 
 // Component
 const Loading: FC<{ className?: string }> = ({ className }) => {

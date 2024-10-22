@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 // App
-import { DisplayEnum, Mode } from '../../utils/types';
-import { getFilmBanners, getFilmIntroduce } from '../../service/film';
+import { DisplayEnum, Mode } from '../../types';
+import { getFilmBanners, getFilmIntroduce } from '../../service/api/film';
 
 // Internal
 import { TrailerModal } from './components';

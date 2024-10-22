@@ -1,7 +1,7 @@
 // App
 import { FC } from 'react';
 import { defaultCastImage } from '../../../assets';
-import { CastType, MovieDetailType } from '../../../utils/types';
+import { CastType, MovieDetailType } from '../../../types';
 
 // Type
 type FilmInfoType = {

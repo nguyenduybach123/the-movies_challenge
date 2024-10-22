@@ -4,8 +4,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 // App
-import { getFilms } from '../../service/film';
-import { DisplayEnum, FilmResponseType, Mode } from '../../utils/types';
+import { getFilms } from '../../service/api/film';
+import { DisplayEnum, FilmResponseType, Mode } from '../../types';
 import { NotFoundPage, NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
 
 // Internal
@@ -15,7 +15,7 @@ import { CardSkeleton } from '../../components/Skeleton';
 // Type
 interface QueryFilmParamProps {
     key: Array<string>;
-    fn: (page: number) => Promise<FilmResponseType[]>;
+    fn: (page: number) => Promise<FilmResponseType[]> | undefined;
 }
 
 // Component
@@ -59,7 +59,7 @@ export const FilmPage = () => {
         queryFn: async ({ pageParam = 1 }) => {
             const response = await queryParams.fn(pageParam);
 
-            return response;
+            return response ?? [];
         },
         getNextPageParam: (lastpage, pages) => {
             if (lastpage && lastpage.length < 20) {
@@ -76,7 +76,7 @@ export const FilmPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const films = filmData?.pages[0].length !== 0 ? filmData : undefined;
+    const films = filmData?.pages[0]?.length ? filmData : undefined;
 
     // Templates
     if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
@@ -113,7 +113,7 @@ export const FilmPage = () => {
                             hasNextPage={hasNextPage}
                         />
                     ) : (
-                        !isFetching && <NotFoundResult keyword={keywordParam ? keywordParam : ''} />
+                        !isFetching && !isError && <NotFoundResult keyword={keywordParam ? keywordParam : ''} />
                     )}
                 </div>
             </div>

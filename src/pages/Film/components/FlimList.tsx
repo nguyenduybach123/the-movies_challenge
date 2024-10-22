@@ -5,7 +5,7 @@ import { InfiniteData, InfiniteQueryObserverResult } from '@tanstack/react-query
 // App
 import { Button } from '../../../components/Button';
 import Card from '../../../components/Card/Card';
-import { CardProps, FilmResponseType, Mode } from '../../../utils/types';
+import { CardProps, FilmResponseType, Mode } from '../../../types';
 
 // Type
 interface FilmListProps {
@@ -22,9 +22,9 @@ export const FilmList: FC<FilmListProps> = ({ films, isFetchingNextPage, fetchNe
         return films.pages
             .flatMap((page) => page)
             .map((film) => ({
-                id: film.id,
-                title: mode === Mode.movie ? film.title : film.name,
-                poster: film.poster_path,
+                id: film?.id,
+                title: mode === Mode.movie ? film?.title : film?.name,
+                poster: film?.poster_path,
                 mode: mode,
             }));
     }, [films, mode]);

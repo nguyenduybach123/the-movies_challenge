@@ -9,11 +9,11 @@ import {
     TVSeriesDetailType,
     VideoIntroduceResponseType,
     VideoIntroduceType,
-} from '../utils/types';
+} from '../../types';
 
 // Internal
-import { httpRequest } from '../utils/httpRequest';
-import { BannerProps } from '../pages/Home/components/Banner/Banner';
+import { httpRequest } from '../../lib';
+import { BannerProps } from '../../pages/Home/components/Banner/Banner';
 
 // Constant
 const MAXIMUM_SHOW_CAST = 5;
@@ -87,8 +87,8 @@ export const getFilms = async ({ page, type, keyword, mode }: FilmParamProps) =>
         api_key: API_KEY,
     };
 
-    const paramString = Object.values(paramProps)
-        .filter((param) => param !== undefined)
+    const paramsString = Object.values(paramProps)
+        .filter((param) => !!param)
         .join('/');
 
     const queriesString = Object.keys(queryProps)
@@ -98,34 +98,36 @@ export const getFilms = async ({ page, type, keyword, mode }: FilmParamProps) =>
         .filter((queryString) => queryString !== '')
         .join('&');
 
-    const url = paramString + '?' + queriesString;
+    const url = `${paramsString}?${queriesString}`;
 
     const response = await httpRequest.get(url);
+    // Question: Returning raw data is good ?
     const films: Array<FilmResponseType> = response.data?.results;
 
-    if (!films) return [];
+    // Question: How to handle error response ?
+    if (!films) throw new Error('No films found');
 
     return films;
 };
 
 // * get data movies similar
-export const getFilmSimilar = async (similarId: string, mode: Mode) => {
+export const getFilmSimilar = async (similarId: number, mode: Mode) => {
     const url = `${mode}/${similarId}/similar?api_key=${API_KEY}`;
 
     const response = await httpRequest.get(url);
     const films: Array<FilmResponseType> = response.data?.results;
 
-    if (!films) return [];
+    if (!films) throw new Error('No films similar found');
 
     return films;
 };
 
 // * get data detail film
-export const getFilmDetail = async (id: string | undefined, mode: Mode) => {
+export const getFilmDetail = async (id: number | undefined, mode: Mode) => {
     const response = await httpRequest.get(`${mode}/${id}?api_key=${API_KEY}`);
     const detail = response.data;
 
-    if (!response) return;
+    if (!response) throw new Error('No detail films found');
 
     switch (mode) {
         case Mode.movie: {
@@ -157,9 +159,6 @@ export const getFilmDetail = async (id: string | undefined, mode: Mode) => {
 
             return tvDetail;
         }
-
-        default:
-            return null;
     }
 };
 
@@ -170,7 +169,7 @@ export const getFilmCast = async (id: number | undefined, mode: Mode) => {
     const response = await httpRequest.get(`${mode}/${id}/credits?api_key=${API_KEY}`);
     const castData: Array<CastResponseType> = response.data?.cast;
 
-    if (!response) return;
+    if (!response) throw new Error('No film casts found');
 
     const casts: Array<CastType> = castData.slice(0, MAXIMUM_SHOW_CAST).map((cast) => ({
         id: cast.id,
@@ -188,7 +187,7 @@ export const getFilmIntroduce = async ({ id, isTrailer = false, mode }: FilmIntr
     const response = await httpRequest.get(`${mode}/${id}/videos?api_key=${API_KEY}`);
     const videoIntroducesData: Array<VideoIntroduceResponseType> = response.data?.results;
 
-    if (!response) return;
+    if (!response) throw new Error('No film introduces found');
 
     const videoIntroduces: Array<VideoIntroduceType> = videoIntroducesData
         .slice(0, isTrailer ? 1 : MAXIMUM_SHOW_VIDEO)

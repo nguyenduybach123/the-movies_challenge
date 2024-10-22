@@ -3,8 +3,8 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 // App
-import { cn } from '../../utils/utils';
-import { CardProps } from '../../utils/types';
+import { cn } from '../../utils';
+import { CardProps } from '../../types';
 import { defaultMovieImage } from '../../assets';
 
 // Internal

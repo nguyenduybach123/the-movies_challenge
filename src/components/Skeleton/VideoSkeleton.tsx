@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { ComponentProps } from '../../utils/types';
-import { cn } from '../../utils/utils';
+import { ComponentProps } from '../../types';
+import { cn } from '../../utils';
 
 interface VideoSkeleton extends ComponentProps {
     width?: string;

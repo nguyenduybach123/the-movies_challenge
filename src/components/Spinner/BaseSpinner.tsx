@@ -2,8 +2,8 @@
 import { FC } from 'react';
 
 // App
-import { cn } from '../../utils/utils';
-import { ComponentProps } from '../../utils/types';
+import { cn } from '../../utils';
+import { ComponentProps } from '../../types';
 
 // Type
 interface SpinnerProps extends ComponentProps {

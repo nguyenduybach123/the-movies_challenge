@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 // App
 import { Button } from '../../../../components/Button';
-import { ComponentProps } from '../../../../utils/types';
+import { ComponentProps } from '../../../../types';
 
 // Type
 export interface BannerProps extends ComponentProps {

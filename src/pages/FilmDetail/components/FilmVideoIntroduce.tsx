@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { VideoIntroduceType } from '../../../utils/types';
+import { VideoIntroduceType } from '../../../types';
 
 interface FilmVideoIntroduceProps {
     introduces: Array<VideoIntroduceType>;
@@ -12,10 +12,9 @@ export const FilmVideoIntroduce: FC<FilmVideoIntroduceProps> = ({ introduces }) 
                 <div className="mb-12" key={movieIntroduce.key}>
                     <h3 className="text-white text-base md:text-2xl font-semibold mb-4">{movieIntroduce.name}</h3>
                     <iframe
+                        className="w-full h-[800px]"
                         src={`https://www.youtube.com/embed/${movieIntroduce.key}`}
                         title="video"
-                        width="100%"
-                        height="800px"
                         loading="lazy"
                         allowFullScreen
                     ></iframe>

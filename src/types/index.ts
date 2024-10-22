@@ -90,8 +90,8 @@ export interface ComponentProps {
 }
 
 export interface CardProps extends ComponentProps {
-    id: number;
-    title: string;
-    poster: string;
+    id: number | undefined;
+    title: string | undefined;
+    poster: string | undefined;
     mode: Mode;
 }

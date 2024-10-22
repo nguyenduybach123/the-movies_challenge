@@ -1,5 +1,5 @@
 // Core
-import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import 'swiper/css';
@@ -7,7 +7,7 @@ import 'swiper/css';
 // App
 import { DefaultLayout } from './layouts';
 import { FilmDetailPage, FilmPage, HomePage } from './pages';
-import { Mode } from './utils/types';
+import { NotFoundPage } from './components';
 
 // Contanst
 const queryClient = new QueryClient();
@@ -25,6 +25,7 @@ function App() {
                             <Route path="" element={<FilmPage />} />
                             <Route path=":id" element={<FilmDetailPage />} />
                         </Route>
+                        <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </DefaultLayout>
             </BrowserRouter>

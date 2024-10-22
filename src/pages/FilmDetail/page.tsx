@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 // App
-import { DisplayEnum, Mode } from '../../utils/types';
+import { DisplayEnum, Mode } from '../../types';
 import { CardSlider } from '../../components/Card/CardSlider';
-import { getFilmCast, getFilmDetail, getFilmIntroduce } from '../../service/film';
+import { getFilmCast, getFilmDetail, getFilmIntroduce } from '../../service/api/film';
 
 // Internal
 import { NotFoundPage, NotFoundQuery } from '../../components';
@@ -29,7 +29,7 @@ export const FilmDetailPage = () => {
         isError: isErrorDetail,
     } = useQuery({
         queryKey: ['detail', id, mode],
-        queryFn: () => getFilmDetail(id, modeType),
+        queryFn: () => getFilmDetail(Number(id), modeType),
         refetchOnWindowFocus: false,
     });
 

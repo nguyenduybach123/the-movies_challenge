@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 // App
 import { logoImage } from '../../../../assets';
-import { cn } from '../../../../utils/utils';
+import { cn } from '../../../../utils';
 
 // Contanst
 const menus = [

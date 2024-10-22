@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
 // App
-import { ComponentProps } from '../utils/types';
+import { ComponentProps } from '../types';
 import { BaseSpinner } from './Spinner';
 
 // Type
