@@ -2,10 +2,10 @@
 import { FC } from 'react';
 
 // App
-import { notResultSearchImage } from '../../assets';
+import { notResultSearchImage } from '../../../assets';
 
 // Component
-export const NotFoundResult: FC<{ keyword: string }> = ({ keyword }) => {
+export const NotFoundSearchResult: FC<{ keyword: string }> = ({ keyword }) => {
     // Templates
     return (
         <div className="flex justify-center items-center max-w-screen-2xl h-screen">
@@ -18,4 +18,4 @@ export const NotFoundResult: FC<{ keyword: string }> = ({ keyword }) => {
     );
 };
 
-export default NotFoundResult;
+export default NotFoundSearchResult;

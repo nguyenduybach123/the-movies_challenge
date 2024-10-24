@@ -9,7 +9,7 @@ import { CardProps, FilmResponseType, Mode } from '../../../types';
 
 // Type
 interface FilmListProps {
-    films: InfiniteData<FilmResponseType[]>;
+    filmList: InfiniteData<FilmResponseType[]>;
     isFetchingNextPage: boolean;
     hasNextPage: boolean;
     fetchNextPage: () => Promise<InfiniteQueryObserverResult<InfiniteData<FilmResponseType[], unknown>, Error>>;
@@ -17,9 +17,9 @@ interface FilmListProps {
 }
 
 // Component
-export const FilmList: FC<FilmListProps> = ({ films, isFetchingNextPage, fetchNextPage, hasNextPage, mode }) => {
+export const FilmList: FC<FilmListProps> = ({ filmList, isFetchingNextPage, fetchNextPage, hasNextPage, mode }) => {
     const filmCards: Array<CardProps> = useMemo(() => {
-        return films.pages
+        return filmList.pages
             .flatMap((page) => page)
             .map((film) => ({
                 id: film?.id,
@@ -27,7 +27,7 @@ export const FilmList: FC<FilmListProps> = ({ films, isFetchingNextPage, fetchNe
                 poster: film?.poster_path,
                 mode: mode,
             }));
-    }, [films, mode]);
+    }, [filmList, mode]);
 
     // Templates
     return (

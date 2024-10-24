@@ -1,7 +1,7 @@
-'use client';
 import React, { FC } from 'react';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
 
 // App
 import { cn } from '../utils';
@@ -51,4 +51,4 @@ const Carousel: FC<CarouselProps> = ({
     );
 };
 
-export default Carousel;
+export { Carousel };

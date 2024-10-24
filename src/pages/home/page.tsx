@@ -3,14 +3,12 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 // App
-import { DisplayEnum, Mode } from '../../types';
-import { getFilmBanners, getFilmIntroduce } from '../../service/api/film';
+import { DisplayEnum, Mode } from '@/types';
+import { getFilmBanners, getFilmIntroduce } from '@/service/api/film';
+import { CardSlider, Carousel, Loading, ServerErrorPartial500 } from '@/components';
 
 // Internal
 import { TrailerModal } from './components';
-import Carousel from '../../components/Carousel';
-import { CardSlider, NotFoundQuery } from '../../components';
-import Loading from '../../components/Loading';
 import { Banner } from './components';
 
 // Component
@@ -52,7 +50,7 @@ export const HomePage = () => {
             ) : (
                 <>
                     {isErrorTrailer ? (
-                        <NotFoundQuery />
+                        <ServerErrorPartial500 />
                     ) : (
                         <TrailerModal
                             trailerKey={trailer ? trailer[0].key : ''}
@@ -62,7 +60,7 @@ export const HomePage = () => {
                         />
                     )}
                     {isErrorBanner ? (
-                        <NotFoundQuery />
+                        <ServerErrorPartial500 />
                     ) : (
                         <Carousel
                             centeredSlides={true}

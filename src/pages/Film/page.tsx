@@ -6,11 +6,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 // App
 import { getFilms } from '../../service/api/film';
 import { DisplayEnum, FilmResponseType, Mode } from '../../types';
-import { NotFoundPage, NotFoundQuery, NotFoundResult, SearchBar } from '../../components';
+import { SearchBar } from '../../components';
+import { CardSkeleton } from '../../components/Skeleton';
+import { NotFound404, ServerErrorPartial500 } from '../../components/Error';
 
 // Internal
 import { FilmList } from './components';
-import { CardSkeleton } from '../../components/Skeleton';
+import NotFoundSearchResult from './components/NotFoundSearchResult';
 
 // Type
 interface QueryFilmParamProps {
@@ -80,7 +82,7 @@ export const FilmPage = () => {
 
     // Templates
     if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
-        return <NotFoundPage />;
+        return <NotFound404 />;
     }
 
     return (
@@ -93,7 +95,7 @@ export const FilmPage = () => {
             <div className="bg-black-main px-8 py-4 md:px-16 md:py-8">
                 <div className="max-w-screen-2xl mx-auto">
                     <SearchBar key={mode} />
-                    {isError && <NotFoundQuery />}
+                    {isError && <ServerErrorPartial500 />}
                     {isLoading && (
                         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-4 -mx-2 mt-16">
                             <CardSkeleton />
@@ -107,13 +109,13 @@ export const FilmPage = () => {
                     {films ? (
                         <FilmList
                             mode={mode}
-                            films={films}
+                            filmList={films}
                             isFetchingNextPage={isFetching}
                             fetchNextPage={fetchNextPage}
                             hasNextPage={hasNextPage}
                         />
                     ) : (
-                        !isFetching && !isError && <NotFoundResult keyword={keywordParam ? keywordParam : ''} />
+                        !isFetching && !isError && <NotFoundSearchResult keyword={keywordParam ? keywordParam : ''} />
                     )}
                 </div>
             </div>

@@ -26,4 +26,4 @@ const Loading: FC<{ className?: string }> = ({ className }) => {
     );
 };
 
-export default Loading;
+export { Loading };

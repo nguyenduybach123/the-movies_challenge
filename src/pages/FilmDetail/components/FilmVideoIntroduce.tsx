@@ -2,13 +2,13 @@ import { FC } from 'react';
 import { VideoIntroduceType } from '../../../types';
 
 interface FilmVideoIntroduceProps {
-    introduces: Array<VideoIntroduceType>;
+    videoList: Array<VideoIntroduceType>;
 }
 
-export const FilmVideoIntroduce: FC<FilmVideoIntroduceProps> = ({ introduces }) => {
+export const FilmVideoIntroduce: FC<FilmVideoIntroduceProps> = ({ videoList }) => {
     return (
         <div className="py-2 px-4 md:px-8 lg:px-16">
-            {introduces?.map((movieIntroduce) => (
+            {videoList?.map((movieIntroduce) => (
                 <div className="mb-12" key={movieIntroduce.key}>
                     <h3 className="text-white text-base md:text-2xl font-semibold mb-4">{movieIntroduce.name}</h3>
                     <iframe

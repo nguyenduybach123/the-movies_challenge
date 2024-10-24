@@ -1,3 +1,2 @@
-export { NotFoundResult } from './NotFoundResult';
-export { NotFoundQuery } from './NotFoundQuery';
-export { NotFoundPage } from './NotFoundPage';
+export { NotFound404 } from './NotFound404';
+export { ServerErrorPartial500 } from './ServerErrorPartial500';

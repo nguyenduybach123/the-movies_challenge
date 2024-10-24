@@ -4,16 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
 // App
-import { DisplayEnum, Mode } from '../../types';
-import { CardSlider } from '../../components/Card/CardSlider';
-import { getFilmCast, getFilmDetail, getFilmIntroduce } from '../../service/api/film';
+import { DisplayEnum, Mode } from '@/types';
+import { getFilmCast, getFilmDetail, getFilmIntroduce } from '@/service/api/film';
+import { CardSlider, NotFound404, ServerErrorPartial500 } from '@/components';
 
 // Internal
-import { NotFoundPage, NotFoundQuery } from '../../components';
 import { FilmInfo, FilmVideoIntroduce } from './components';
 import { FilmInfoSkeleton, FilmVideoIntroduceSkeleton } from './components/Skeleton';
-
-// Type
 
 // Component
 export const FilmDetailPage = () => {
@@ -35,8 +32,8 @@ export const FilmDetailPage = () => {
 
     const filmId = filmDetail?.id;
 
-    const { data: casts } = useQuery({
-        queryKey: ['casts', filmId, modeType],
+    const { data: castList } = useQuery({
+        queryKey: ['castList', filmId, modeType],
         queryFn: () => getFilmCast(filmId, modeType),
         enabled: !!filmId,
         refetchOnWindowFocus: false,
@@ -60,20 +57,25 @@ export const FilmDetailPage = () => {
 
     //Template
     if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
-        return <NotFoundPage />;
+        return <NotFound404 />;
     }
 
     return (
         <>
-            {isErrorDetail && <NotFoundQuery />}
+            {isErrorDetail && <ServerErrorPartial500 />}
             {isFilmDetailFetching && <FilmInfoSkeleton />}
-            {filmDetail && <FilmInfo detailMovie={filmDetail} casts={casts ? casts : []} />}
+            {filmDetail && <FilmInfo filmInfo={filmDetail} castList={castList ? castList : []} />}
             <div className="bg-black-main md:px-4 lg:px-8 md:py-8 lg:py-16">
-                {isErrorIntroduce && <NotFoundQuery />}
+                {isErrorIntroduce && <ServerErrorPartial500 />}
                 {isFilmIntroduceFetching && <FilmVideoIntroduceSkeleton />}
-                {movieIntroduces && <FilmVideoIntroduce introduces={movieIntroduces} />}
+                {movieIntroduces && <FilmVideoIntroduce videoList={movieIntroduces} />}
                 <div className="max-w-screen-2xl mx-auto">
-                    <CardSlider title="Similar" displayType={DisplayEnum.Similar} similarId={id} mode={modeType} />
+                    <CardSlider
+                        title="Similar"
+                        displayType={DisplayEnum.Similar}
+                        similarId={Number(id)}
+                        mode={modeType}
+                    />
                 </div>
             </div>
         </>

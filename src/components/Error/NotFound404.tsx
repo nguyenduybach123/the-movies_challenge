@@ -1,7 +1,7 @@
 import { notFoundPageImage } from '../../assets';
 import Button from '../Button';
 
-const NotFoundPage = () => {
+const NotFound404 = () => {
     return (
         <div className="relative flex justify-center items-center w-screen-2xl h-screen overflow-hidden">
             <div className="flex flex-col justify-center items-center text-white text-center">
@@ -20,4 +20,4 @@ const NotFoundPage = () => {
     );
 };
 
-export { NotFoundPage };
+export { NotFound404 };

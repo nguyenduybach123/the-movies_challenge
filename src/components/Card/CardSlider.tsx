@@ -4,14 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 
 // App
 import { ComponentProps, DisplayEnum, FilmResponseType, Mode } from '../../types';
-import { NotFoundQuery } from '../Error';
 
 // Internal
 import Card from './Card';
 import Button from '../Button';
 import { cn } from '../../utils';
-import Carousel from '../Carousel';
 import { getFilms, getFilmSimilar } from '../../service/api/film';
+import { ServerErrorPartial500 } from '../Error';
+import { Carousel } from '../Carousel';
 
 // Contanst
 const DEFAULT_PAGE = 1;
@@ -22,7 +22,7 @@ interface CardSliderProps extends ComponentProps {
     title: string;
     displayType: DisplayEnum;
     mode: Mode;
-    similarId?: string;
+    similarId?: number;
 }
 
 // Component
@@ -53,7 +53,7 @@ export const CardSlider: FC<CardSliderProps> = ({ title, displayType, mode = Mod
 
     // Templates
     if (isError) {
-        return <NotFoundQuery />;
+        return <ServerErrorPartial500 />;
     }
 
     if (cards?.length === 0) {
