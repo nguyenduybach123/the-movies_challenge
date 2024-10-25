@@ -22,7 +22,6 @@ export type FilmResponseType = {
     name: string;
     vote_average: number;
     vote_count: number;
-    mode: Mode;
 };
 
 type GenreType = {
@@ -35,8 +34,8 @@ export type MovieDetailType = {
     title: string;
     overview: string;
     genres: Array<GenreType>;
-    poster: string;
-    backdrop: string;
+    poster_path: string;
+    backdrop_path: string;
     vote_average: number;
     vote_count: number;
 };

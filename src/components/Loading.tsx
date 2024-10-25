@@ -17,7 +17,7 @@ const Loading: FC<{ className?: string }> = ({ className }) => {
                     className="mt-8 [text-shadow:_0_4px_8px_#FF0000] text-white text-2xl text-center font-semibold tracking-wide"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ repeat: Infinity, duration: 0.5 }}
+                    transition={{ repeat: Infinity, duration: 1 }}
                 >
                     LOADING
                 </motion.h1>

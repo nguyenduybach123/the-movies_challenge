@@ -13,7 +13,7 @@ import {
 
 // Internal
 import { httpRequest } from '../../lib';
-import { BannerProps } from '../../pages/Home/components/Banner/Banner';
+import { checkLinkImage } from '../../utils';
 
 // Constant
 const MAXIMUM_SHOW_CAST = 5;
@@ -52,22 +52,44 @@ interface QueryStringProps {
 
 const MAXIMUM_BANNER = 5;
 
+// * check error image link
+const filterFilmList = async (filmList: Array<{ poster_path: string; backdrop_path: string }>) => {
+    const filtedFilmList = await Promise.all(
+        filmList.map(async (film) => {
+            const posterIsValid = await checkLinkImage(`https://image.tmdb.org/t/p/w500/${film.poster_path}`);
+            const backdropIsValid = await checkLinkImage(`https://image.tmdb.org/t/p/original/${film.backdrop_path}`);
+
+            return {
+                ...film,
+                poster_path: posterIsValid
+                    ? `https://image.tmdb.org/t/p/w500/${film.poster_path}`
+                    : 'https://images.pexels.com/photos/25772141/pexels-photo-25772141/free-photo-of-cho-v-t-nuoi-d-th-ng-m-t-m-i.jpeg?auto=compress&cs=tinysrgb&w=600',
+                backdrop_path: backdropIsValid
+                    ? `https://image.tmdb.org/t/p/original/${film.backdrop_path}`
+                    : 'https://images.pexels.com/photos/25772141/pexels-photo-25772141/free-photo-of-cho-v-t-nuoi-d-th-ng-m-t-m-i.jpeg?auto=compress&cs=tinysrgb&w=600',
+            };
+        }),
+    );
+
+    return filtedFilmList;
+};
+
 // * get data banner movies popular
 export const getFilmBanners = async () => {
     const response = await httpRequest.get(`movie/popular?api_key=${API_KEY}`);
-    const movies: Array<FilmResponseType> = response.data?.results;
+    const filmList: Array<FilmResponseType> = response.data?.results;
 
-    if (!movies) return;
+    if (!filmList) return;
 
-    const bannerPopularMovies: Array<BannerProps> = movies.slice(0, MAXIMUM_BANNER).map((movie) => ({
-        id: movie.id,
-        name: movie.title,
-        overview: movie.overview,
-        poster: movie.poster_path,
-        backdrop: movie.backdrop_path,
+    const bannerPopularFilmList = filmList.slice(0, MAXIMUM_BANNER).map((film) => ({
+        id: film.id,
+        name: film.title,
+        overview: film.overview,
+        poster_path: `https://image.tmdb.org/t/p/w500/${film.poster_path}`,
+        backdrop_path: `https://image.tmdb.org/t/p/original/${film.backdrop_path}`,
     }));
 
-    return bannerPopularMovies;
+    return filterFilmList(bannerPopularFilmList);
 };
 
 // handle all option url ex: /type/keyword
@@ -102,12 +124,12 @@ export const getFilms = async ({ page, type, keyword, mode }: FilmParamProps) =>
 
     const response = await httpRequest.get(url);
     // Question: Returning raw data is good ?
-    const films: Array<FilmResponseType> = response.data?.results;
+    const filmList: Array<FilmResponseType> = response.data?.results;
 
     // Question: How to handle error response ?
-    if (!films) throw new Error('No films found');
+    if (!filmList) throw new Error('No films found');
 
-    return films;
+    return filterFilmList(filmList);
 };
 
 // * get data movies similar
@@ -115,19 +137,19 @@ export const getFilmSimilar = async (similarId: number, mode: Mode) => {
     const url = `${mode}/${similarId}/similar?api_key=${API_KEY}`;
 
     const response = await httpRequest.get(url);
-    const films: Array<FilmResponseType> = response.data?.results;
+    const filmList: Array<FilmResponseType> = response.data?.results;
 
-    if (!films) throw new Error('No films similar found');
+    if (!filmList) throw new Error('No films similar found');
 
-    return films;
+    return filterFilmList(filmList);
 };
 
 // * get data detail film
 export const getFilmDetail = async (id: number | undefined, mode: Mode) => {
     const response = await httpRequest.get(`${mode}/${id}?api_key=${API_KEY}`);
     const detail = response.data;
-
-    if (!response) throw new Error('No detail films found');
+    console.log(detail);
+    if (!detail) throw new Error('No detail films found');
 
     switch (mode) {
         case Mode.movie: {
@@ -136,8 +158,8 @@ export const getFilmDetail = async (id: number | undefined, mode: Mode) => {
                 title: detail.title,
                 overview: detail.overview,
                 genres: detail.genres,
-                poster: detail.poster_path,
-                backdrop: detail.backdrop_path,
+                poster_path: `https://image.tmdb.org/t/p/w500/${detail.poster_path}`,
+                backdrop_path: `https://image.tmdb.org/t/p/original/${detail.backdrop_path}`,
                 vote_average: detail.vote_average,
                 vote_count: detail.vote_count,
             };
@@ -169,7 +191,7 @@ export const getFilmCast = async (id: number | undefined, mode: Mode) => {
     const response = await httpRequest.get(`${mode}/${id}/credits?api_key=${API_KEY}`);
     const castData: Array<CastResponseType> = response.data?.cast;
 
-    if (!response) throw new Error('No film casts found');
+    if (!castData) throw new Error('No film casts found');
 
     const casts: Array<CastType> = castData.slice(0, MAXIMUM_SHOW_CAST).map((cast) => ({
         id: cast.id,
@@ -187,7 +209,7 @@ export const getFilmIntroduce = async ({ id, isTrailer = false, mode }: FilmIntr
     const response = await httpRequest.get(`${mode}/${id}/videos?api_key=${API_KEY}`);
     const videoIntroducesData: Array<VideoIntroduceResponseType> = response.data?.results;
 
-    if (!response) throw new Error('No film introduces found');
+    if (!videoIntroducesData) throw new Error('No film introduces found');
 
     const videoIntroduces: Array<VideoIntroduceType> = videoIntroducesData
         .slice(0, isTrailer ? 1 : MAXIMUM_SHOW_VIDEO)

@@ -20,10 +20,13 @@ export const SearchBar = () => {
     };
 
     // Effect
-    // * sync get value param keyword url
+    // sync get value param keyword url
     useEffect(() => {
-        const keyword = searchParams.get('keyword');
-        if (keyword !== '' && keyword) setSearchValue(keyword);
+        setSearchValue(searchParams.get('keyword') ?? '');
+        console.log('Mount');
+        return () => {
+            console.log('Unmout');
+        };
     }, [searchParams]);
 
     // Template

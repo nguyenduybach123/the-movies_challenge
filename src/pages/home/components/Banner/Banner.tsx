@@ -12,8 +12,8 @@ export interface BannerProps extends ComponentProps {
     id: number;
     name: string;
     overview: string;
-    poster: string;
-    backdrop: string;
+    poster_path: string;
+    backdrop_path: string;
     onActiveTrailer?: () => void;
 }
 
@@ -46,7 +46,14 @@ const variantScaleBanner = {
 };
 
 // Component
-export const Banner: FC<BannerProps> = ({ id, name, overview, poster, backdrop, onActiveTrailer = () => {} }) => {
+export const Banner: FC<BannerProps> = ({
+    id,
+    name,
+    overview,
+    poster_path,
+    backdrop_path,
+    onActiveTrailer = () => {},
+}) => {
     // State
     const navigate = useNavigate();
 
@@ -60,12 +67,13 @@ export const Banner: FC<BannerProps> = ({ id, name, overview, poster, backdrop, 
     const handleWatchTrailer = () => {
         onActiveTrailer();
     };
+    console.log(poster_path);
 
     // Template
     return (
         <div
             className='relative h-100 md:h-[36rem] lg:h-[52rem] px-4 md:px-12 py-12 md:py-32 flex justify-center bg-center bg-no-repeat bg-cover before:content-[""] before:absolute before:top-0 before:bottom-0 before:left-0 before:right-0 before:bg-black/60 after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-28 after:bg-gradient-to-t after:from-black-main after:to-transparent cursor-grab'
-            style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}
+            style={{ backgroundImage: `url(${backdrop_path})` }}
         >
             <div className="max-w-screen-2xl z-10 h-fit flex items-center justify-between">
                 <motion.div
@@ -97,7 +105,7 @@ export const Banner: FC<BannerProps> = ({ id, name, overview, poster, backdrop, 
                 <div className="hidden px-4 lg:block lg:w-1/3">
                     <motion.img
                         className="w-96 rounded-3xl scale-animate"
-                        src={`https://image.tmdb.org/t/p/w500/${poster}`}
+                        src={`${poster_path}`}
                         alt="Poster"
                         variants={variantScaleBanner}
                         initial="initial"

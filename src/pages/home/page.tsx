@@ -79,8 +79,8 @@ export const HomePage = () => {
                                     id={banner.id}
                                     name={banner.name}
                                     overview={banner.overview}
-                                    poster={banner.poster}
-                                    backdrop={banner.backdrop}
+                                    poster_path={banner.poster_path}
+                                    backdrop_path={banner.backdrop_path}
                                     onActiveTrailer={() => {
                                         setIdBannerSelected(banner.id);
                                         setIsOpenDialogTrailer(true);

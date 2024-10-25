@@ -3,15 +3,15 @@ import { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 // App
+import { cn } from '../../utils';
 import { ComponentProps, DisplayEnum, FilmResponseType, Mode } from '../../types';
+import { getFilms, getFilmSimilar } from '../../service/api/film';
 
 // Internal
 import Card from './Card';
 import Button from '../Button';
-import { cn } from '../../utils';
-import { getFilms, getFilmSimilar } from '../../service/api/film';
-import { ServerErrorPartial500 } from '../Error';
 import { Carousel } from '../Carousel';
+import { ServerErrorPartial500 } from '../Error';
 
 // Contanst
 const DEFAULT_PAGE = 1;

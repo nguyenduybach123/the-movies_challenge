@@ -3,13 +3,13 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 // App
-import { cn } from '../../utils';
-import { CardProps } from '../../types';
-import { defaultMovieImage } from '../../assets';
+import { cn } from '@/utils';
+import { CardProps } from '@/types';
+import { defaultMovieImage } from '@/assets';
 
 // Internal
-import { PlayIcon } from '../Icon';
 import Button from '../Button';
+import { PlayIcon } from '../Icon';
 
 // Component
 export const Card: FC<CardProps> = ({ id, mode, title, poster, className }) => {

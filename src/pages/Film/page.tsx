@@ -31,7 +31,7 @@ export const FilmPage = () => {
     // Queries
     let queryParams: QueryFilmParamProps = {
         key: ['films', modeType],
-        fn: (page) => getFilms({ page, type: DisplayEnum.Popular, mode: modeType }),
+        fn: (page) => getFilms({ page, type: DisplayEnum.Popular, mode: modeType }) as Promise<FilmResponseType[]>,
     };
 
     const keywordParam = searchParams.get('keyword');
@@ -39,12 +39,13 @@ export const FilmPage = () => {
     if (keywordParam !== '' && keywordParam !== null) {
         queryParams = {
             key: ['search', keywordParam, modeType],
-            fn: (page) => getFilms({ page, keyword: keywordParam, mode: modeType }),
+            fn: (page) => getFilms({ page, keyword: keywordParam, mode: modeType }) as Promise<FilmResponseType[]>,
         };
     } else if (typeParam !== '' && typeParam !== null) {
         queryParams = {
             key: ['type', typeParam, modeType],
-            fn: (page) => getFilms({ page, type: typeParam as DisplayEnum, mode: modeType }),
+            fn: (page) =>
+                getFilms({ page, type: typeParam as DisplayEnum, mode: modeType }) as Promise<FilmResponseType[]>,
         };
     }
 
@@ -73,7 +74,7 @@ export const FilmPage = () => {
         refetchOnWindowFocus: false,
     });
 
-    // Effefects
+    // Effects
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -81,6 +82,7 @@ export const FilmPage = () => {
     const films = filmData?.pages[0]?.length ? filmData : undefined;
 
     // Templates
+    // issue: navigate to movie use Loader
     if (!mode || (mode !== Mode.movie && mode !== Mode.tvseries)) {
         return <NotFound404 />;
     }
